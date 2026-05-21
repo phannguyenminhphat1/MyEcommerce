@@ -1,0 +1,40 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/admin/MyEcommerce.Admin.Application.Contracts/MyEcommerce.Admin.Application.Contracts.csproj" />
+    <Project Path="src/admin/MyEcommerce.Admin.Application/MyEcommerce.Admin.Application.csproj" />
+    <Project Path="src/admin/MyEcommerce.Admin.HttpApi/MyEcommerce.Admin.HttpApi.csproj" />
+    <Project Path="src/admin/MyEcommerce.Admin.HttpApi.Client/MyEcommerce.Admin.HttpApi.Client.csproj" />
+    <Project Path="src/admin/MyEcommerce.Admin.HttpApi.Host/MyEcommerce.Admin.HttpApi.Host.csproj" />
+
+    <Project Path="src/public/MyEcommerce.Application.Contracts/MyEcommerce.Application.Contracts.csproj" />
+    <Project Path="src/public/MyEcommerce.Application/MyEcommerce.Application.csproj" />
+    <Project Path="src/public/MyEcommerce.HttpApi/MyEcommerce.HttpApi.csproj" />
+    <Project Path="src/public/MyEcommerce.HttpApi.Client/MyEcommerce.HttpApi.Client.csproj" />
+    <Project Path="src/public/MyEcommerce.HttpApi.Host/MyEcommerce.HttpApi.Host.csproj" />
+
+
+    <Project Path="src/common/domain/MyEcommerce.Domain.Shared/MyEcommerce.Domain.Shared.csproj" />
+    <Project Path="src/common/domain/MyEcommerce.Domain/MyEcommerce.Domain.csproj" />
+
+
+    <Project Path="src/common/infrastructure/MyEcommerce.EntityFrameworkCore/MyEcommerce.EntityFrameworkCore.csproj" />
+    <Project Path="src/common/infrastructure/MyEcommerce.DbMigrator/MyEcommerce.DbMigrator.csproj" />
+
+
+    <Project Path="src/auth/MyEcommerce.AuthServer/MyEcommerce.AuthServer.csproj" />
+  </Folder>
+  
+  <Folder Name="/test/">
+    <Project Path="test/admin/MyEcommerce.Admin.Application.ConsoleTestApp/MyEcommerce.Admin.HttpApi.Client.ConsoleTestApp.csproj" />
+    <Project Path="test/admin/MyEcommerce.Admin.Application.Tests/MyEcommerce.Admin.Application.Tests.csproj" />
+
+    <Project Path="test/public/MyEcommerce.Application.Tests/MyEcommerce.Application.Tests.csproj" />
+    <Project Path="test/public/MyEcommerce.Domain.Tests/MyEcommerce.Domain.Tests.csproj" />
+
+
+    <Project Path="test/shared/MyEcommerce.EntityFrameworkCore.Tests/MyEcommerce.EntityFrameworkCore.Tests.csproj" />
+    <Project Path="test/shared/MyEcommerce.HttpApi.Client.ConsoleTestApp/MyEcommerce.HttpApi.Client.ConsoleTestApp.csproj" />
+    <Project Path="test/shared/MyEcommerce.TestBase/MyEcommerce.TestBase.csproj" />
+    
+  </Folder>
+</Solution>

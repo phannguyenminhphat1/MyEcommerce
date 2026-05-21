@@ -1,0 +1,13 @@
+$gutter: 1rem;
+
+/* Prime Icons */
+@import 'primeicons/primeicons.css';
+
+/* Sakai Layout */
+@import './assets/layout/layout.scss';
+
+/* Demo */
+@import './assets/demo/demo.scss';
+
+/* Tailwind LUÔN nằm cuối */
+@import './assets/tailwind.css';
