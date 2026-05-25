@@ -9,9 +9,10 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { PanelModule } from 'primeng/panel';
 import { TableModule } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
-import { ProductCategoriesService, ProductCategoryInListDto } from '@proxy/product-categories';
+import { ProductCategoriesService } from '@proxy/product-categories';
 import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-product',
@@ -26,6 +27,7 @@ import { FormsModule } from '@angular/forms';
     SelectModule,
     InputTextModule,
     FormsModule,
+    ProgressSpinnerModule,
   ],
   providers: [ProductsService],
 })
@@ -54,6 +56,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   loadData() {
+    this.toggleBlockUI(true);
     this.productService
       .getListFilter({
         maxResultCount: this.maxResultCount,
@@ -66,8 +69,11 @@ export class ProductComponent implements OnInit, OnDestroy {
         next: (response: PagedResultDto<ProductInListDto>) => {
           this.items = response.items ?? [];
           this.totalCount = response.totalCount ?? 0;
+          this.toggleBlockUI(false);
         },
-        error: () => {},
+        error: () => {
+          this.toggleBlockUI(false);
+        },
       });
   }
 
@@ -97,5 +103,15 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   login() {
     this.authService.navigateToLogin();
+  }
+
+  toggleBlockUI(enabled: boolean) {
+    if (enabled == true) {
+      this.blockedPanel = true;
+    } else {
+      setTimeout(() => {
+        this.blockedPanel = false;
+      }, 1000);
+    }
   }
 }

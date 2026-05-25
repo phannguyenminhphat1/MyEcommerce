@@ -11,3 +11,13 @@ $gutter: 1rem;
 
 /* Tailwind LUÔN nằm cuối */
 @import './assets/tailwind.css';
+
+.p-blockui-mask {
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(1px);
+}
+
+.p-progress-spinner {
+  width: 50px;
+  height: 50px;
+}
