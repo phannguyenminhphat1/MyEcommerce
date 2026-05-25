@@ -1,3 +1,4 @@
+import { BaseListFilterDto } from '@proxy/models';
 import type { ProductType } from '../my-ecommerce/products/product-type.enum';
 import type { EntityDto } from '@abp/ng.core';
 
@@ -42,4 +43,8 @@ export interface ProductInListDto extends EntityDto<string> {
   isActive?: boolean;
   categoryId?: string;
   thumbnailPicture?: string;
+}
+
+export interface ProductListFilterDto extends BaseListFilterDto {
+  categoryId?: string;
 }

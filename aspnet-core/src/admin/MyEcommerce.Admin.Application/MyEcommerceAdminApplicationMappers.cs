@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using MyEcommerce.Admin.ProductCategories;
+using MyEcommerce.Admin.Products;
 using MyEcommerce.ProductCategories;
+using MyEcommerce.Products;
 using Riok.Mapperly.Abstractions;
 using Volo.Abp.Mapperly;
 
@@ -27,5 +29,17 @@ public partial class ProductCategoryToProductCategoryInListDto : MapperBase<Prod
     public override partial ProductCategoryInListDto Map(ProductCategory source);
 
     public override partial void Map(ProductCategory source, ProductCategoryInListDto destination);
+}
+
+[Mapper]
+public partial class ProductToProductInListDtoMapper
+    : MapperBase<Product, ProductInListDto>
+{
+    public override partial ProductInListDto Map(Product source);
+
+    public override partial void Map(
+        Product source,
+        ProductInListDto destination
+    );
 }
 

@@ -14,7 +14,7 @@ namespace MyEcommerce.Admin.Products
         CreateUpdateProductDto,
         CreateUpdateProductDto>
     {
-        Task<PagedResultDto<ProductInListDto>> GetListFilterAsync(BaseListFilterDto input);
+        Task<PagedResultDto<ProductInListDto>> GetListFilterAsync(ProductListFilterDto input);
         Task<List<ProductInListDto>> GetListAllAsync();
         Task DeleteMultipleAsync(IEnumerable<Guid> ids);
     }
