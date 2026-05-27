@@ -261,5 +261,10 @@ src/MyEcommerce.DbMigrator/Logs/*
 src/MyEcommerce.Blazor.Server/Logs/*
 src/MyEcommerce.Blazor.Server.Tiered/Logs/*
 
+# Logs
+**/Logs/**
+*.log
+
+
 # Use abp install-libs to restore.
 **/wwwroot/libs/*

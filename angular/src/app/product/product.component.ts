@@ -1,7 +1,6 @@
 import { AuthService, PagedResultDto } from '@abp/ng.core';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { ProductInListDto, ProductsService } from '@proxy/products';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { ProductDto, ProductInListDto, ProductsService } from '@proxy/products';
 import { BlockUIModule } from 'primeng/blockui';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -13,7 +12,10 @@ import { ProductCategoriesService } from '@proxy/product-categories';
 import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-
+import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ProductDetailComponent } from './product-detail.component';
+import { NotificationService } from '../shared/services/notification.service';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -28,13 +30,16 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     InputTextModule,
     FormsModule,
     ProgressSpinnerModule,
+    DynamicDialogModule,
   ],
-  providers: [ProductsService],
+  providers: [ProductsService, DialogService, NotificationService, MessageService],
 })
 export class ProductComponent implements OnInit, OnDestroy {
   private authService = inject(AuthService);
-  private ngUnsubcribe = new Subject<void>();
   private productService = inject(ProductsService);
+  private dialogService = inject(DialogService);
+  private notificationService = inject(NotificationService);
+  private ngUnsubcribe = new Subject<void>();
   private productCategoryService = inject(ProductCategoriesService);
 
   blockedPanel: boolean = false;
@@ -113,5 +118,20 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.blockedPanel = false;
       }, 1000);
     }
+  }
+
+  showAddModal() {
+    const ref = this.dialogService.open(ProductDetailComponent, {
+      header: 'Product',
+      width: '50vw',
+      closable: true,
+      modal: true,
+    });
+    ref?.onClose.subscribe((data: ProductDto) => {
+      if (data) {
+        this.loadData();
+        this.notificationService.showSuccess('Add product successfully');
+      }
+    });
   }
 }

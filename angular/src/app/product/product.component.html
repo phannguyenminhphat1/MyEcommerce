@@ -1,8 +1,16 @@
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
 <p-panel #pnl header="Product list">
   <!--Filter (search panel)-->
   <div class="grid grid-cols-12 gap-4 mb-4">
     <div class="col-span-12 md:col-span-4 flex items-end">
-      <button pButton type="button" icon="fa fa-plus" iconPos="left" label="Create new"></button>
+      <button
+        (click)="showAddModal()"
+        pButton
+        type="button"
+        icon="fa fa-plus"
+        iconPos="left"
+        label="Create new"
+      ></button>
     </div>
 
     <div class="col-span-12 md:col-span-8">
@@ -81,9 +89,9 @@
     [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
   ></p-paginator>
   <!--Block UI-->
-  <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+  <p-blockui [blocked]="blockedPanel" [target]="pnl">
     <div class="flex justify-center items-center h-full w-full">
       <p-progress-spinner ariaLabel="loading"></p-progress-spinner>
     </div>
-  </p-blockUI>
+  </p-blockui>
 </p-panel>

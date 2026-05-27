@@ -1,0 +1,108 @@
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<form [formGroup]="form" (ngSubmit)="saveChange()">
+  <p-panel #pnl header="Product">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12">
+        <label for="name" class="block">Name</label>
+        <input id="name" pInputText type="text" formControlName="name" class="w-full" />
+      </div>
+      <div class="col-span-12">
+        <label for="code" class="block">Code</label>
+        <input id="code" pInputText type="text" formControlName="code" class="w-full" />
+      </div>
+      <div class="col-span-12">
+        <label for="slug" class="block">Slug</label>
+        <input id="slug" pInputText type="text" class="w-full" formControlName="slug" />
+      </div>
+      <div class="col-span-12">
+        <label for="sku" class="block">SKU</label>
+        <input id="sku" pInputText type="text" class="w-full" formControlName="sku" />
+      </div>
+      <div class="col-span-12">
+        <label for="manufacturerId" class="block">Manufacturer</label>
+        <p-select
+          [options]="manufacturers"
+          formControlName="manufacturerId"
+          placeholder="Choose manufacturer"
+          [showClear]="true"
+          autoWidth="false"
+          [style]="{ width: '100%' }"
+        ></p-select>
+      </div>
+      <div class="col-span-12">
+        <label for="categoryId" class="block">Category</label>
+        <p-select
+          [options]="productCategories"
+          formControlName="categoryId"
+          placeholder="Choose category"
+          [showClear]="true"
+          autoWidth="false"
+          [style]="{ width: '100%' }"
+        ></p-select>
+      </div>
+      <div class="col-span-12">
+        <label for="productType" class="block">Product Type</label>
+        <p-select
+          [options]="productTypes"
+          formControlName="productType"
+          placeholder="Choose product type"
+          [showClear]="true"
+          autoWidth="false"
+          [style]="{ width: '100%' }"
+        ></p-select>
+      </div>
+      <div class="col-span-6">
+        <label for="sortOrder" class="block">Sort Order</label>
+        <p-inputnumber formControlName="sortOrder" class="w-full"></p-inputnumber>
+      </div>
+      <div class="col-span-6">
+        <label for="sellPrice" class="block">Sell Price</label>
+        <p-inputnumber formControlName="sellPrice" class="w-full" />
+      </div>
+
+      <div class="col-span-12">
+        <label for="seoMetaDescription" class="block">SEO Description</label>
+        <textarea
+          id="seoMetaDescription"
+          pInputTextarea
+          class="w-full"
+          formControlName="seoMetaDescription"
+        ></textarea>
+      </div>
+      <div class="col-span-12">
+        <label for="description" class="block">Description</label>
+        <p-editor formControlName="description" [style]="{ height: '320px' }"></p-editor>
+      </div>
+      <div class="col-span-12 md:col-span-3">
+        <p-checkbox
+          formControlName="visibility"
+          binary="true"
+          id="visibility"
+          class="mr-1"
+        ></p-checkbox>
+        <label for="visibility">Visibility</label>
+      </div>
+      <div class="col-span-12 md:col-span-3">
+        <p-checkbox
+          formControlName="isActive"
+          binary="true"
+          id="isActive"
+          class="mr-1"
+        ></p-checkbox>
+        <label for="isActive">Is Active</label>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <div class="flex justify-end">
+        <button type="submit" pButton icon="fa fa-save" iconPos="left" label="Save"></button>
+      </div>
+    </ng-template>
+
+    <p-blockui [blocked]="blockedPanel" [target]="pnl">
+      <div class="flex justify-center items-center h-full w-full">
+        <p-progress-spinner ariaLabel="loading"></p-progress-spinner>
+      </div>
+    </p-blockui>
+  </p-panel>
+</form>
