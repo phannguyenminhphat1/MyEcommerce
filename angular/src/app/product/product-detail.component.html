@@ -1,25 +1,47 @@
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
-<form [formGroup]="form" (ngSubmit)="saveChange()">
+<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
   <p-panel #pnl header="Product">
     <div class="grid grid-cols-12 gap-4">
       <div class="col-span-12">
-        <label for="name" class="block">Name</label>
+        <label for="name" class="block">Name <span class="required">*</span></label>
         <input id="name" pInputText type="text" formControlName="name" class="w-full" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="name"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
       </div>
       <div class="col-span-12">
-        <label for="code" class="block">Code</label>
+        <label for="code" class="block">Code <span class="required">*</span></label>
         <input id="code" pInputText type="text" formControlName="code" class="w-full" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="code"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
       </div>
       <div class="col-span-12">
-        <label for="slug" class="block">Slug</label>
+        <label for="slug" class="block">Slug <span class="required">*</span></label>
         <input id="slug" pInputText type="text" class="w-full" formControlName="slug" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="slug"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
       </div>
       <div class="col-span-12">
-        <label for="sku" class="block">SKU</label>
+        <label for="sku" class="block">SKU <span class="required">*</span></label>
         <input id="sku" pInputText type="text" class="w-full" formControlName="sku" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="sku"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
       </div>
       <div class="col-span-12">
-        <label for="manufacturerId" class="block">Manufacturer</label>
+        <label for="manufacturerId" class="block"
+          >Manufacturer <span class="required">*</span></label
+        >
         <p-select
           [options]="manufacturers"
           formControlName="manufacturerId"
@@ -28,9 +50,14 @@
           autoWidth="false"
           [style]="{ width: '100%' }"
         ></p-select>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="manufacturerId"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
       </div>
       <div class="col-span-12">
-        <label for="categoryId" class="block">Category</label>
+        <label for="categoryId" class="block">Category <span class="required">*</span></label>
         <p-select
           [options]="productCategories"
           formControlName="categoryId"
@@ -39,9 +66,14 @@
           autoWidth="false"
           [style]="{ width: '100%' }"
         ></p-select>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="categoryId"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
       </div>
       <div class="col-span-12">
-        <label for="productType" class="block">Product Type</label>
+        <label for="productType" class="block">Product Type <span class="required">*</span></label>
         <p-select
           [options]="productTypes"
           formControlName="productType"
@@ -50,14 +82,29 @@
           autoWidth="false"
           [style]="{ width: '100%' }"
         ></p-select>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="productType"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
       </div>
       <div class="col-span-6">
-        <label for="sortOrder" class="block">Sort Order</label>
+        <label for="sortOrder" class="block">Sort Order <span class="required">*</span></label>
         <p-inputnumber formControlName="sortOrder" class="w-full"></p-inputnumber>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="sortOrder"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
       </div>
       <div class="col-span-6">
-        <label for="sellPrice" class="block">Sell Price</label>
+        <label for="sellPrice" class="block">Sell Price <span class="required">*</span></label>
         <p-inputnumber formControlName="sellPrice" class="w-full" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="sellPrice"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
       </div>
 
       <div class="col-span-12">
@@ -95,7 +142,14 @@
 
     <ng-template pTemplate="footer">
       <div class="flex justify-end">
-        <button type="submit" pButton icon="fa fa-save" iconPos="left" label="Save"></button>
+        <button
+          [disabled]="!form.valid || btnDisabled"
+          type="submit"
+          pButton
+          icon="fa fa-save"
+          iconPos="left"
+          label="Save"
+        ></button>
       </div>
     </ng-template>
 

@@ -15,6 +15,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
 import { EditorModule } from 'primeng/editor';
 import { TextareaModule } from 'primeng/textarea';
+import { ValidationMessageComponent } from '../shared/components/validation-message/validation-message.component';
 
 @Component({
   selector: 'app-product-detail',
@@ -34,6 +35,7 @@ import { TextareaModule } from 'primeng/textarea';
     EditorModule,
     CheckboxModule,
     TextareaModule,
+    ValidationMessageComponent,
   ],
   providers: [ProductsService],
 })
@@ -48,8 +50,32 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   manufacturers: any[] = [];
   productTypes: any[] = [];
   productCategories: any[] = [];
+  btnDisabled = false;
 
   constructor() {}
+
+  validationMessages = {
+    code: [{ type: 'required', message: 'Code is required and must be unique' }],
+
+    name: [
+      { type: 'required', message: 'Name is required' },
+      { type: 'maxlength', message: 'Name cannot exceed 255 characters' },
+    ],
+
+    slug: [{ type: 'required', message: 'A unique URL slug is required' }],
+
+    sku: [{ type: 'required', message: 'Product SKU is required' }],
+
+    manufacturerId: [{ type: 'required', message: 'Please select a manufacturer' }],
+
+    categoryId: [{ type: 'required', message: 'Please select a category' }],
+
+    productType: [{ type: 'required', message: 'Please select a product type' }],
+
+    sortOrder: [{ type: 'required', message: 'Please enter the sort order' }],
+
+    sellPrice: [{ type: 'required', message: 'Please enter the selling price' }],
+  };
 
   ngOnInit(): void {
     this.buildForm();
@@ -76,7 +102,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   private buildForm() {
     this.form = this.fb.group({
-      name: new FormControl(this.selectedEntity.name || null, Validators.required),
+      name: new FormControl(
+        this.selectedEntity.name || null,
+        Validators.compose([Validators.required, Validators.maxLength(250)]),
+      ),
       code: new FormControl(this.selectedEntity.code || null, Validators.required),
       slug: new FormControl(this.selectedEntity.slug || null, Validators.required),
       sku: new FormControl(this.selectedEntity.sku || null, Validators.required),
@@ -88,8 +117,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       productType: new FormControl(this.selectedEntity.productType || null, Validators.required),
       sortOrder: new FormControl(this.selectedEntity.sortOrder || null, Validators.required),
       sellPrice: new FormControl(this.selectedEntity.sellPrice || null, Validators.required),
-      visibility: new FormControl(this.selectedEntity.visiblity || false),
-      isActive: new FormControl(this.selectedEntity.isActive || false),
+      visibility: new FormControl(this.selectedEntity.visiblity || true),
+      isActive: new FormControl(this.selectedEntity.isActive || true),
       seoMetaDescription: new FormControl(this.selectedEntity.seoMetaDescription || null),
       description: new FormControl(this.selectedEntity.description || null),
     });
@@ -103,9 +132,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   private toggleBlockUI(enabled: boolean) {
     if (enabled == true) {
       this.blockedPanel = true;
+      this.btnDisabled = true;
     } else {
       setTimeout(() => {
         this.blockedPanel = false;
+        this.btnDisabled = false;
       }, 1000);
     }
   }
