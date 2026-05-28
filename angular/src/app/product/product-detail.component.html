@@ -4,7 +4,14 @@
     <div class="grid grid-cols-12 gap-4">
       <div class="col-span-12">
         <label for="name" class="block">Name <span class="required">*</span></label>
-        <input id="name" pInputText type="text" formControlName="name" class="w-full" />
+        <input
+          id="name"
+          (keyup)="generateSlug()"
+          pInputText
+          type="text"
+          formControlName="name"
+          class="w-full"
+        />
         <app-validation-message
           [entityForm]="form"
           fieldName="name"
@@ -44,6 +51,8 @@
         >
         <p-select
           [options]="manufacturers"
+          optionLabel="label"
+          optionValue="value"
           formControlName="manufacturerId"
           placeholder="Choose manufacturer"
           [showClear]="true"
@@ -60,6 +69,8 @@
         <label for="categoryId" class="block">Category <span class="required">*</span></label>
         <p-select
           [options]="productCategories"
+          optionLabel="label"
+          optionValue="value"
           formControlName="categoryId"
           placeholder="Choose category"
           [showClear]="true"

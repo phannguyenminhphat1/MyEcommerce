@@ -6,7 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PaginatorModule } from 'primeng/paginator';
 import { PanelModule } from 'primeng/panel';
 import { TableModule } from 'primeng/table';
-import { Subject, takeUntil } from 'rxjs';
+import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { SelectModule } from 'primeng/select';
 import { FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -16,6 +16,11 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { EditorModule } from 'primeng/editor';
 import { TextareaModule } from 'primeng/textarea';
 import { ValidationMessageComponent } from '../shared/components/validation-message/validation-message.component';
+import { productTypeOptions } from '@proxy/my-ecommerce/products';
+import { ProductCategoriesService, ProductCategoryInListDto } from '@proxy/product-categories';
+import { ManufacturerInListDto, ManufacturersService } from '@proxy/manufacturers';
+import { UtilityService } from '../shared/services/utility.service';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-product-detail',
@@ -37,11 +42,16 @@ import { ValidationMessageComponent } from '../shared/components/validation-mess
     TextareaModule,
     ValidationMessageComponent,
   ],
-  providers: [ProductsService],
+  providers: [ProductsService, UtilityService],
 })
 export class ProductDetailComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private productService = inject(ProductsService);
+  private productCategoryService = inject(ProductCategoriesService);
+  private manufacturerService = inject(ManufacturersService);
+  private utilService = inject(UtilityService);
+  private config = inject(DynamicDialogConfig);
+  private ref = inject(DynamicDialogRef);
 
   private ngUnsubcribe = new Subject<void>();
   blockedPanel: boolean = false;
@@ -51,6 +61,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   productTypes: any[] = [];
   productCategories: any[] = [];
   btnDisabled = false;
+  manufacturerId: string = '';
 
   constructor() {}
 
@@ -79,6 +90,46 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.buildForm();
+    this.loadProductTypes();
+    var productCategories = this.productCategoryService.getListAll();
+    var manufacturers = this.manufacturerService.getListAll();
+    this.toggleBlockUI(true);
+    forkJoin({
+      productCategories,
+      manufacturers,
+    })
+      .pipe(takeUntil(this.ngUnsubcribe))
+      .subscribe({
+        next: response => {
+          var productCategories = response.productCategories as ProductCategoryInListDto[];
+          var manufacturers = response.manufacturers as ManufacturerInListDto[];
+          this.productCategories = productCategories.map(element => ({
+            value: element.id,
+            label: element.name,
+          }));
+
+          this.manufacturers = manufacturers.map(element => ({
+            value: element.id,
+            label: element.name,
+          }));
+
+          //Load edit data to form
+          if (this.utilService.isEmpty(this.config.data?.id) == true) {
+            this.toggleBlockUI(false);
+          } else {
+            this.loadFormDetails(this.config.data?.id);
+          }
+        },
+        error: () => {
+          this.toggleBlockUI(false);
+        },
+      });
+  }
+
+  generateSlug() {
+    this.form.controls['slug'].setValue(
+      this.utilService.MakeSeoTitle(this.form.get('name')?.value),
+    );
   }
 
   loadFormDetails(id: string) {
@@ -96,6 +147,15 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
           this.toggleBlockUI(false);
         },
       });
+  }
+
+  loadProductTypes() {
+    productTypeOptions.forEach(element => {
+      this.productTypes.push({
+        value: element.value,
+        label: element.key,
+      });
+    });
   }
 
   public saveChange() {}

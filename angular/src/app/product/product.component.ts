@@ -49,7 +49,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   public maxResultCount: number = 10;
   public totalCount: number = 0;
 
-  public productCategories: { value: string; name: string }[] = [];
+  public productCategories: any = [];
   public categoryId?: string;
   public keyword: string = '';
 
@@ -84,12 +84,10 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   loadProductCategories() {
     this.productCategoryService.getListAll().subscribe(response => {
-      response.forEach(element => {
-        this.productCategories.push({
-          name: element.name ?? '',
-          value: element.id ?? '',
-        });
-      });
+      this.productCategories = response.map(element => ({
+        value: element.id,
+        label: element.name,
+      }));
     });
   }
 

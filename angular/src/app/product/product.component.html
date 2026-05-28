@@ -31,9 +31,11 @@
           <p-select
             [options]="productCategories"
             [(ngModel)]="categoryId"
-            optionLabel="name"
+            optionLabel="label"
             optionValue="value"
             placeholder="Choose category"
+            autoWidth="false"
+            [style]="{ width: '150px' }"
           ></p-select>
         </div>
 

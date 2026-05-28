@@ -1,6 +1,6 @@
-import { BaseListFilterDto } from '@proxy/models';
 import type { ProductType } from '../my-ecommerce/products/product-type.enum';
 import type { EntityDto } from '@abp/ng.core';
+import type { BaseListFilterDto } from '../models';
 
 export interface CreateUpdateProductDto {
   manufacturerId?: string;
@@ -52,5 +52,5 @@ export interface ProductInListDto extends EntityDto<string> {
 }
 
 export interface ProductListFilterDto extends BaseListFilterDto {
-  categoryId?: string;
+  categoryId?: string | null;
 }
