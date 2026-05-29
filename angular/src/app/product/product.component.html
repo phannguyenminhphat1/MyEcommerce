@@ -2,7 +2,7 @@
 <p-panel #pnl header="Product list">
   <!--Filter (search panel)-->
   <div class="grid grid-cols-12 gap-4 mb-4">
-    <div class="col-span-12 md:col-span-4 flex items-end">
+    <div class="col-span-12 md:col-span-4 flex gap-4 items-end">
       <button
         (click)="showAddModal()"
         pButton
@@ -10,6 +10,16 @@
         icon="fa fa-plus"
         iconPos="left"
         label="Create new"
+      ></button>
+      <button
+        pButton
+        type="button"
+        *ngIf="selectedItems.length > 0"
+        class="ml-1 p-button-help"
+        icon="fa fa-trash"
+        iconPos="left"
+        label="Delete"
+        severity="danger"
       ></button>
     </div>
 
@@ -35,7 +45,7 @@
             optionValue="value"
             placeholder="Choose category"
             autoWidth="false"
-            [style]="{ width: '150px' }"
+            [style]="{ width: '200px' }"
           ></p-select>
         </div>
 
@@ -54,29 +64,67 @@
   </div>
 
   <!--Table-->
-  <p-table [value]="items">
+  <p-table [value]="items" [(selection)]="selectedItems">
     <ng-template pTemplate="header">
       <tr>
-        <th>Id</th>
+        <th style="width: 10px">
+          <p-tableHeaderCheckbox class="mr-1"></p-tableHeaderCheckbox>
+        </th>
+        <th>Code</th>
         <th>SKU</th>
         <th>Name</th>
         <th>Product Type</th>
         <th>Category Id</th>
-        <th>Order</th>
+        <th>Sort Order</th>
         <th>Visibility</th>
         <th>Is Active</th>
+        <th>Actions</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-row>
       <tr>
+        <td style="width: 10px">
+          <span class="ui-column-title"></span>
+          <p-tableCheckbox [value]="row"></p-tableCheckbox>
+        </td>
         <td>{{ row.code }}</td>
         <td>{{ row.sku }}</td>
         <td>{{ row.name }}</td>
         <td>{{ row.productType }}</td>
         <td>{{ row.categoryId }}</td>
         <td>{{ row.sortOrder }}</td>
-        <td>{{ row.visibility }}</td>
-        <td>{{ row.isActive }}</td>
+        <td>
+          <p-badge *ngIf="row.visibility" severity="success" value="Visibility"></p-badge>
+          <p-badge *ngIf="!row.visibility" severity="danger" value="Hide"></p-badge>
+        </td>
+        <td>
+          <p-badge *ngIf="row.isActive" value="Active" severity="success"></p-badge>
+          <p-badge *ngIf="!row.isActive" value="Inactive" severity="danger"></p-badge>
+        </td>
+        <td>
+          <div class="flex items-center gap-1">
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-pencil"
+              text
+              rounded
+              severity="info"
+              (click)="showEditModal(row.id)"
+            ></button>
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-trash"
+              text
+              rounded
+              severity="danger"
+              (click)="showDeleteModal(row.id)"
+            ></button>
+          </div>
+        </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="summary">

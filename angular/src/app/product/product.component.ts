@@ -16,11 +16,15 @@ import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dy
 import { ProductDetailComponent } from './product-detail.component';
 import { NotificationService } from '../shared/services/notification.service';
 import { MessageService } from 'primeng/api';
+import { BadgeModule } from 'primeng/badge';
+import { OverlayBadgeModule } from 'primeng/overlaybadge';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss'],
   imports: [
+    CommonModule,
     PanelModule,
     TableModule,
     PaginatorModule,
@@ -31,6 +35,8 @@ import { MessageService } from 'primeng/api';
     FormsModule,
     ProgressSpinnerModule,
     DynamicDialogModule,
+    BadgeModule,
+    OverlayBadgeModule,
   ],
   providers: [ProductsService, DialogService, NotificationService, MessageService],
 })
@@ -52,6 +58,8 @@ export class ProductComponent implements OnInit, OnDestroy {
   public productCategories: any = [];
   public categoryId?: string;
   public keyword: string = '';
+
+  public selectedItems: ProductInListDto[] = [];
 
   constructor() {}
 
@@ -120,7 +128,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   showAddModal() {
     const ref = this.dialogService.open(ProductDetailComponent, {
-      header: 'Product',
+      header: 'Add Product',
       width: '50vw',
       closable: true,
       modal: true,
@@ -131,5 +139,28 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.notificationService.showSuccess('Add product successfully');
       }
     });
+  }
+
+  showEditModal(id?: string) {
+    if (!id) return;
+    const ref = this.dialogService.open(ProductDetailComponent, {
+      data: {
+        id: id,
+      },
+      header: 'Edit Product',
+      width: '50vw',
+      closable: true,
+      modal: true,
+    });
+    ref?.onClose.subscribe((data: ProductDto) => {
+      if (data) {
+        this.loadData();
+        this.notificationService.showSuccess('Edit product successfully');
+      }
+    });
+  }
+
+  showDeleteModal(id?: string) {
+    if (!id) return;
   }
 }

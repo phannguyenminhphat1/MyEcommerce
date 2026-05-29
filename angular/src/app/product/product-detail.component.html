@@ -117,6 +117,23 @@
           [validationMessages]="validationMessages"
         ></app-validation-message>
       </div>
+      <div class="col-span-12">
+        <label for="thumbnailPicture" class="block"
+          >Thumbnail Picture <span class="required">*</span></label
+        >
+        <input
+          id="thumbnailPicture"
+          pInputText
+          type="text"
+          formControlName="thumbnailPicture"
+          class="w-full"
+        />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="thumbnailPicture"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
 
       <div class="col-span-12">
         <label for="seoMetaDescription" class="block">SEO Description</label>

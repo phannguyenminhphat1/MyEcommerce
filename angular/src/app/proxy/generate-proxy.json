@@ -8358,7 +8358,7 @@
           "displayName": null
         },
         {
-          "name": "Visiblity",
+          "name": "Visibility",
           "jsonName": null,
           "type": "System.Boolean",
           "typeSimple": "boolean",
@@ -8595,7 +8595,7 @@
           "displayName": null
         },
         {
-          "name": "Visiblity",
+          "name": "Visibility",
           "jsonName": null,
           "type": "System.Boolean",
           "typeSimple": "boolean",
@@ -8848,7 +8848,7 @@
           "displayName": null
         },
         {
-          "name": "Visiblity",
+          "name": "Visibility",
           "jsonName": null,
           "type": "System.Boolean",
           "typeSimple": "boolean",
