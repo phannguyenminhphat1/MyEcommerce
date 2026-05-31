@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MyEcommerce.ProductCategories;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace MyEcommerce.Products
@@ -23,5 +20,6 @@ namespace MyEcommerce.Products
         public string Description { get; set; }
         public string ThumbnailPicture { get; set; }
         public double SellPrice { get; set; }
+        public ProductCategory Category { get; set; }
     }
 }

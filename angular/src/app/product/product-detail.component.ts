@@ -170,7 +170,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         .create(this.form.value)
         .pipe(takeUntil(this.ngUnsubcribe))
         .subscribe({
-          next: response => {
+          next: () => {
             this.toggleBlockUI(false);
             this.ref.close(this.form.value);
           },

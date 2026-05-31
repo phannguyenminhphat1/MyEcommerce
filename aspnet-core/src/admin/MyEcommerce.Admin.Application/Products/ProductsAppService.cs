@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MyEcommerce.Products;
+using MyEcommerce.Repositories;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
@@ -17,19 +18,21 @@ namespace MyEcommerce.Admin.Products
         CreateUpdateProductDto,
         CreateUpdateProductDto>, IProductsAppService
     {
-        public ProductsAppService(IRepository<Product, Guid> repository)
-            : base(repository)
+        private readonly IProductRepository _productRepository;
+        public ProductsAppService(IProductRepository productRepository)
+            : base(productRepository)
         {
+            _productRepository = productRepository;
         }
 
         public async Task DeleteMultipleAsync(IEnumerable<Guid> ids)
         {
-            await Repository.DeleteManyAsync(ids);
+            await _productRepository.DeleteManyAsync(ids);
         }
 
         public async Task<List<ProductInListDto>> GetListAllAsync()
         {
-            var query = await Repository.GetQueryableAsync();
+            var query = await _productRepository.GetQueryableAsync();
             query = query.Where(x => x.IsActive == true);
             var data = await AsyncExecuter.ToListAsync(query);
             return ObjectMapper.Map<List<Product>, List<ProductInListDto>>(data);
@@ -37,11 +40,12 @@ namespace MyEcommerce.Admin.Products
 
         public async Task<PagedResultDto<ProductInListDto>> GetListFilterAsync(ProductListFilterDto input)
         {
-            var query = await Repository.GetQueryableAsync();
-            query = query.WhereIf(!string.IsNullOrWhiteSpace(input.Keyword), x => x.Name.Contains(input.Keyword!));
-            query = query.WhereIf(input.CategoryId.HasValue, x => x.CategoryId == input.CategoryId);
-            var totalCount = await AsyncExecuter.LongCountAsync(query);
-            var data = await AsyncExecuter.ToListAsync(query.Skip(input.SkipCount).Take(input.MaxResultCount));
+            var totalCount = await _productRepository.GetCountAsync(input.Keyword, input.CategoryId);
+            var data = await _productRepository.GetListFilterAsync(
+                input.Keyword,
+                input.CategoryId,
+                input.SkipCount,
+                input.MaxResultCount);
             return new PagedResultDto<ProductInListDto>(totalCount, ObjectMapper.Map<List<Product>, List<ProductInListDto>>(data));
         }
     }

@@ -1,4 +1,4 @@
-import { AuthService, PagedResultDto } from '@abp/ng.core';
+import { PagedResultDto } from '@abp/ng.core';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ProductDto, ProductInListDto, ProductsService } from '@proxy/products';
 import { BlockUIModule } from 'primeng/blockui';
@@ -19,6 +19,7 @@ import { MessageService } from 'primeng/api';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { CommonModule } from '@angular/common';
+import { ProductType } from '@proxy/my-ecommerce/products';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -41,7 +42,6 @@ import { CommonModule } from '@angular/common';
   providers: [ProductsService, DialogService, NotificationService, MessageService],
 })
 export class ProductComponent implements OnInit, OnDestroy {
-  private authService = inject(AuthService);
   private productService = inject(ProductsService);
   private dialogService = inject(DialogService);
   private notificationService = inject(NotificationService);
@@ -112,8 +112,8 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  login() {
-    this.authService.navigateToLogin();
+  getProductTypeName(value: number) {
+    return ProductType[value];
   }
 
   toggleBlockUI(enabled: boolean) {
@@ -137,6 +137,7 @@ export class ProductComponent implements OnInit, OnDestroy {
       if (data) {
         this.loadData();
         this.notificationService.showSuccess('Add product successfully');
+        this.selectedItems = [];
       }
     });
   }
@@ -156,6 +157,7 @@ export class ProductComponent implements OnInit, OnDestroy {
       if (data) {
         this.loadData();
         this.notificationService.showSuccess('Edit product successfully');
+        this.selectedItems = [];
       }
     });
   }

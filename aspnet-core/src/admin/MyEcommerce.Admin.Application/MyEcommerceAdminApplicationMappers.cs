@@ -53,6 +53,8 @@ public partial class CreateUpdateProductDtoToProductMapper : MapperBase<CreateUp
 [Mapper]
 public partial class ProductToProductInListDtoMapper : MapperBase<Product, ProductInListDto>
 {
+    [MapProperty("Category.Name", "CategoryName")]
+    [MapProperty("Category.Slug", "CategorySlug")]
     public override partial ProductInListDto Map(Product source);
 
     public override partial void Map(

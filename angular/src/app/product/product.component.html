@@ -72,9 +72,9 @@
         </th>
         <th>Code</th>
         <th>SKU</th>
-        <th>Name</th>
+        <th>Product Name</th>
         <th>Product Type</th>
-        <th>Category Id</th>
+        <th>Category Name</th>
         <th>Sort Order</th>
         <th>Visibility</th>
         <th>Is Active</th>
@@ -90,8 +90,8 @@
         <td>{{ row.code }}</td>
         <td>{{ row.sku }}</td>
         <td>{{ row.name }}</td>
-        <td>{{ row.productType }}</td>
-        <td>{{ row.categoryId }}</td>
+        <td>{{ getProductTypeName(row.productType) }}</td>
+        <td>{{ row.categoryName }}</td>
         <td>{{ row.sortOrder }}</td>
         <td>
           <p-badge *ngIf="row.visibility" severity="success" value="Visibility"></p-badge>
