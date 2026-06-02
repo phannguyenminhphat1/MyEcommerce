@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MyEcommerce.Products;
 using MyEcommerce.Repositories;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.BlobStoring;
 namespace MyEcommerce.Admin.Products
 {
     public class ProductsAppService : CrudAppService<
@@ -19,11 +21,13 @@ namespace MyEcommerce.Admin.Products
     {
         private readonly IProductRepository _productRepository;
         private readonly ProductManager _productManager;
-        public ProductsAppService(IProductRepository productRepository, ProductManager productManager)
+        private readonly IBlobContainer<ProductThumbnailPictureContainer> _blobContainer;
+        public ProductsAppService(IProductRepository productRepository, ProductManager productManager, IBlobContainer<ProductThumbnailPictureContainer> blobContainer)
             : base(productRepository)
         {
             _productRepository = productRepository;
             _productManager = productManager;
+            _blobContainer = blobContainer;
         }
 
         public async Task DeleteMultipleAsync(IEnumerable<Guid> ids)
@@ -52,7 +56,12 @@ namespace MyEcommerce.Admin.Products
 
         public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
-            var product = await _productManager.CreateAsync(input.ManufacturerId, input.Name, input.Code, input.Slug, input.ProductType, input.SKU, input.SortOrder, input.Visibility, input.IsActive, input.CategoryId, input.SeoMetaDescription, input.Description, input.ThumbnailPicture, input.SellPrice);
+            var product = await _productManager.CreateAsync(input.ManufacturerId, input.Name, input.Code, input.Slug, input.ProductType, input.SKU, input.SortOrder, input.Visibility, input.IsActive, input.CategoryId, input.SeoMetaDescription, input.Description, "", input.SellPrice);
+            if (input.ThumbnailPictureContent != null && input.ThumbnailPictureContent.Length > 0)
+            {
+                await SaveThumbnailImageAsync(input.ThumbnailPictureName, input.ThumbnailPictureContent);
+                product.ThumbnailPicture = input.ThumbnailPictureName;
+            }
             await _productRepository.InsertAsync(product);
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
@@ -74,10 +83,22 @@ namespace MyEcommerce.Admin.Products
             await _productManager.ChangeCategoryAsync(product, input.CategoryId);
             product.SeoMetaDescription = input.SeoMetaDescription;
             product.Description = input.Description;
-            product.ThumbnailPicture = input.ThumbnailPicture;
+            if (input.ThumbnailPictureContent != null && input.ThumbnailPictureContent.Length > 0)
+            {
+                await SaveThumbnailImageAsync(input.ThumbnailPictureName, input.ThumbnailPictureContent);
+                product.ThumbnailPicture = input.ThumbnailPictureName;
+            }
             product.SellPrice = input.SellPrice;
             await Repository.UpdateAsync(product);
             return ObjectMapper.Map<Product, ProductDto>(product);
+        }
+
+        private async Task SaveThumbnailImageAsync(string fileName, string base64)
+        {
+            Regex regex = new Regex(@"^[\w/\:.-]+;base64,");
+            base64 = regex.Replace(base64, string.Empty);
+            byte[] bytes = Convert.FromBase64String(base64);
+            await _blobContainer.SaveAsync(fileName, bytes, overrideExisting: true);
         }
     }
 }

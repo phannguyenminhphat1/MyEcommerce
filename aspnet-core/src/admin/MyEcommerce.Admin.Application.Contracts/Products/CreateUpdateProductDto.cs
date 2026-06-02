@@ -20,6 +20,7 @@ namespace MyEcommerce.Admin.Products
         public Guid CategoryId { get; set; }
         public string SeoMetaDescription { get; set; }
         public string Description { get; set; }
-        public string ThumbnailPicture { get; set; }
+        public string ThumbnailPictureName { get; set; }
+        public string ThumbnailPictureContent { get; set; }
     }
 }
