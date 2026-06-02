@@ -18,6 +18,7 @@
           [validationMessages]="validationMessages"
         ></app-validation-message>
       </div>
+
       <div class="col-span-12">
         <label for="code" class="block">Code <span class="required">*</span></label>
         <input id="code" pInputText type="text" formControlName="code" class="w-full" />
@@ -27,6 +28,7 @@
           [validationMessages]="validationMessages"
         ></app-validation-message>
       </div>
+
       <div class="col-span-12">
         <label for="slug" class="block">Slug <span class="required">*</span></label>
         <input id="slug" pInputText type="text" class="w-full" formControlName="slug" />
@@ -36,6 +38,7 @@
           [validationMessages]="validationMessages"
         ></app-validation-message>
       </div>
+
       <div class="col-span-12">
         <label for="sku" class="block">SKU <span class="required">*</span></label>
         <input id="sku" pInputText type="text" class="w-full" formControlName="sku" />
@@ -45,6 +48,7 @@
           [validationMessages]="validationMessages"
         ></app-validation-message>
       </div>
+
       <div class="col-span-12">
         <label for="manufacturerId" class="block"
           >Manufacturer <span class="required">*</span></label
@@ -65,6 +69,7 @@
           [validationMessages]="validationMessages"
         ></app-validation-message>
       </div>
+
       <div class="col-span-12">
         <label for="categoryId" class="block">Category <span class="required">*</span></label>
         <p-select
@@ -83,6 +88,7 @@
           [validationMessages]="validationMessages"
         ></app-validation-message>
       </div>
+
       <div class="col-span-12">
         <label for="productType" class="block">Product Type <span class="required">*</span></label>
         <p-select
@@ -99,6 +105,7 @@
           [validationMessages]="validationMessages"
         ></app-validation-message>
       </div>
+
       <div class="col-span-6">
         <label for="sortOrder" class="block">Sort Order <span class="required">*</span></label>
         <p-inputnumber formControlName="sortOrder" class="w-full"></p-inputnumber>
@@ -108,6 +115,7 @@
           [validationMessages]="validationMessages"
         ></app-validation-message>
       </div>
+
       <div class="col-span-6">
         <label for="sellPrice" class="block">Sell Price <span class="required">*</span></label>
         <p-inputnumber formControlName="sellPrice" class="w-full" />
@@ -117,23 +125,32 @@
           [validationMessages]="validationMessages"
         ></app-validation-message>
       </div>
-      <div class="col-span-12">
+
+      <div class="col-span-6">
         <label for="thumbnailPicture" class="block"
           >Thumbnail Picture <span class="required">*</span></label
         >
         <input
           id="thumbnailPicture"
+          type="file"
           pInputText
-          type="text"
+          class="cursor-pointer w-full"
           formControlName="thumbnailPicture"
-          class="w-full"
         />
-        <app-validation-message
-          [entityForm]="form"
-          fieldName="thumbnailPicture"
-          [validationMessages]="validationMessages"
-        ></app-validation-message>
       </div>
+      <div class="col-span-6">
+        <p-image
+          src="https://primefaces.org/cdn/primeng/images/galleria/galleria10.jpg"
+          width="150"
+          class="rounded-md overflow-hidden"
+          [preview]="true"
+        />
+      </div>
+      <app-validation-message
+        [entityForm]="form"
+        fieldName="thumbnailPicture"
+        [validationMessages]="validationMessages"
+      ></app-validation-message>
 
       <div class="col-span-12">
         <label for="seoMetaDescription" class="block">SEO Description</label>
@@ -144,10 +161,12 @@
           formControlName="seoMetaDescription"
         ></textarea>
       </div>
+
       <div class="col-span-12">
         <label for="description" class="block">Description</label>
         <p-editor formControlName="description" [style]="{ height: '320px' }"></p-editor>
       </div>
+
       <div class="col-span-12 md:col-span-3">
         <p-checkbox
           formControlName="visibility"
@@ -157,6 +176,7 @@
         ></p-checkbox>
         <label for="visibility">Visibility</label>
       </div>
+
       <div class="col-span-12 md:col-span-3">
         <p-checkbox
           formControlName="isActive"

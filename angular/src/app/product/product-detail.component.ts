@@ -21,6 +21,7 @@ import { ProductCategoriesService, ProductCategoryInListDto } from '@proxy/produ
 import { ManufacturerInListDto, ManufacturersService } from '@proxy/manufacturers';
 import { UtilityService } from '../shared/services/utility.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ImageModule } from 'primeng/image';
 
 @Component({
   selector: 'app-product-detail',
@@ -40,6 +41,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
     EditorModule,
     CheckboxModule,
     TextareaModule,
+    ImageModule,
     ValidationMessageComponent,
   ],
   providers: [ProductsService, UtilityService],
@@ -164,6 +166,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   }
 
   public saveChange() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     this.toggleBlockUI(true);
     if (this.utilService.isEmpty(this.config.data?.id) == true) {
       this.productService

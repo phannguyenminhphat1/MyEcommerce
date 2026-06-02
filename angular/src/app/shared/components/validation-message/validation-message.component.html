@@ -1,10 +1,15 @@
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
-<div *ngIf="entityForm.controls[fieldName].invalid && entityForm.controls[fieldName].dirty">
+<div
+  *ngIf="
+    entityForm.controls[fieldName].invalid &&
+    (entityForm.controls[fieldName].dirty || entityForm.controls[fieldName].touched)
+  "
+>
   <div *ngFor="let validation of validationMessages[fieldName]">
     <small
-      *ngIf="entityForm.controls[fieldName].errors[validation.type]"
+      *ngIf="entityForm.controls[fieldName].errors?.[validation.type]"
       id="username-help"
-      class="p-error"
+      class="p-error text-red-500"
       >{{ validation.message }}.</small
     >
   </div>
