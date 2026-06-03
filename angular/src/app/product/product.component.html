@@ -71,6 +71,7 @@
           <p-tableHeaderCheckbox class="mr-1"></p-tableHeaderCheckbox>
         </th>
         <th>Code</th>
+        <th>Thumbnail Picture</th>
         <th>SKU</th>
         <th>Product Name</th>
         <th>Product Type</th>
@@ -88,6 +89,16 @@
           <p-tableCheckbox [value]="row"></p-tableCheckbox>
         </td>
         <td>{{ row.code }}</td>
+        <td>
+          <p-image
+            [src]="row.thumbnailPicture"
+            [alt]="row.name"
+            width="100"
+            height="100"
+            class="rounded-md overflow-hidden"
+            [preview]="true"
+          />
+        </td>
         <td>{{ row.sku }}</td>
         <td>{{ row.name }}</td>
         <td>{{ getProductTypeName(row.productType) }}</td>

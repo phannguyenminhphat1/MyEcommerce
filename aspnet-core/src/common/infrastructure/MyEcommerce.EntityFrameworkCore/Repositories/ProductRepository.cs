@@ -28,6 +28,7 @@ namespace MyEcommerce.EntityFrameworkCore.Repositories
           .WhereIf(categoryId.HasValue, x => x.CategoryId == categoryId)
           .Skip(skipCount)
           .Take(maxResultCount)
+          .OrderByDescending(x => x.CreationTime)
           .ToListAsync();
     }
   }

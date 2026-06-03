@@ -127,30 +127,35 @@
       </div>
 
       <div class="col-span-6">
-        <label for="thumbnailPicture" class="block"
+        <label for="thumbnailImage" class="block"
           >Thumbnail Picture <span class="required">*</span></label
         >
         <input
-          id="thumbnailPicture"
+          id="thumbnailImage"
           type="file"
           pInputText
           class="cursor-pointer w-full"
-          formControlName="thumbnailPicture"
+          (change)="onFileChange($event)"
+          (blur)="form.get('thumbnailPictureContent')?.markAsTouched()"
         />
       </div>
       <div class="col-span-6">
         <p-image
-          src="https://primefaces.org/cdn/primeng/images/galleria/galleria10.jpg"
-          width="150"
+          [src]="thumbnailImage"
+          [alt]="selectedEntity.name"
+          width="100"
+          height="100"
           class="rounded-md overflow-hidden"
           [preview]="true"
         />
       </div>
-      <app-validation-message
-        [entityForm]="form"
-        fieldName="thumbnailPicture"
-        [validationMessages]="validationMessages"
-      ></app-validation-message>
+      <div class="col-span-12">
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="thumbnailPictureContent"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
 
       <div class="col-span-12">
         <label for="seoMetaDescription" class="block">SEO Description</label>

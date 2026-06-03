@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ProductDto, ProductsService } from '@proxy/products';
 import { BlockUIModule } from 'primeng/blockui';
 import { ButtonModule } from 'primeng/button';
@@ -22,6 +22,7 @@ import { ManufacturerInListDto, ManufacturersService } from '@proxy/manufacturer
 import { UtilityService } from '../shared/services/utility.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ImageModule } from 'primeng/image';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-detail',
@@ -54,8 +55,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   private utilService = inject(UtilityService);
   private config = inject(DynamicDialogConfig);
   private ref = inject(DynamicDialogRef);
+  private cd = inject(ChangeDetectorRef);
+  private sanitizer = inject(DomSanitizer);
 
   private ngUnsubcribe = new Subject<void>();
+
   blockedPanel: boolean = false;
   form!: FormGroup;
   selectedEntity = {} as ProductDto;
@@ -64,6 +68,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   productCategories: any[] = [];
   btnDisabled = false;
   manufacturerId: string = '';
+  public thumbnailImage: any;
 
   constructor() {}
 
@@ -89,7 +94,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
     sellPrice: [{ type: 'required', message: 'Please enter the selling price' }],
 
-    thumbnailPicture: [{ type: 'required', message: 'Please enter the thumbnail picture' }],
+    thumbnailPictureContent: [
+      {
+        type: 'required',
+        message: 'Please select a thumbnail picture',
+      },
+    ],
   };
 
   ngOnInit(): void {
@@ -147,6 +157,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       .subscribe({
         next: response => {
           this.selectedEntity = response;
+          this.loadThumbnail(this.selectedEntity.thumbnailPicture || '');
           this.buildForm();
           this.toggleBlockUI(false);
         },
@@ -221,7 +232,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       isActive: new FormControl(this.selectedEntity.isActive || true),
       seoMetaDescription: new FormControl(this.selectedEntity.seoMetaDescription || null),
       description: new FormControl(this.selectedEntity.description || null),
-      thumbnailPicture: new FormControl(this.selectedEntity.thumbnailPicture || null),
+      thumbnailPictureName: new FormControl(this.selectedEntity.thumbnailPicture || null),
+      thumbnailPictureContent: new FormControl(this.thumbnailImage || null, Validators.required),
     });
   }
 
@@ -240,5 +252,40 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         this.btnDisabled = false;
       }, 1000);
     }
+  }
+
+  onFileChange(event: any) {
+    const reader = new FileReader();
+    if (event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.thumbnailImage = reader.result;
+        this.form.patchValue({
+          thumbnailPictureName: file.name,
+          thumbnailPictureContent: reader.result,
+        });
+
+        // need to run CD since file load runs outside of zone
+        this.cd.markForCheck();
+      };
+    }
+  }
+
+  loadThumbnail(fileName: string) {
+    this.productService
+      .getThumbnailImage(fileName)
+      .pipe(takeUntil(this.ngUnsubcribe))
+      .subscribe({
+        next: (response: string) => {
+          var fileExt = this.selectedEntity.thumbnailPicture?.split('.').pop();
+          this.thumbnailImage = this.sanitizer.bypassSecurityTrustResourceUrl(
+            `data:image/${fileExt};base64, ${response}`,
+          );
+          this.form.patchValue({
+            thumbnailPictureContent: this.thumbnailImage.changingThisBreaksApplicationSecurity,
+          });
+        },
+      });
   }
 }
