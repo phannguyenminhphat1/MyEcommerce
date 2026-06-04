@@ -15,11 +15,12 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ProductDetailComponent } from './product-detail.component';
 import { NotificationService } from '../shared/services/notification.service';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { CommonModule } from '@angular/common';
 import { ProductType } from '@proxy/my-ecommerce/products';
+import { CancelDialogService } from '../shared/services/cancel-dialog.service';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -39,12 +40,13 @@ import { ProductType } from '@proxy/my-ecommerce/products';
     BadgeModule,
     OverlayBadgeModule,
   ],
-  providers: [ProductsService, DialogService, NotificationService, MessageService],
+  providers: [ProductsService, CancelDialogService],
 })
 export class ProductComponent implements OnInit, OnDestroy {
   private productService = inject(ProductsService);
   private dialogService = inject(DialogService);
   private notificationService = inject(NotificationService);
+  private cancelDialogService = inject(CancelDialogService);
   private ngUnsubcribe = new Subject<void>();
   private productCategoryService = inject(ProductCategoriesService);
 
@@ -162,7 +164,56 @@ export class ProductComponent implements OnInit, OnDestroy {
     });
   }
 
-  showDeleteModal(id?: string) {
+  deleteItem(id?: string) {
     if (!id) return;
+    this.cancelDialogService.delete('Are you sure you want to delete this record?', () => {
+      this.deleteItemConfirmed(id);
+    });
+  }
+
+  deleteItemConfirmed(id: string) {
+    this.toggleBlockUI(true);
+    this.productService
+      .delete(id)
+      .pipe(takeUntil(this.ngUnsubcribe))
+      .subscribe({
+        next: () => {
+          this.notificationService.showSuccess('Delete successfully');
+          this.loadData();
+          this.toggleBlockUI(false);
+        },
+        error: () => {
+          this.toggleBlockUI(false);
+        },
+      });
+  }
+
+  deleteItems() {
+    if (this.selectedItems.length == 0) return;
+    var ids: string[] = [];
+    this.selectedItems.forEach(element => {
+      ids.push(element.id as string);
+    });
+    this.cancelDialogService.delete('Are you sure you want to delete those record?', () => {
+      this.deleteItemsConfirmed(ids);
+    });
+  }
+
+  deleteItemsConfirmed(ids: string[]) {
+    this.toggleBlockUI(true);
+    this.productService
+      .deleteMultiple(ids)
+      .pipe(takeUntil(this.ngUnsubcribe))
+      .subscribe({
+        next: () => {
+          this.notificationService.showSuccess('Delete successfully');
+          this.loadData();
+          this.selectedItems = [];
+          this.toggleBlockUI(false);
+        },
+        error: () => {
+          this.toggleBlockUI(false);
+        },
+      });
   }
 }
