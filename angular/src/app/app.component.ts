@@ -7,15 +7,11 @@ import {
 import { DynamicLayoutComponent } from '@abp/ng.core';
 import { AppLayout } from './layout/component/app.layout';
 import { Router, RouterOutlet } from '@angular/router';
-import { AuthService } from './shared/services/auth.service';
 import { LOGIN_URL } from './shared/constants/urls.constant';
 import { SideMenuLayoutModule } from '@abp/ng.theme.lepton-x/layouts';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { UtilityService } from './shared/services/utility.service';
-import { NotificationService } from './shared/services/notification.service';
-import { DialogService } from 'primeng/dynamicdialog';
+import { TokenStorageService } from './shared/services/token.service';
 
 @Component({
   selector: 'app-root',
@@ -36,20 +32,14 @@ import { DialogService } from 'primeng/dynamicdialog';
     ConfirmDialogModule,
     ToastModule,
   ],
-  providers: [
-    DialogService,
-    MessageService,
-    NotificationService,
-    UtilityService,
-    ConfirmationService,
-  ],
 })
 export class AppComponent implements OnInit {
-  private authService = inject(AuthService);
+  private tokenService = inject(TokenStorageService);
   private router = inject(Router);
 
   ngOnInit(): void {
-    if (this.authService.isAuthenticated() == false) {
+    console.log(this.tokenService.getToken());
+    if (this.tokenService.getToken() === null) {
       this.router.navigate([LOGIN_URL]);
     }
   }

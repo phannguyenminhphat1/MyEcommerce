@@ -25,6 +25,7 @@ export class UtilityService {
   navigate(path: string) {
     this._router.navigate([path]);
   }
+
   Unflattering = (arr: any[]): any[] => {
     let map: any = {};
     let roots: any[] = [];
@@ -51,6 +52,7 @@ export class UtilityService {
     }
     return roots;
   };
+
   UnFlatForLeftMenu = (arr: any[]): any[] => {
     let map: any = {};
     let roots: any[] = [];

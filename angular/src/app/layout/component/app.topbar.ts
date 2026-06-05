@@ -7,7 +7,7 @@ import { AppConfigurator } from './app.configurator';
 import { LayoutService } from '../service/layout.service';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { LOGIN_URL } from 'src/app/shared/constants/urls.constant';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { TokenStorageService } from 'src/app/shared/services/token.service';
 
 @Component({
   selector: 'app-topbar',
@@ -121,7 +121,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
   `,
 })
 export class AppTopbar implements OnInit {
-  private authService = inject(AuthService);
+  private tokenService = inject(TokenStorageService);
   private router = inject(Router);
 
   items!: MenuItem[];
@@ -156,7 +156,7 @@ export class AppTopbar implements OnInit {
         label: 'Sign out',
         icon: 'pi pi-share-alt',
         command: event => {
-          this.authService.logout();
+          this.tokenService.signOut();
           this.router.navigate([LOGIN_URL]);
         },
       },

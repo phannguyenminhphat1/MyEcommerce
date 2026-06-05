@@ -17,7 +17,11 @@ import { AppFloatingConfigurator } from '../layout/component/app.floatingconfigu
 import { AuthService } from '../shared/services/auth.service';
 import { LoginRequestDto } from '../shared/models/login-request.dto';
 import { Subject, takeUntil } from 'rxjs';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../shared/constants/keys.constant';
+import { BlockUIModule } from 'primeng/blockui';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TokenStorageService } from '../shared/services/token.service';
+import { LoginResponseDto } from '../shared/models/login-response.dto';
+import { NotificationService } from '../shared/services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +36,8 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from '../shared/constants/keys.constant';
     RippleModule,
     AppFloatingConfigurator,
     ReactiveFormsModule,
+    BlockUIModule,
+    ProgressSpinnerModule,
   ],
   templateUrl: './login.html',
 })
@@ -39,7 +45,12 @@ export class Login implements OnDestroy {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private tokenService = inject(TokenStorageService);
+  private notificationService = inject(NotificationService);
   private ngUnsubcribe = new Subject<void>();
+
+  blockedPanel: boolean = false;
+  btnDisabled = false;
 
   loginForm: FormGroup = this.fb.group({
     username: new FormControl('', Validators.required),
@@ -47,6 +58,7 @@ export class Login implements OnDestroy {
   });
 
   public login() {
+    this.toggleBlockUI(true);
     var request: LoginRequestDto = {
       username: this.loginForm.controls['username'].value,
       password: this.loginForm.controls['password'].value,
@@ -54,15 +66,36 @@ export class Login implements OnDestroy {
     this.authService
       .login(request)
       .pipe(takeUntil(this.ngUnsubcribe))
-      .subscribe(response => {
-        localStorage.setItem(ACCESS_TOKEN, response.access_token);
-        localStorage.setItem(REFRESH_TOKEN, response.refresh_token);
-        this.router.navigate(['']);
+      .subscribe({
+        next: (res: LoginResponseDto) => {
+          this.tokenService.saveToken(res.access_token);
+          this.tokenService.saveRefreshToken(res.refresh_token);
+          this.toggleBlockUI(false);
+          this.router.navigate(['']);
+        },
+        error: ex => {
+          this.notificationService.showError(
+            ex.error?.error?.error_description || 'Login failed. Please try again.',
+          );
+          this.toggleBlockUI(false);
+        },
       });
   }
 
   ngOnDestroy(): void {
     this.ngUnsubcribe.next();
     this.ngUnsubcribe.complete();
+  }
+
+  private toggleBlockUI(enabled: boolean) {
+    if (enabled == true) {
+      this.blockedPanel = true;
+      this.btnDisabled = true;
+    } else {
+      setTimeout(() => {
+        this.blockedPanel = false;
+        this.btnDisabled = false;
+      }, 1000);
+    }
   }
 }

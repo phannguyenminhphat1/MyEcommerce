@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using MyEcommerce.Products;
 using MyEcommerce.Repositories;
 using Volo.Abp;
@@ -11,6 +12,7 @@ using Volo.Abp.Application.Services;
 using Volo.Abp.BlobStoring;
 namespace MyEcommerce.Admin.Products
 {
+    [Authorize]
     public class ProductsAppService : CrudAppService<
         Product,
         ProductDto,

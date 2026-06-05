@@ -6,12 +6,7 @@ export const appRoutes: Routes = [
     path: '',
     pathMatch: 'full',
     component: AppLayout,
-    children: [
-      {
-        path: '',
-        loadChildren: () => import('./home/home.routes').then(m => m.homeRoutes),
-      },
-    ],
+    loadChildren: () => import('./home/home.routes').then(m => m.homeRoutes),
   },
   {
     path: 'auth',

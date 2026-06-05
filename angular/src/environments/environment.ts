@@ -15,7 +15,7 @@ export const environment = {
     clientId: 'MyEcommerce_Admin',
     dummyClientSecret: '1q2w3e',
     responseType: 'code',
-    scope: 'offline_access MyEcommerce.Admin',
+    scope: 'MyEcommerce.Admin offline_access',
     requireHttps: true,
   },
   apis: {
