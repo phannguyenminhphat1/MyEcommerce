@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyEcommerce.IdentitySettings;
 using MyEcommerce.Inventories;
 using MyEcommerce.InventoryTickets;
 using MyEcommerce.Manufacturers;
@@ -87,6 +88,7 @@ public class MyEcommerceDbContext :
     public DbSet<PromotionManufacturer> PromotionManufacturers { get; set; }
     public DbSet<PromotionProduct> PromotionProducts { get; set; }
     public DbSet<PromotionUsageHistory> PromotionUsageHistories { get; set; }
+    public DbSet<IdentitySetting> IdentitySettings { get; set; }
 
     public MyEcommerceDbContext(DbContextOptions<MyEcommerceDbContext> options)
         : base(options)
@@ -149,5 +151,7 @@ public class MyEcommerceDbContext :
         builder.ApplyConfiguration(new PromotionManufacturerConfiguration());
         builder.ApplyConfiguration(new PromotionProductConfiguration());
         builder.ApplyConfiguration(new PromotionUsageHistoryConfiguration());
+
+        builder.ApplyConfiguration(new IdentitySettingConfiguration());
     }
 }

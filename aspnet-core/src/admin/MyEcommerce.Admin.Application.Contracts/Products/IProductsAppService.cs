@@ -18,5 +18,6 @@ namespace MyEcommerce.Admin.Products
         Task<List<ProductInListDto>> GetListAllAsync();
         Task DeleteMultipleAsync(IEnumerable<Guid> ids);
         Task<string?> GetThumbnailImageAsync(string fileName);
+        Task<string> GetSuggestNewCodeAsync();
     }
 }

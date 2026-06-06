@@ -24,12 +24,14 @@ namespace MyEcommerce.Admin.Products
         private readonly IProductRepository _productRepository;
         private readonly ProductManager _productManager;
         private readonly IBlobContainer<ProductThumbnailPictureContainer> _blobContainer;
-        public ProductsAppService(IProductRepository productRepository, ProductManager productManager, IBlobContainer<ProductThumbnailPictureContainer> blobContainer)
+        private readonly ProductCodeGenerator _productCodeGenerator;
+        public ProductsAppService(IProductRepository productRepository, ProductManager productManager, IBlobContainer<ProductThumbnailPictureContainer> blobContainer, ProductCodeGenerator productCodeGenerator)
             : base(productRepository)
         {
             _productRepository = productRepository;
             _productManager = productManager;
             _blobContainer = blobContainer;
+            _productCodeGenerator = productCodeGenerator;
         }
 
         public async Task DeleteMultipleAsync(IEnumerable<Guid> ids)
@@ -116,6 +118,11 @@ namespace MyEcommerce.Admin.Products
             }
             var result = Convert.ToBase64String(thumbnailContent);
             return result;
+        }
+
+        public async Task<string> GetSuggestNewCodeAsync()
+        {
+            return await _productCodeGenerator.GenerateAsync();
         }
     }
 }
