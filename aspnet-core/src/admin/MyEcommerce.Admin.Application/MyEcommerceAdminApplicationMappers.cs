@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using MyEcommerce.Admin.Manufacturers;
+using MyEcommerce.Admin.ProductAttributes;
 using MyEcommerce.Admin.ProductCategories;
 using MyEcommerce.Admin.Products;
 using MyEcommerce.Manufacturers;
+using MyEcommerce.ProductAttributes;
 using MyEcommerce.ProductCategories;
 using MyEcommerce.Products;
 using Riok.Mapperly.Abstractions;
@@ -89,6 +91,34 @@ public partial class ManufacturerToManufacturerInListDtoMapper : MapperBase<Manu
         ManufacturerInListDto destination
     );
 }
+#endregion
+
+#region PRODUCT ATTRIBUTE
+[Mapper]
+public partial class ProductAttributeToProductAttributeDtoMapper : MapperBase<ProductAttribute, ProductAttributeDto>
+{
+    public override partial ProductAttributeDto Map(ProductAttribute source);
+    public override partial void Map(ProductAttribute source, ProductAttributeDto destination);
+}
+
+[Mapper]
+public partial class CreateUpdateProductAttributeDtoToProductAttributeMapper : MapperBase<CreateUpdateProductAttributeDto, ProductAttribute>
+{
+    public override partial ProductAttribute Map(CreateUpdateProductAttributeDto source);
+    public override partial void Map(CreateUpdateProductAttributeDto source, ProductAttribute destination);
+}
+
+[Mapper]
+public partial class ProductAttributeToProductAttributeInListDtoMapper : MapperBase<ProductAttribute, ProductAttributeInListDto>
+{
+    public override partial ProductAttributeInListDto Map(ProductAttribute source);
+
+    public override partial void Map(
+        ProductAttribute source,
+        ProductAttributeInListDto destination
+    );
+}
+
 #endregion
 
 
