@@ -1,0 +1,117 @@
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+  <p-panel #pnl header="Product Attribute">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12">
+        <label for="label" class="block">Label <span class="required">*</span></label>
+        <input id="label" pInputText type="text" formControlName="label" class="w-full" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="label"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+
+      <div class="col-span-12">
+        <label for="code" class="block">Code <span class="required">*</span></label>
+        <input id="code" pInputText type="text" formControlName="code" class="w-full" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="code"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+
+      <div class="col-span-12">
+        <label for="dataType" class="block">Data Type <span class="required">*</span></label>
+        <p-select
+          [options]="dataTypes"
+          formControlName="dataType"
+          placeholder="Choose data type"
+          [showClear]="true"
+          autoWidth="false"
+          [style]="{ width: '100%' }"
+        ></p-select>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="dataType"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+
+      <div class="col-span-6">
+        <label for="sortOrder" class="block">Sort Order <span class="required">*</span></label>
+        <p-inputnumber formControlName="sortOrder" class="w-full"></p-inputnumber>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="sortOrder"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+
+      <div class="col-span-12">
+        <label for="note" class="block">Note</label>
+        <p-editor formControlName="note" [style]="{ height: '320px' }"></p-editor>
+      </div>
+
+      <div class="col-span-12 md:col-span-3">
+        <p-checkbox
+          formControlName="visibility"
+          binary="true"
+          id="visibility"
+          class="mr-1"
+        ></p-checkbox>
+        <label for="visibility">Visibility</label>
+      </div>
+
+      <div class="col-span-12 md:col-span-3">
+        <p-checkbox
+          formControlName="isActive"
+          binary="true"
+          id="isActive"
+          class="mr-1"
+        ></p-checkbox>
+        <label for="isActive">Is Active</label>
+      </div>
+
+      <div class="col-span-12 md:col-span-3">
+        <p-checkbox
+          formControlName="isRequired"
+          binary="true"
+          id="isRequired"
+          class="mr-1"
+        ></p-checkbox>
+        <label for="isRequired">Is Required</label>
+      </div>
+
+      <div class="col-span-12 md:col-span-3">
+        <p-checkbox
+          formControlName="isUnique"
+          binary="true"
+          id="isUnique"
+          class="mr-1"
+        ></p-checkbox>
+        <label for="isUnique">Is Unique</label>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <div class="flex justify-end">
+        <button
+          [disabled]="!form.valid || btnDisabled"
+          type="submit"
+          pButton
+          icon="fa fa-save"
+          iconPos="left"
+          label="Save"
+        ></button>
+      </div>
+    </ng-template>
+
+    <p-blockui [blocked]="blockedPanel" [target]="pnl">
+      <div class="flex justify-center items-center h-full w-full">
+        <p-progress-spinner ariaLabel="loading"></p-progress-spinner>
+      </div>
+    </p-blockui>
+  </p-panel>
+</form>

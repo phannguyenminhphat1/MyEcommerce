@@ -29,7 +29,14 @@ export class AppMenu {
       },
       {
         label: 'Product',
-        items: [{ label: 'Product list', icon: 'pi pi-fw pi-circle', routerLink: ['/product'] }],
+        items: [
+          { label: 'Products', icon: 'pi pi-fw pi-circle', routerLink: ['/product'] },
+          {
+            label: 'Product Attributes',
+            icon: 'pi pi-fw pi-circle',
+            routerLink: ['/attribute'],
+          },
+        ],
       },
     ];
   }

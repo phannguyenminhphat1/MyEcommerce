@@ -19,15 +19,16 @@ namespace MyEcommerce.Admin.ProductAttributes
         CreateUpdateProductAttributeDto,
         CreateUpdateProductAttributeDto>, IProductAttributesAppService
     {
-        public ProductAttributesAppService(IRepository<ProductAttribute, Guid> repository)
+        private readonly ProductAttributeCodeGenerator _productAttributeCodeGenerator;
+        public ProductAttributesAppService(IRepository<ProductAttribute, Guid> repository, ProductAttributeCodeGenerator productAttributeCodeGenerator)
             : base(repository)
         {
+            _productAttributeCodeGenerator = productAttributeCodeGenerator;
         }
 
         public async Task DeleteMultipleAsync(IEnumerable<Guid> ids)
         {
             await Repository.DeleteManyAsync(ids);
-            await UnitOfWorkManager.Current.SaveChangesAsync();
         }
 
         public async Task<List<ProductAttributeInListDto>> GetListAllAsync()
@@ -35,20 +36,21 @@ namespace MyEcommerce.Admin.ProductAttributes
             var query = await Repository.GetQueryableAsync();
             query = query.Where(x => x.IsActive == true);
             var data = await AsyncExecuter.ToListAsync(query);
-
             return ObjectMapper.Map<List<ProductAttribute>, List<ProductAttributeInListDto>>(data);
-
         }
 
         public async Task<PagedResultDto<ProductAttributeInListDto>> GetListFilterAsync(BaseListFilterDto input)
         {
             var query = await Repository.GetQueryableAsync();
-            query = query.WhereIf(!string.IsNullOrWhiteSpace(input.Keyword), x => x.Label.Contains(input.Keyword));
-
+            query = query.WhereIf(!string.IsNullOrWhiteSpace(input.Keyword), x => x.Label.Contains(input.Keyword!));
             var totalCount = await AsyncExecuter.LongCountAsync(query);
             var data = await AsyncExecuter.ToListAsync(query.Skip(input.SkipCount).Take(input.MaxResultCount));
-
             return new PagedResultDto<ProductAttributeInListDto>(totalCount, ObjectMapper.Map<List<ProductAttribute>, List<ProductAttributeInListDto>>(data));
+        }
+
+        public async Task<string> GetSuggestNewCodeAsync()
+        {
+            return await _productAttributeCodeGenerator.GenerateAsync();
         }
     }
 }
