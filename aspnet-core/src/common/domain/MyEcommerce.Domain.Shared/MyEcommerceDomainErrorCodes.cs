@@ -10,4 +10,16 @@ public static class MyEcommerceDomainErrorCodes
     public const string ProductCategoryNotFound = "Product Category Not Found";
     public const string ProductCategoryNotExists = "Product Category Not Exists";
     public const string ProductCategoryInactive = "Product Category Inactive";
+    public const string ProductAttributeNotFound = "Product Attribute Not Found";
+    public const string ProductAttributeIsNotExists = "Product Attribute Is Not Exists";
+    public const string ProductAttributeNotExists = "Product Attribute Not Exists";
+    public const string ProductAttributeValueNotFound = "Product Attribute Value Not Found";
+    public const string ProductAttributeValueNotExists = "Product Attribute Value Not Exists";
+    public const string ProductAttributeValueIsNotValid = "Product Attribute Value Is Not Valid";
+    public const string ProductAttributeDateTimeIsNotExists = "Product Attribute DateTime Is Not Exists";
+    public const string ProductAttributeIntIsNotExists = "Product Attribute Int Is Not Exists";
+    public const string ProductAttributeDecimalIsNotExists = "Product Attribute Decimal Is Not Exists";
+    public const string ProductAttributeVarcharIsNotExists = "Product Attribute Varchar Is Not Exists";
+    public const string ProductAttributeTextIsNotExists = "Product Attribute Text Is Not Exists";
+
 }
