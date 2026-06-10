@@ -59,11 +59,14 @@ namespace MyEcommerce.Admin.Products
             _productAttributeTextRepository = productAttributeTextRepository;
         }
 
+        #region DELETE MULTIPLE PRODUCTS
         public async Task DeleteMultipleAsync(IEnumerable<Guid> ids)
         {
             await _productRepository.DeleteManyAsync(ids);
         }
+        #endregion
 
+        #region GET LIST PRODUCTS
         public async Task<List<ProductInListDto>> GetListAllAsync()
         {
             var query = await _productRepository.GetQueryableAsync();
@@ -71,7 +74,9 @@ namespace MyEcommerce.Admin.Products
             var data = await AsyncExecuter.ToListAsync(query);
             return ObjectMapper.Map<List<Product>, List<ProductInListDto>>(data);
         }
+        #endregion
 
+        #region GET LIST PRODUCTS WITH FILTER
         public async Task<PagedResultDto<ProductInListDto>> GetListFilterAsync(ProductListFilterDto input)
         {
             var totalCount = await _productRepository.GetCountAsync(input.Keyword, input.CategoryId);
@@ -82,7 +87,9 @@ namespace MyEcommerce.Admin.Products
                 input.MaxResultCount);
             return new PagedResultDto<ProductInListDto>(totalCount, ObjectMapper.Map<List<Product>, List<ProductInListDto>>(data));
         }
+        #endregion
 
+        #region CREATE PRODUCT
         public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
             var product = await _productManager.CreateAsync(input.ManufacturerId, input.Name, input.Code, input.Slug, input.ProductType, input.SKU, input.SortOrder, input.Visibility, input.IsActive, input.CategoryId, input.SeoMetaDescription, input.Description, "", input.SellPrice);
@@ -94,7 +101,9 @@ namespace MyEcommerce.Admin.Products
             await _productRepository.InsertAsync(product);
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
+        #endregion
 
+        #region UPDATE PRODUCT
         public override async Task<ProductDto> UpdateAsync(Guid id, CreateUpdateProductDto input)
         {
             var product = await Repository.GetAsync(id);
@@ -121,7 +130,9 @@ namespace MyEcommerce.Admin.Products
             await Repository.UpdateAsync(product);
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
+        #endregion
 
+        #region SAVE THUMBNAIL IMAGE
         private async Task SaveThumbnailImageAsync(string fileName, string base64)
         {
             Regex regex = new Regex(@"^[\w/\:.-]+;base64,");
@@ -129,7 +140,9 @@ namespace MyEcommerce.Admin.Products
             byte[] bytes = Convert.FromBase64String(base64);
             await _blobContainer.SaveAsync(fileName, bytes, overrideExisting: true);
         }
+        #endregion
 
+        #region GET THUMBNAIL IMAGE
         public async Task<string?> GetThumbnailImageAsync(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
@@ -144,12 +157,16 @@ namespace MyEcommerce.Admin.Products
             var result = Convert.ToBase64String(thumbnailContent);
             return result;
         }
+        #endregion
 
+        #region GET SUGGEST NEW CODE
         public async Task<string> GetSuggestNewCodeAsync()
         {
             return await _productCodeGenerator.GenerateAsync();
         }
+        #endregion
 
+        #region ADD PRODUCT ATTRIBUTE
         public async Task<ProductAttributeValueDto> AddProductAttributeAsync(AddUpdateProductAttributeDto input)
         {
             var product = await Repository.GetAsync(input.ProductId);
@@ -221,7 +238,9 @@ namespace MyEcommerce.Admin.Products
                 TextValue = input.TextValue
             };
         }
+        #endregion
 
+        #region UPDATE PRODUCT ATTRIBUTE
         public async Task<ProductAttributeValueDto> UpdateProductAttributeAsync(Guid id, AddUpdateProductAttributeDto input)
         {
             var product = await Repository.GetAsync(input.ProductId);
@@ -314,7 +333,9 @@ namespace MyEcommerce.Admin.Products
                 TextValue = input.TextValue
             };
         }
+        #endregion
 
+        #region REMOVE PRODUCT ATTRIBUTE
         public async Task RemoveProductAttributeAsync(Guid attributeId, Guid id)
         {
             var attribute = await _productAttributeRepository.GetAsync(x => x.Id == attributeId);
@@ -368,7 +389,9 @@ namespace MyEcommerce.Admin.Products
                     break;
             }
         }
+        #endregion
 
+        #region GET LIST PRODUCT ATTRIBUTE
         public async Task<List<ProductAttributeValueDto>> GetListProductAttributeAllAsync(Guid productId)
         {
             var attributeQuery = await _productAttributeRepository.GetQueryableAsync();
@@ -413,7 +436,9 @@ namespace MyEcommerce.Admin.Products
                         };
             return await AsyncExecuter.ToListAsync(query);
         }
+        #endregion
 
+        #region GET LIST PRODUCT ATTRIBUTE WITH PAGING
         public async Task<PagedResultDto<ProductAttributeValueDto>> GetListProductAttributesAsync(ProductAttributeListFilterDto input)
         {
             var attributeQuery = await _productAttributeRepository.GetQueryableAsync();
@@ -464,5 +489,6 @@ namespace MyEcommerce.Admin.Products
                 );
             return new PagedResultDto<ProductAttributeValueDto>(totalCount, data);
         }
+        #endregion
     }
 }

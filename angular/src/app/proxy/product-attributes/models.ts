@@ -10,7 +10,7 @@ export interface CreateUpdateProductAttributeDto {
   isActive?: boolean;
   isRequired?: boolean;
   isUnique?: boolean;
-  note?: string;
+  note?: string | null;
 }
 
 export interface ProductAttributeDto {

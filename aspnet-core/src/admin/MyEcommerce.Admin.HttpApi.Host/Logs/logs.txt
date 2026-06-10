@@ -24921,3 +24921,262 @@ For details, see the Mapperly integration document https://abp.io/docs/latest/fr
 2026-05-25 15:17:56.030 +07:00 [INF] Executed action MyEcommerce.Admin.Products.ProductsAppService.GetListFilterAsync (MyEcommerce.Admin.Application) in 7.6158ms
 2026-05-25 15:17:56.030 +07:00 [INF] Executed endpoint 'MyEcommerce.Admin.Products.ProductsAppService.GetListFilterAsync (MyEcommerce.Admin.Application)'
 2026-05-25 15:17:56.030 +07:00 [INF] Request finished HTTP/2 GET https://localhost:5001/api/app/products/filter?skipCount=0&maxResultCount=10 - 200 null application/json; charset=utf-8 9.0176ms
+2026-06-10 12:01:41.718 +07:00 [INF] Starting MyEcommerce.Admin.HttpApi.Host.
+2026-06-10 12:01:58.681 +07:00 [DBG] Loaded ABP modules:
+2026-06-10 12:01:58.682 +07:00 [DBG] - MyEcommerce.Admin.MyEcommerceAdminHttpApiHostModule
+2026-06-10 12:01:58.682 +07:00 [DBG]   - MyEcommerce.Admin.MyEcommerceAdminHttpApiModule
+2026-06-10 12:01:58.682 +07:00 [DBG]     - MyEcommerce.Admin.MyEcommerceAdminApplicationContractsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]       - MyEcommerce.MyEcommerceDomainSharedModule
+2026-06-10 12:01:58.682 +07:00 [DBG]         - Volo.Abp.AuditLogging.AbpAuditLoggingDomainSharedModule
+2026-06-10 12:01:58.682 +07:00 [DBG]           - Volo.Abp.Validation.AbpValidationModule
+2026-06-10 12:01:58.682 +07:00 [DBG]             - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]             - Volo.Abp.Localization.AbpLocalizationModule
+2026-06-10 12:01:58.682 +07:00 [DBG]               - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2026-06-10 12:01:58.682 +07:00 [DBG]               - Volo.Abp.Settings.AbpSettingsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]                 - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]                 - Volo.Abp.Security.AbpSecurityModule
+2026-06-10 12:01:58.682 +07:00 [DBG]                 - Volo.Abp.Data.AbpDataModule
+2026-06-10 12:01:58.682 +07:00 [DBG]                   - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2026-06-10 12:01:58.682 +07:00 [DBG]                   - Volo.Abp.Uow.AbpUnitOfWorkModule
+2026-06-10 12:01:58.682 +07:00 [DBG]                   - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]               - Volo.Abp.Threading.AbpThreadingModule
+2026-06-10 12:01:58.682 +07:00 [DBG]         - Volo.Abp.BackgroundJobs.AbpBackgroundJobsDomainSharedModule
+2026-06-10 12:01:58.682 +07:00 [DBG]         - Volo.Abp.FeatureManagement.AbpFeatureManagementDomainSharedModule
+2026-06-10 12:01:58.682 +07:00 [DBG]           - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2026-06-10 12:01:58.682 +07:00 [DBG]             - Volo.Abp.Json.AbpJsonAbstractionsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]             - Volo.Abp.Timing.AbpTimingModule
+2026-06-10 12:01:58.682 +07:00 [DBG]         - Volo.Abp.Identity.AbpIdentityDomainSharedModule
+2026-06-10 12:01:58.682 +07:00 [DBG]           - Volo.Abp.Users.AbpUsersDomainSharedModule
+2026-06-10 12:01:58.682 +07:00 [DBG]           - Volo.Abp.Features.AbpFeaturesModule
+2026-06-10 12:01:58.682 +07:00 [DBG]             - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2026-06-10 12:01:58.682 +07:00 [DBG]               - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]             - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]         - Volo.Abp.OpenIddict.AbpOpenIddictDomainSharedModule
+2026-06-10 12:01:58.682 +07:00 [DBG]         - Volo.Abp.PermissionManagement.AbpPermissionManagementDomainSharedModule
+2026-06-10 12:01:58.682 +07:00 [DBG]         - Volo.Abp.SettingManagement.AbpSettingManagementDomainSharedModule
+2026-06-10 12:01:58.682 +07:00 [DBG]         - Volo.Abp.TenantManagement.AbpTenantManagementDomainSharedModule
+2026-06-10 12:01:58.682 +07:00 [DBG]       - Volo.Abp.Account.AbpAccountApplicationContractsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]         - Volo.Abp.Identity.AbpIdentityApplicationContractsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]           - Volo.Abp.Users.AbpUsersAbstractionModule
+2026-06-10 12:01:58.682 +07:00 [DBG]             - Volo.Abp.EventBus.AbpEventBusModule
+2026-06-10 12:01:58.682 +07:00 [DBG]               - Volo.Abp.Json.AbpJsonModule
+2026-06-10 12:01:58.682 +07:00 [DBG]               - Volo.Abp.Guids.AbpGuidsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]               - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2026-06-10 12:01:58.682 +07:00 [DBG]               - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]           - Volo.Abp.Authorization.AbpAuthorizationModule
+2026-06-10 12:01:58.682 +07:00 [DBG]           - Volo.Abp.PermissionManagement.AbpPermissionManagementApplicationContractsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]             - Volo.Abp.Application.AbpDddApplicationContractsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]               - Volo.Abp.Auditing.AbpAuditingContractsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]       - Volo.Abp.FeatureManagement.AbpFeatureManagementApplicationContractsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]       - Volo.Abp.SettingManagement.AbpSettingManagementApplicationContractsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]       - Volo.Abp.TenantManagement.AbpTenantManagementApplicationContractsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]       - Volo.Abp.FluentValidation.AbpFluentValidationModule
+2026-06-10 12:01:58.682 +07:00 [DBG]     - Volo.Abp.Account.AbpAccountHttpApiModule
+2026-06-10 12:01:58.682 +07:00 [DBG]       - Volo.Abp.Identity.AbpIdentityHttpApiModule
+2026-06-10 12:01:58.682 +07:00 [DBG]         - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2026-06-10 12:01:58.682 +07:00 [DBG]           - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2026-06-10 12:01:58.682 +07:00 [DBG]             - Volo.Abp.Auditing.AbpAuditingModule
+2026-06-10 12:01:58.682 +07:00 [DBG]             - Volo.Abp.Http.AbpHttpModule
+2026-06-10 12:01:58.682 +07:00 [DBG]               - Volo.Abp.Http.AbpHttpAbstractionsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]               - Volo.Abp.Minify.AbpMinifyModule
+2026-06-10 12:01:58.682 +07:00 [DBG]             - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2026-06-10 12:01:58.682 +07:00 [DBG]             - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]           - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]           - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]           - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2026-06-10 12:01:58.682 +07:00 [DBG]             - Volo.Abp.UI.AbpUiModule
+2026-06-10 12:01:58.682 +07:00 [DBG]           - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2026-06-10 12:01:58.682 +07:00 [DBG]           - Volo.Abp.Application.AbpDddApplicationModule
+2026-06-10 12:01:58.682 +07:00 [DBG]             - Volo.Abp.Domain.AbpDddDomainModule
+2026-06-10 12:01:58.682 +07:00 [DBG]               - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2026-06-10 12:01:58.682 +07:00 [DBG]               - Volo.Abp.Specifications.AbpSpecificationsModule
+2026-06-10 12:01:58.682 +07:00 [DBG]               - Volo.Abp.Caching.AbpCachingModule
+2026-06-10 12:01:58.682 +07:00 [DBG]                 - Volo.Abp.Serialization.AbpSerializationModule
+2026-06-10 12:01:58.682 +07:00 [DBG]               - Volo.Abp.Domain.AbpDddDomainSharedModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.PermissionManagement.HttpApi.AbpPermissionManagementHttpApiModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.TenantManagement.AbpTenantManagementHttpApiModule
+2026-06-10 12:01:58.683 +07:00 [DBG]       - Volo.Abp.FeatureManagement.AbpFeatureManagementHttpApiModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.SettingManagement.AbpSettingManagementHttpApiModule
+2026-06-10 12:01:58.683 +07:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2026-06-10 12:01:58.683 +07:00 [DBG]   - Volo.Abp.Caching.StackExchangeRedis.AbpCachingStackExchangeRedisModule
+2026-06-10 12:01:58.683 +07:00 [DBG]   - Volo.Abp.DistributedLocking.AbpDistributedLockingModule
+2026-06-10 12:01:58.683 +07:00 [DBG]   - Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy.AbpAspNetCoreMvcUiMultiTenancyModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.AbpAspNetCoreMvcUiThemeSharedModule
+2026-06-10 12:01:58.683 +07:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.AbpAspNetCoreMvcUiBootstrapModule
+2026-06-10 12:01:58.683 +07:00 [DBG]         - Volo.Abp.AspNetCore.Mvc.UI.AbpAspNetCoreMvcUiModule
+2026-06-10 12:01:58.683 +07:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.UI.Packages.AbpAspNetCoreMvcUiPackagesModule
+2026-06-10 12:01:58.683 +07:00 [DBG]         - Volo.Abp.AspNetCore.Mvc.UI.Bundling.AbpAspNetCoreMvcUiBundlingAbstractionsModule
+2026-06-10 12:01:58.683 +07:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.UI.Widgets.AbpAspNetCoreMvcUiWidgetsModule
+2026-06-10 12:01:58.683 +07:00 [DBG]         - Volo.Abp.AspNetCore.Mvc.UI.Bundling.AbpAspNetCoreMvcUiBundlingModule
+2026-06-10 12:01:58.683 +07:00 [DBG]           - Volo.Abp.AspNetCore.Bundling.AbpAspNetCoreBundlingModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.AspNetCore.MultiTenancy.AbpAspNetCoreMultiTenancyModule
+2026-06-10 12:01:58.683 +07:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2026-06-10 12:01:58.683 +07:00 [DBG]   - MyEcommerce.Admin.MyEcommerceAdminApplicationModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - MyEcommerce.MyEcommerceDomainModule
+2026-06-10 12:01:58.683 +07:00 [DBG]       - Volo.Abp.AuditLogging.AbpAuditLoggingDomainModule
+2026-06-10 12:01:58.683 +07:00 [DBG]       - Volo.Abp.BackgroundJobs.AbpBackgroundJobsDomainModule
+2026-06-10 12:01:58.683 +07:00 [DBG]         - Volo.Abp.BackgroundJobs.AbpBackgroundJobsModule
+2026-06-10 12:01:58.683 +07:00 [DBG]           - Volo.Abp.BackgroundJobs.AbpBackgroundJobsAbstractionsModule
+2026-06-10 12:01:58.683 +07:00 [DBG]         - Volo.Abp.Mapperly.AbpMapperlyModule
+2026-06-10 12:01:58.683 +07:00 [DBG]       - Volo.Abp.FeatureManagement.AbpFeatureManagementDomainModule
+2026-06-10 12:01:58.683 +07:00 [DBG]       - Volo.Abp.Identity.AbpIdentityDomainModule
+2026-06-10 12:01:58.683 +07:00 [DBG]         - Volo.Abp.Users.AbpUsersDomainModule
+2026-06-10 12:01:58.683 +07:00 [DBG]       - Volo.Abp.OpenIddict.AbpOpenIddictDomainModule
+2026-06-10 12:01:58.683 +07:00 [DBG]       - Volo.Abp.PermissionManagement.OpenIddict.AbpPermissionManagementDomainOpenIddictModule
+2026-06-10 12:01:58.683 +07:00 [DBG]         - Volo.Abp.PermissionManagement.AbpPermissionManagementDomainModule
+2026-06-10 12:01:58.683 +07:00 [DBG]       - Volo.Abp.PermissionManagement.Identity.AbpPermissionManagementDomainIdentityModule
+2026-06-10 12:01:58.683 +07:00 [DBG]       - Volo.Abp.SettingManagement.AbpSettingManagementDomainModule
+2026-06-10 12:01:58.683 +07:00 [DBG]       - Volo.Abp.TenantManagement.AbpTenantManagementDomainModule
+2026-06-10 12:01:58.683 +07:00 [DBG]       - Volo.Abp.Emailing.AbpEmailingModule
+2026-06-10 12:01:58.683 +07:00 [DBG]         - Volo.Abp.TextTemplating.AbpTextTemplatingModule
+2026-06-10 12:01:58.683 +07:00 [DBG]           - Volo.Abp.TextTemplating.Scriban.AbpTextTemplatingScribanModule
+2026-06-10 12:01:58.683 +07:00 [DBG]             - Volo.Abp.TextTemplating.AbpTextTemplatingCoreModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.Account.AbpAccountApplicationModule
+2026-06-10 12:01:58.683 +07:00 [DBG]       - Volo.Abp.Identity.AbpIdentityApplicationModule
+2026-06-10 12:01:58.683 +07:00 [DBG]         - Volo.Abp.PermissionManagement.AbpPermissionManagementApplicationModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.TenantManagement.AbpTenantManagementApplicationModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.FeatureManagement.AbpFeatureManagementApplicationModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.SettingManagement.AbpSettingManagementApplicationModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.BlobStoring.AbpBlobStoringModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.BlobStoring.FileSystem.AbpBlobStoringFileSystemModule
+2026-06-10 12:01:58.683 +07:00 [DBG]   - MyEcommerce.EntityFrameworkCore.MyEcommerceEntityFrameworkCoreModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.Identity.EntityFrameworkCore.AbpIdentityEntityFrameworkCoreModule
+2026-06-10 12:01:58.683 +07:00 [DBG]       - Volo.Abp.Users.EntityFrameworkCore.AbpUsersEntityFrameworkCoreModule
+2026-06-10 12:01:58.683 +07:00 [DBG]         - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.OpenIddict.EntityFrameworkCore.AbpOpenIddictEntityFrameworkCoreModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.PermissionManagement.EntityFrameworkCore.AbpPermissionManagementEntityFrameworkCoreModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.SettingManagement.EntityFrameworkCore.AbpSettingManagementEntityFrameworkCoreModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.EntityFrameworkCore.SqlServer.AbpEntityFrameworkCoreSqlServerModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.BackgroundJobs.EntityFrameworkCore.AbpBackgroundJobsEntityFrameworkCoreModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.AuditLogging.EntityFrameworkCore.AbpAuditLoggingEntityFrameworkCoreModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.TenantManagement.EntityFrameworkCore.AbpTenantManagementEntityFrameworkCoreModule
+2026-06-10 12:01:58.683 +07:00 [DBG]     - Volo.Abp.FeatureManagement.EntityFrameworkCore.AbpFeatureManagementEntityFrameworkCoreModule
+2026-06-10 12:01:58.683 +07:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2026-06-10 12:01:58.683 +07:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2026-06-10 12:01:59.376 +07:00 [DBG] Started background worker: Volo.Abp.BackgroundJobs.BackgroundJobWorker
+2026-06-10 12:01:59.391 +07:00 [DBG] Started background worker: Volo.Abp.OpenIddict.Tokens.TokenCleanupBackgroundWorker
+2026-06-10 12:02:00.524 +07:00 [INF] User profile is available. Using 'C:\Users\Admin\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-06-10 12:02:00.607 +07:00 [INF] Initialized all ABP modules.
+2026-06-10 12:02:00.772 +07:00 [INF] Now listening on: https://localhost:5001
+2026-06-10 12:02:00.772 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-10 12:02:00.772 +07:00 [INF] Hosting environment: Development
+2026-06-10 12:02:00.773 +07:00 [INF] Content root path: D:\MyEcommerce\aspnet-core\src\admin\MyEcommerce.Admin.HttpApi.Host
+2026-06-10 12:02:48.814 +07:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/api/abp/api-definition?includeTypes=true - null null
+2026-06-10 12:02:48.827 +07:00 [INF] The 'WebRootPath' is not set, The 'CheckLibs' feature not needed.
+2026-06-10 12:02:52.185 +07:00 [DBG] Starting resolving tenant...
+2026-06-10 12:02:52.185 +07:00 [DBG] Trying to resolve tenant through 'CurrentUser'...
+2026-06-10 12:02:52.187 +07:00 [DBG] Trying to resolve tenant through 'QueryString'...
+2026-06-10 12:02:52.189 +07:00 [DBG] Trying to resolve tenant through 'Route'...
+2026-06-10 12:02:52.190 +07:00 [DBG] Trying to resolve tenant through 'Header'...
+2026-06-10 12:02:52.192 +07:00 [DBG] Trying to resolve tenant through 'Cookie'...
+2026-06-10 12:02:52.192 +07:00 [DBG] No tenant resolved.
+2026-06-10 12:02:52.333 +07:00 [INF] Executing endpoint 'Volo.Abp.AspNetCore.Mvc.ApiExploring.AbpApiDefinitionController.Get (Volo.Abp.AspNetCore.Mvc)'
+2026-06-10 12:02:52.369 +07:00 [INF] Route matched with {area = "abp", action = "Get", controller = "AbpApiDefinition", page = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Volo.Abp.Http.Modeling.ApplicationApiDescriptionModel] Get(Volo.Abp.Http.Modeling.ApplicationApiDescriptionModelRequestDto) on controller Volo.Abp.AspNetCore.Mvc.ApiExploring.AbpApiDefinitionController (Volo.Abp.AspNetCore.Mvc).
+2026-06-10 12:02:52.548 +07:00 [DBG] ActionApiDescriptionModel.Create: AbpTenant.FindTenantByNameAsyncByName
+2026-06-10 12:02:52.557 +07:00 [DBG] ActionApiDescriptionModel.Create: AbpTenant.FindTenantByIdAsyncById
+2026-06-10 12:02:52.557 +07:00 [DBG] ActionApiDescriptionModel.Create: EmailSettings.GetAsync
+2026-06-10 12:02:52.558 +07:00 [DBG] ActionApiDescriptionModel.Create: EmailSettings.UpdateAsyncByInput
+2026-06-10 12:02:52.559 +07:00 [DBG] ActionApiDescriptionModel.Create: EmailSettings.SendTestEmailAsyncByInput
+2026-06-10 12:02:52.559 +07:00 [DBG] ActionApiDescriptionModel.Create: TimeZoneSettings.GetAsync
+2026-06-10 12:02:52.559 +07:00 [DBG] ActionApiDescriptionModel.Create: TimeZoneSettings.GetTimezonesAsync
+2026-06-10 12:02:52.560 +07:00 [DBG] ActionApiDescriptionModel.Create: TimeZoneSettings.UpdateAsyncByTimezone
+2026-06-10 12:02:52.560 +07:00 [DBG] ActionApiDescriptionModel.Create: Tenant.GetAsyncById
+2026-06-10 12:02:52.560 +07:00 [DBG] ActionApiDescriptionModel.Create: Tenant.GetListAsyncByInput
+2026-06-10 12:02:52.561 +07:00 [DBG] ActionApiDescriptionModel.Create: Tenant.CreateAsyncByInput
+2026-06-10 12:02:52.562 +07:00 [DBG] ActionApiDescriptionModel.Create: Tenant.UpdateAsyncByIdAndInput
+2026-06-10 12:02:52.562 +07:00 [DBG] ActionApiDescriptionModel.Create: Tenant.DeleteAsyncById
+2026-06-10 12:02:52.562 +07:00 [DBG] ActionApiDescriptionModel.Create: Tenant.GetDefaultConnectionStringAsyncById
+2026-06-10 12:02:52.563 +07:00 [DBG] ActionApiDescriptionModel.Create: Tenant.UpdateDefaultConnectionStringAsyncByIdAndDefaultConnectionString
+2026-06-10 12:02:52.563 +07:00 [DBG] ActionApiDescriptionModel.Create: Tenant.DeleteDefaultConnectionStringAsyncById
+2026-06-10 12:02:52.563 +07:00 [DBG] ActionApiDescriptionModel.Create: Features.GetAsyncByProviderNameAndProviderKey
+2026-06-10 12:02:52.563 +07:00 [DBG] ActionApiDescriptionModel.Create: Features.UpdateAsyncByProviderNameAndProviderKeyAndInput
+2026-06-10 12:02:52.564 +07:00 [DBG] ActionApiDescriptionModel.Create: Features.DeleteAsyncByProviderNameAndProviderKey
+2026-06-10 12:02:52.564 +07:00 [DBG] ActionApiDescriptionModel.Create: Permissions.GetAsyncByProviderNameAndProviderKey
+2026-06-10 12:02:52.565 +07:00 [DBG] ActionApiDescriptionModel.Create: Permissions.GetByGroupAsyncByGroupNameAndProviderNameAndProviderKey
+2026-06-10 12:02:52.565 +07:00 [DBG] ActionApiDescriptionModel.Create: Permissions.UpdateAsyncByProviderNameAndProviderKeyAndInput
+2026-06-10 12:02:52.565 +07:00 [DBG] ActionApiDescriptionModel.Create: Permissions.GetResourceProviderKeyLookupServicesAsyncByResourceName
+2026-06-10 12:02:52.566 +07:00 [DBG] ActionApiDescriptionModel.Create: Permissions.SearchResourceProviderKeyAsyncByResourceNameAndServiceNameAndFilterAndPage
+2026-06-10 12:02:52.566 +07:00 [DBG] ActionApiDescriptionModel.Create: Permissions.GetResourceDefinitionsAsyncByResourceName
+2026-06-10 12:02:52.566 +07:00 [DBG] ActionApiDescriptionModel.Create: Permissions.GetResourceAsyncByResourceNameAndResourceKey
+2026-06-10 12:02:52.567 +07:00 [DBG] ActionApiDescriptionModel.Create: Permissions.GetResourceByProviderAsyncByResourceNameAndResourceKeyAndProviderNameAndProviderKey
+2026-06-10 12:02:52.567 +07:00 [DBG] ActionApiDescriptionModel.Create: Permissions.UpdateResourceAsyncByResourceNameAndResourceKeyAndInput
+2026-06-10 12:02:52.567 +07:00 [DBG] ActionApiDescriptionModel.Create: Permissions.DeleteResourceAsyncByResourceNameAndResourceKeyAndProviderNameAndProviderKey
+2026-06-10 12:02:52.568 +07:00 [DBG] ActionApiDescriptionModel.Create: Account.RegisterAsyncByInput
+2026-06-10 12:02:52.569 +07:00 [DBG] ActionApiDescriptionModel.Create: Account.SendPasswordResetCodeAsyncByInput
+2026-06-10 12:02:52.569 +07:00 [DBG] ActionApiDescriptionModel.Create: Account.VerifyPasswordResetTokenAsyncByInput
+2026-06-10 12:02:52.569 +07:00 [DBG] ActionApiDescriptionModel.Create: Account.ResetPasswordAsyncByInput
+2026-06-10 12:02:52.570 +07:00 [DBG] ActionApiDescriptionModel.Create: DynamicClaims.RefreshAsync
+2026-06-10 12:02:52.570 +07:00 [DBG] ActionApiDescriptionModel.Create: Profile.GetAsync
+2026-06-10 12:02:52.570 +07:00 [DBG] ActionApiDescriptionModel.Create: Profile.UpdateAsyncByInput
+2026-06-10 12:02:52.571 +07:00 [DBG] ActionApiDescriptionModel.Create: Profile.ChangePasswordAsyncByInput
+2026-06-10 12:02:52.571 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityRole.GetAllListAsync
+2026-06-10 12:02:52.571 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityRole.GetListAsyncByInput
+2026-06-10 12:02:52.571 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityRole.GetAsyncById
+2026-06-10 12:02:52.572 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityRole.CreateAsyncByInput
+2026-06-10 12:02:52.572 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityRole.UpdateAsyncByIdAndInput
+2026-06-10 12:02:52.573 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityRole.DeleteAsyncById
+2026-06-10 12:02:52.573 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityUser.GetAsyncById
+2026-06-10 12:02:52.573 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityUser.GetListAsyncByInput
+2026-06-10 12:02:52.573 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityUser.CreateAsyncByInput
+2026-06-10 12:02:52.574 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityUser.UpdateAsyncByIdAndInput
+2026-06-10 12:02:52.574 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityUser.DeleteAsyncById
+2026-06-10 12:02:52.575 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityUser.GetRolesAsyncById
+2026-06-10 12:02:52.575 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityUser.GetAssignableRolesAsync
+2026-06-10 12:02:52.575 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityUser.UpdateRolesAsyncByIdAndInput
+2026-06-10 12:02:52.575 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityUser.FindByUsernameAsyncByUserName
+2026-06-10 12:02:52.575 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityUser.FindByEmailAsyncByEmail
+2026-06-10 12:02:52.575 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityUserLookup.FindByIdAsyncById
+2026-06-10 12:02:52.575 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityUserLookup.FindByUserNameAsyncByUserName
+2026-06-10 12:02:52.575 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityUserLookup.SearchAsyncByInput
+2026-06-10 12:02:52.575 +07:00 [DBG] ActionApiDescriptionModel.Create: IdentityUserLookup.GetCountAsyncByInput
+2026-06-10 12:02:52.576 +07:00 [DBG] ActionApiDescriptionModel.Create: AbpApplicationConfiguration.GetAsyncByOptions
+2026-06-10 12:02:52.579 +07:00 [DBG] ActionApiDescriptionModel.Create: AbpApplicationLocalization.GetAsyncByInput
+2026-06-10 12:02:52.579 +07:00 [DBG] ActionApiDescriptionModel.Create: AbpApiDefinition.GetByModel
+2026-06-10 12:02:52.582 +07:00 [DBG] ActionApiDescriptionModel.Create: Products.DeleteMultipleAsyncByIds
+2026-06-10 12:02:52.584 +07:00 [DBG] ActionApiDescriptionModel.Create: Products.GetListAllAsync
+2026-06-10 12:02:52.585 +07:00 [DBG] ActionApiDescriptionModel.Create: Products.GetListFilterAsyncByInput
+2026-06-10 12:02:52.585 +07:00 [DBG] ActionApiDescriptionModel.Create: Products.CreateAsyncByInput
+2026-06-10 12:02:52.586 +07:00 [DBG] ActionApiDescriptionModel.Create: Products.UpdateAsyncByIdAndInput
+2026-06-10 12:02:52.587 +07:00 [DBG] ActionApiDescriptionModel.Create: Products.GetThumbnailImageAsyncByFileName
+2026-06-10 12:02:52.587 +07:00 [DBG] ActionApiDescriptionModel.Create: Products.GetSuggestNewCodeAsync
+2026-06-10 12:02:52.587 +07:00 [DBG] ActionApiDescriptionModel.Create: Products.AddProductAttributeAsyncByInput
+2026-06-10 12:02:52.588 +07:00 [DBG] ActionApiDescriptionModel.Create: Products.UpdateProductAttributeAsyncByIdAndInput
+2026-06-10 12:02:52.588 +07:00 [DBG] ActionApiDescriptionModel.Create: Products.RemoveProductAttributeAsyncByAttributeIdAndId
+2026-06-10 12:02:52.588 +07:00 [DBG] ActionApiDescriptionModel.Create: Products.GetListProductAttributeAllAsyncByProductId
+2026-06-10 12:02:52.588 +07:00 [DBG] ActionApiDescriptionModel.Create: Products.GetListProductAttributesAsyncByInput
+2026-06-10 12:02:52.588 +07:00 [DBG] ActionApiDescriptionModel.Create: Products.DeleteAsyncById
+2026-06-10 12:02:52.588 +07:00 [DBG] ActionApiDescriptionModel.Create: Products.GetAsyncById
+2026-06-10 12:02:52.588 +07:00 [DBG] ActionApiDescriptionModel.Create: Products.GetListAsyncByInput
+2026-06-10 12:02:52.589 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductCategories.GetListFilterAsyncByInput
+2026-06-10 12:02:52.589 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductCategories.DeleteMultipleAsyncByIds
+2026-06-10 12:02:52.589 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductCategories.GetListAllAsync
+2026-06-10 12:02:52.589 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductCategories.CreateAsyncByInput
+2026-06-10 12:02:52.589 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductCategories.UpdateAsyncByIdAndInput
+2026-06-10 12:02:52.589 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductCategories.DeleteAsyncById
+2026-06-10 12:02:52.590 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductCategories.GetAsyncById
+2026-06-10 12:02:52.590 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductCategories.GetListAsyncByInput
+2026-06-10 12:02:52.590 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductAttributes.DeleteMultipleAsyncByIds
+2026-06-10 12:02:52.590 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductAttributes.GetListAllAsync
+2026-06-10 12:02:52.590 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductAttributes.GetListFilterAsyncByInput
+2026-06-10 12:02:52.590 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductAttributes.GetSuggestNewCodeAsync
+2026-06-10 12:02:52.590 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductAttributes.CreateAsyncByInput
+2026-06-10 12:02:52.591 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductAttributes.UpdateAsyncByIdAndInput
+2026-06-10 12:02:52.591 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductAttributes.DeleteAsyncById
+2026-06-10 12:02:52.591 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductAttributes.GetAsyncById
+2026-06-10 12:02:52.591 +07:00 [DBG] ActionApiDescriptionModel.Create: ProductAttributes.GetListAsyncByInput
+2026-06-10 12:02:52.591 +07:00 [DBG] ActionApiDescriptionModel.Create: Manufacturers.DeleteMultipleAsyncByIds
+2026-06-10 12:02:52.591 +07:00 [DBG] ActionApiDescriptionModel.Create: Manufacturers.GetListAllAsync
+2026-06-10 12:02:52.591 +07:00 [DBG] ActionApiDescriptionModel.Create: Manufacturers.GetListFilterAsyncByInput
+2026-06-10 12:02:52.592 +07:00 [DBG] ActionApiDescriptionModel.Create: Manufacturers.CreateAsyncByInput
+2026-06-10 12:02:52.592 +07:00 [DBG] ActionApiDescriptionModel.Create: Manufacturers.UpdateAsyncByIdAndInput
+2026-06-10 12:02:52.592 +07:00 [DBG] ActionApiDescriptionModel.Create: Manufacturers.DeleteAsyncById
+2026-06-10 12:02:52.592 +07:00 [DBG] ActionApiDescriptionModel.Create: Manufacturers.GetAsyncById
+2026-06-10 12:02:52.592 +07:00 [DBG] ActionApiDescriptionModel.Create: Manufacturers.GetListAsyncByInput
+2026-06-10 12:02:52.603 +07:00 [INF] Executing ObjectResult, writing value of type 'Volo.Abp.Http.Modeling.ApplicationApiDescriptionModel'.
+2026-06-10 12:02:52.670 +07:00 [INF] Executed action Volo.Abp.AspNetCore.Mvc.ApiExploring.AbpApiDefinitionController.Get (Volo.Abp.AspNetCore.Mvc) in 298.1263ms
+2026-06-10 12:02:52.670 +07:00 [INF] Executed endpoint 'Volo.Abp.AspNetCore.Mvc.ApiExploring.AbpApiDefinitionController.Get (Volo.Abp.AspNetCore.Mvc)'
+2026-06-10 12:02:52.677 +07:00 [INF] Request finished HTTP/1.1 GET https://localhost:5001/api/abp/api-definition?includeTypes=true - 200 null application/json; charset=utf-8 3864.3398ms
+2026-06-10 12:03:18.514 +07:00 [INF] Application is shutting down...
+2026-06-10 12:03:18.799 +07:00 [DBG] Stopped background worker: Volo.Abp.BackgroundJobs.BackgroundJobWorker
+2026-06-10 12:03:18.799 +07:00 [DBG] Stopped background worker: Volo.Abp.OpenIddict.Tokens.TokenCleanupBackgroundWorker
