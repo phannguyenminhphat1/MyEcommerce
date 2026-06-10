@@ -9,7 +9,7 @@ namespace MyEcommerce.Products
 {
     public class ProductAttributeDecimal : Entity<Guid>
     {
-        public ProductAttributeDecimal(Guid id, Guid attributeId, Guid productId, decimal value)
+        public ProductAttributeDecimal(Guid id, Guid attributeId, Guid productId, decimal? value)
         {
             Id = id;
             AttributeId = attributeId;

@@ -74,6 +74,7 @@ export class Login implements OnDestroy {
           this.router.navigate(['']);
         },
         error: ex => {
+          console.log(ex);
           this.notificationService.showError(
             ex.error?.error?.error_description || 'Login failed. Please try again.',
           );

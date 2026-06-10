@@ -9,7 +9,7 @@ namespace MyEcommerce.Products
 {
     public class ProductAttributeText : Entity<Guid>
     {
-        public ProductAttributeText(Guid id, Guid attributeId, Guid productId, string value)
+        public ProductAttributeText(Guid id, Guid attributeId, Guid productId, string? value)
         {
             Id = id;
             AttributeId = attributeId;
