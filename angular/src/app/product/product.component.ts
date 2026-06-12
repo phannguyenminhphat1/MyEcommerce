@@ -15,12 +15,13 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ProductDetailComponent } from './product-detail.component';
 import { NotificationService } from '../shared/services/notification.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { CommonModule } from '@angular/common';
 import { ProductType } from '@proxy/my-ecommerce/products';
 import { CancelDialogService } from '../shared/services/cancel-dialog.service';
+import { ProductAttributeComponent } from './product-attribute.component';
+import { TooltipModule } from 'primeng/tooltip';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -39,6 +40,7 @@ import { CancelDialogService } from '../shared/services/cancel-dialog.service';
     DynamicDialogModule,
     BadgeModule,
     OverlayBadgeModule,
+    TooltipModule,
   ],
   providers: [ProductsService, CancelDialogService],
 })
@@ -215,5 +217,28 @@ export class ProductComponent implements OnInit, OnDestroy {
           this.toggleBlockUI(false);
         },
       });
+  }
+
+  manageProductAttribute(id: string) {
+    if (!id) return;
+    const ref = this.dialogService.open(ProductAttributeComponent, {
+      data: {
+        id: id,
+      },
+      header: 'Manage Product Attributes',
+      width: '50vw',
+      contentStyle: {
+        height: '600px',
+      },
+      closable: true,
+      modal: true,
+    });
+    ref?.onClose.subscribe((data: ProductDto) => {
+      if (data) {
+        this.loadData();
+        this.notificationService.showSuccess('Update product attributes successfully');
+        this.selectedItems = [];
+      }
+    });
   }
 }

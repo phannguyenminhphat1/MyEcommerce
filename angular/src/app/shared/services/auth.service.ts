@@ -4,13 +4,14 @@ import { LoginRequestDto } from '../models/login-request.dto';
 import { LoginResponseDto } from '../models/login-response.dto';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants/keys.constant';
+import { TokenStorageService } from './token.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private httpClient = inject(HttpClient);
+  private tokenService = inject(TokenStorageService);
 
   public login(input: LoginRequestDto): Observable<LoginResponseDto> {
     var body = {
@@ -49,11 +50,10 @@ export class AuthService {
   }
 
   public isAuthenticated(): boolean {
-    return localStorage.getItem(ACCESS_TOKEN) !== null;
+    return this.tokenService.getToken() !== null;
   }
 
   public logout() {
-    localStorage.removeItem(ACCESS_TOKEN);
-    localStorage.removeItem(REFRESH_TOKEN);
+    this.tokenService.signOut();
   }
 }

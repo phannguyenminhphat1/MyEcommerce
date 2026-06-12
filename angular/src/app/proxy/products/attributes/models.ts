@@ -7,8 +7,8 @@ export interface AddUpdateProductAttributeDto {
   dateTimeValue?: string | null;
   decimalValue?: number | null;
   intValue?: number | null;
-  varcharValue?: string;
-  textValue?: string;
+  varcharValue?: string | null;
+  textValue?: string | null;
 }
 
 export interface ProductAttributeListFilterDto extends BaseListFilterDto {

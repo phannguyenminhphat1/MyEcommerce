@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
-<p-panel #pnl header="Product list">
+<p-panel #pnl>
   <!--Filter (search panel)-->
   <div class="grid grid-cols-12 gap-4 mb-4">
     <div class="col-span-12 md:col-span-4 flex gap-4 items-end">
@@ -113,6 +113,8 @@
               rounded
               severity="info"
               (click)="showEditModal(row.id)"
+              pTooltip="Edit"
+              tooltipPosition="top"
             ></button>
             <button
               pButton
@@ -123,6 +125,20 @@
               rounded
               severity="danger"
               (click)="deleteItem(row.id)"
+              pTooltip="Delete"
+              tooltipPosition="top"
+            ></button>
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="fa fa-cogs"
+              text
+              rounded
+              (click)="manageProductAttribute(row.id)"
+              pTooltip="Manage Attributes"
+              tooltipPosition="top"
+              severity="secondary"
             ></button>
           </div>
         </td>
@@ -132,6 +148,7 @@
       <div style="text-align: left">Total Records: {{ totalCount }}</div>
     </ng-template>
   </p-table>
+
   <!--Paginator-->
   <p-paginator
     [rows]="maxResultCount"
@@ -139,6 +156,7 @@
     (onPageChange)="pageChanged($event)"
     [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
   ></p-paginator>
+
   <!--Block UI-->
   <p-blockui [blocked]="blockedPanel" [target]="pnl">
     <div class="flex justify-center items-center h-full w-full">

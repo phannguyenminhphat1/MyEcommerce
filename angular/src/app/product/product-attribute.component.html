@@ -1,0 +1,117 @@
+<p-panel #pnl>
+  <form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-4">
+        <div class="field">
+          <p-select
+            [options]="attributes"
+            [style]="{ width: '100%' }"
+            placeholder="Choose attribute"
+            [showClear]="true"
+            formControlName="attributeId"
+            (onChange)="selectAttribute($event)"
+          >
+          </p-select>
+        </div>
+      </div>
+      <div class="col-span-4">
+        <div class="field">
+          @if (showEmptyControl) {
+            <input disabled type="text" pInputText class="w-full" [hidden]="!showEmptyControl()" />
+          }
+
+          <p-datepicker
+            formControlName="dateTimeValue"
+            [hidden]="!showDateTimeControl"
+            dateFormat="dd/mm/yy"
+            placeholder="dd/mm/yyyy hh/mm"
+            pInputMask="99/99/9999 99:99"
+            [showTime]="true"
+            [hourFormat]="24"
+          ></p-datepicker>
+
+          <p-inputNumber
+            formControlName="intValue"
+            placeholder="Enter number"
+            [hidden]="!showIntControl"
+          ></p-inputNumber>
+
+          <p-inputNumber
+            formControlName="decimalValue"
+            mode="decimal"
+            [hidden]="!showDecimalControl"
+            placeholder="Enter number"
+          ></p-inputNumber>
+
+          <input
+            type="text"
+            pInputText
+            formControlName="varcharValue"
+            [hidden]="!showVarcharControl"
+            class="w-full"
+            placeholder="Enter text"
+          />
+
+          <input
+            type="text"
+            pInputText
+            formControlName="textValue"
+            [hidden]="!showTextControl"
+            class="w-full"
+            placeholder="Enter text"
+          />
+        </div>
+      </div>
+      <div class="col-span-4">
+        <button
+          type="button"
+          (click)="saveChange()"
+          [disabled]="!form.valid || btnDisabled"
+          pButton
+        >
+          Add
+        </button>
+      </div>
+    </div>
+  </form>
+  <!--Table-->
+  <p-table class="mt-4" #tableCourses [value]="productAttributes" dataKey="id">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>AttributeCode</th>
+        <th>Attribute Name</th>
+        <th>Data Type</th>
+        <th>Value</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row>
+      <tr>
+        <td>{{ row.code }}</td>
+        <td>
+          {{ row.label }}
+        </td>
+        <td>{{ getDataTypeName(row.dataType) }}</td>
+        <td>{{ formatValue(row) }}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            (click)="removeItem(row)"
+            type="button"
+            icon="pi pi-times"
+            class="p-button-rounded p-button-danger p-button-text"
+            pTooltip="Delete"
+            tooltipPosition="right"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <!--Block UI-->
+  <p-blockui [blocked]="blockedPanel" [target]="pnl">
+    <div class="flex justify-center items-center h-full w-full">
+      <p-progress-spinner ariaLabel="loading"></p-progress-spinner>
+    </div>
+  </p-blockui>
+</p-panel>

@@ -1,8 +1,9 @@
 <app-floating-configurator />
-<div
+<p-panel
+  #pnl
   class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-screen overflow-hidden"
 >
-  <div #pnl class="flex flex-col items-center justify-center relative">
+  <div class="flex flex-col items-center justify-center">
     <div
       style="
         border-radius: 56px;
@@ -93,17 +94,12 @@
         </form>
       </div>
     </div>
-    <p-blockui [blocked]="blockedPanel" [target]="pnl">
-      @if (blockedPanel) {
-      <div class="loading-container">
-        <p-progress-spinner></p-progress-spinner>
-      </div>
-      }
-    </p-blockui>
   </div>
-</div>
-@if (blockedPanel) {
-<div class="loading-container">
-  <p-progress-spinner></p-progress-spinner>
-</div>
-}
+  <p-blockui [blocked]="blockedPanel" [target]="pnl">
+    @if(blockedPanel) {
+    <div class="flex justify-center items-center h-full w-full">
+      <p-progress-spinner ariaLabel="loading"></p-progress-spinner>
+    </div>
+    }
+  </p-blockui>
+</p-panel>

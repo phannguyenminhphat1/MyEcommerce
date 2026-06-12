@@ -38,7 +38,6 @@ export class AppComponent implements OnInit {
   private router = inject(Router);
 
   ngOnInit(): void {
-    console.log(this.tokenService.getToken());
     if (this.tokenService.getToken() === null) {
       this.router.navigate([LOGIN_URL]);
     }

@@ -22,11 +22,13 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TokenStorageService } from '../shared/services/token.service';
 import { LoginResponseDto } from '../shared/models/login-response.dto';
 import { NotificationService } from '../shared/services/notification.service';
+import { PanelModule } from 'primeng/panel';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
+    PanelModule,
     ButtonModule,
     CheckboxModule,
     InputTextModule,
@@ -74,7 +76,6 @@ export class Login implements OnDestroy {
           this.router.navigate(['']);
         },
         error: ex => {
-          console.log(ex);
           this.notificationService.showError(
             ex.error?.error?.error_description || 'Login failed. Please try again.',
           );

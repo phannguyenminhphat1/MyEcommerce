@@ -27,6 +27,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
+  standalone: true,
   imports: [
     PanelModule,
     TableModule,
