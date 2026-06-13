@@ -21,5 +21,7 @@ public static class MyEcommerceDomainErrorCodes
     public const string ProductAttributeDecimalIsNotExists = "Product Attribute Decimal Is Not Exists";
     public const string ProductAttributeVarcharIsNotExists = "Product Attribute Varchar Is Not Exists";
     public const string ProductAttributeTextIsNotExists = "Product Attribute Text Is Not Exists";
+    public const string RoleNameAlreadyExists = "Role Name Already Exists";
+
 
 }

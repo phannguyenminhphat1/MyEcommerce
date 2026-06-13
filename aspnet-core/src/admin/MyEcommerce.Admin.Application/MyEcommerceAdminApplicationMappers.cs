@@ -3,11 +3,14 @@ using MyEcommerce.Admin.Manufacturers;
 using MyEcommerce.Admin.ProductAttributes;
 using MyEcommerce.Admin.ProductCategories;
 using MyEcommerce.Admin.Products;
+using MyEcommerce.Admin.Roles;
 using MyEcommerce.Manufacturers;
 using MyEcommerce.ProductAttributes;
 using MyEcommerce.ProductCategories;
 using MyEcommerce.Products;
+using MyEcommerce.Roles;
 using Riok.Mapperly.Abstractions;
+using Volo.Abp.Identity;
 using Volo.Abp.Mapperly;
 
 namespace MyEcommerce.Admin;
@@ -119,6 +122,40 @@ public partial class ProductAttributeToProductAttributeInListDtoMapper : MapperB
     );
 }
 
+#endregion
+
+#region ROLE
+[Mapper]
+public partial class RoleToRoleDtoMapper : MapperBase<IdentityRole, RoleDto>
+{
+    [MapProperty(nameof(IdentityRole.ExtraProperties), nameof(RoleDto.Description), Use = nameof(MapDescription))]
+    public override partial RoleDto Map(IdentityRole source);
+
+    public override partial void Map(IdentityRole source, RoleDto destination);
+
+    private static string? MapDescription(Dictionary<string, object?> extraProperties)
+    {
+        return extraProperties.TryGetValue(RoleConsts.DescriptionFieldName, out var value)
+            ? value?.ToString()
+            : null;
+    }
+}
+
+[Mapper]
+public partial class RoleToRoleInListDtoMapper : MapperBase<IdentityRole, RoleInListDto>
+{
+    [MapProperty(nameof(IdentityRole.ExtraProperties), nameof(RoleDto.Description), Use = nameof(MapDescription))]
+    public override partial RoleInListDto Map(IdentityRole source);
+
+    public override partial void Map(IdentityRole source, RoleInListDto destination);
+
+    private static string? MapDescription(Dictionary<string, object?> extraProperties)
+    {
+        return extraProperties.TryGetValue(RoleConsts.DescriptionFieldName, out var value)
+            ? value?.ToString()
+            : null;
+    }
+}
 #endregion
 
 
