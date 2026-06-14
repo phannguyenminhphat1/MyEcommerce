@@ -22,4 +22,9 @@ export const appRoutes: Routes = [
     component: AppLayout,
     loadChildren: () => import('./attribute/attribute.routes').then(m => m.attributeRoutes),
   },
+  {
+    path: 'role',
+    component: AppLayout,
+    loadChildren: () => import('./role/role.routes').then(m => m.roleRoutes),
+  },
 ];

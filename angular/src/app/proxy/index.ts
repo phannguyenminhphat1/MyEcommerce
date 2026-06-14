@@ -3,5 +3,6 @@ import * as MyEcommerce from './my-ecommerce';
 import * as ProductAttributes from './product-attributes';
 import * as ProductCategories from './product-categories';
 import * as Products from './products';
+import * as Roles from './roles';
 export * from './models';
-export { Manufacturers, MyEcommerce, ProductAttributes, ProductCategories, Products };
+export { Manufacturers, MyEcommerce, ProductAttributes, ProductCategories, Products, Roles };

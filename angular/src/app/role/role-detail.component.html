@@ -1,0 +1,51 @@
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+  <p-panel #pnl header="Role">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12">
+        <label for="name" class="block">Name <span class="required">*</span></label>
+        <input id="name" pInputText type="text" formControlName="name" class="w-full" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="name"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+
+      <div class="col-span-12">
+        <label for="description" class="block">Description <span class="required">*</span></label>
+        <input
+          id="description"
+          pInputText
+          type="text"
+          formControlName="description"
+          class="w-full"
+        />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="description"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <div class="flex justify-end">
+        <button
+          [disabled]="!form.valid || btnDisabled"
+          type="submit"
+          pButton
+          icon="fa fa-save"
+          iconPos="left"
+          label="Save"
+        ></button>
+      </div>
+    </ng-template>
+
+    <p-blockui [blocked]="blockedPanel" [target]="pnl">
+      <div class="flex justify-center items-center h-full w-full">
+        <p-progress-spinner ariaLabel="loading"></p-progress-spinner>
+      </div>
+    </p-blockui>
+  </p-panel>
+</form>

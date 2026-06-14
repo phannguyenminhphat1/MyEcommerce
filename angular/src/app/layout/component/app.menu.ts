@@ -38,6 +38,13 @@ export class AppMenu {
           },
         ],
       },
+      {
+        label: 'System',
+        items: [
+          { label: 'Roles', icon: 'pi pi-fw pi-circle', routerLink: ['/role'] },
+          { label: 'Users', icon: 'pi pi-fw pi-circle', routerLink: ['/user'] },
+        ],
+      },
     ];
   }
 }
