@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -192,7 +194,21 @@ public class MyEcommerceAdminHttpApiHostModule : AbpModule
             app.UseDeveloperExceptionPage();
         }
 
-        app.UseAbpRequestLocalization();
+        var supportedCultures = new[]
+        {
+            new CultureInfo("en")
+        };
+        app.UseAbpRequestLocalization(options =>
+        {
+            options.DefaultRequestCulture = new RequestCulture("en");
+            options.SupportedCultures = supportedCultures;
+            options.SupportedUICultures = supportedCultures;
+            options.RequestCultureProviders = new List<IRequestCultureProvider>
+                {
+                    new QueryStringRequestCultureProvider(),
+                    new CookieRequestCultureProvider()
+                };
+        });
         app.UseCorrelationId();
         app.MapAbpStaticAssets();
         app.UseRouting();

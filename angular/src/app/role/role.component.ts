@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import { CancelDialogService } from '../shared/services/cancel-dialog.service';
 import { RoleDetailComponent } from './role-detail.component';
 import { RoleInListDto, RolesService } from '@proxy/roles';
+import { TooltipModule } from 'primeng/tooltip';
 @Component({
   selector: 'app-role',
   templateUrl: './role.component.html',
@@ -36,6 +37,7 @@ import { RoleInListDto, RolesService } from '@proxy/roles';
     DynamicDialogModule,
     BadgeModule,
     OverlayBadgeModule,
+    TooltipModule,
   ],
   providers: [RolesService, CancelDialogService],
 })

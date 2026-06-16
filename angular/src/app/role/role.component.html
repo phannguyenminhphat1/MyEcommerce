@@ -34,6 +34,7 @@
             type="text"
             [(ngModel)]="keyword"
             placeholder="Input keyword"
+            (keyup.enter)="loadData()"
           />
         </div>
 
@@ -78,8 +79,35 @@
               pRipple
               type="button"
               icon="pi pi-pencil"
-              label="Authorize"
+              text
+              rounded
               severity="info"
+              (click)="showEditModal(row.id)"
+              pTooltip="Edit"
+              tooltipPosition="top"
+            ></button>
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-trash"
+              text
+              rounded
+              severity="danger"
+              (click)="deleteItem(row.id)"
+              pTooltip="Delete"
+              tooltipPosition="top"
+            ></button>
+            <button
+              pButton
+              pRipple
+              text
+              rounded
+              type="button"
+              icon="pi pi-user"
+              severity="secondary"
+              pTooltip="Authorize"
+              tooltipPosition="top"
               (click)="showEditModal(row.id)"
             ></button>
           </div>
