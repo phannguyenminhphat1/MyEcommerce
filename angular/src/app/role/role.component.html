@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
-<p-panel #pnl header="Roles Management">
+<p-panel #pnl>
   <!--Filter (search panel)-->
   <div class="grid grid-cols-12 gap-4 mb-4">
     <div class="col-span-12 md:col-span-4 flex gap-4 items-end">
@@ -108,7 +108,7 @@
               severity="secondary"
               pTooltip="Authorize"
               tooltipPosition="top"
-              (click)="showEditModal(row.id)"
+              (click)="showPermissionModal(row.id, row.name)"
             ></button>
           </div>
         </td>

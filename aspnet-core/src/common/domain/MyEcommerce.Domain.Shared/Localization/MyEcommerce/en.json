@@ -1,6 +1,7 @@
 {
     "culture": "en",
     "texts": {
+        "Permission:Catalog": "Catalog",
         "Permission:Catalog.Product": "Product",
         "Permission:Catalog.Product.Create": "Create new product",
         "Permission:Catalog.Product.Update": "Update product",

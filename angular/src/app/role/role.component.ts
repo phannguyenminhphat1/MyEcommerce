@@ -17,8 +17,10 @@ import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { CommonModule } from '@angular/common';
 import { CancelDialogService } from '../shared/services/cancel-dialog.service';
 import { RoleDetailComponent } from './role-detail.component';
-import { RoleInListDto, RolesService } from '@proxy/roles';
+import { RoleDto, RoleInListDto, RolesService } from '@proxy/roles';
 import { TooltipModule } from 'primeng/tooltip';
+import { PermissionGrantComponent } from './permission-grant.component';
+import { MessageConstants } from '../shared/constants/messages.const';
 @Component({
   selector: 'app-role',
   templateUrl: './role.component.html',
@@ -39,7 +41,7 @@ import { TooltipModule } from 'primeng/tooltip';
     OverlayBadgeModule,
     TooltipModule,
   ],
-  providers: [RolesService, CancelDialogService],
+  providers: [RolesService, CancelDialogService, PermissionGrantComponent],
 })
 export class RoleComponent implements OnInit, OnDestroy {
   private roleService = inject(RolesService);
@@ -63,7 +65,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  loadData() {
+  loadData(selectionId: string | null = null) {
     this.toggleBlockUI(true);
     this.roleService
       .getListFilter({
@@ -194,5 +196,25 @@ export class RoleComponent implements OnInit, OnDestroy {
           this.toggleBlockUI(false);
         },
       });
+  }
+
+  showPermissionModal(id: string, name: string) {
+    const ref = this.dialogService.open(PermissionGrantComponent, {
+      data: {
+        id: id,
+        name: name,
+      },
+      header: name,
+      width: '70%',
+      dismissableMask: true,
+      closable: true,
+    });
+    ref?.onClose.subscribe((data: RoleDto) => {
+      if (data) {
+        this.notificationService.showSuccess(MessageConstants.UPDATED_OK_MSG);
+        this.selectedItems = [];
+        this.loadData(data.id as string);
+      }
+    });
   }
 }
