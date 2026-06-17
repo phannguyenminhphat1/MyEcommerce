@@ -1,0 +1,92 @@
+<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+  <p-panel #pnl>
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12">
+        <label class="block" for="userName">Username<span class="required">*</span></label>
+        <input id="userName" type="text" pInputText formControlName="userName" class="w-full" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="userName"
+          [validationMessages]="validationMessages"
+        >
+        </app-validation-message>
+      </div>
+      <div class="col-span-12">
+        <label class="block" for="password">Password<span class="required">*</span></label>
+        <input id="password" type="password" pInputText formControlName="password" class="w-full" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="password"
+          [validationMessages]="validationMessages"
+        >
+        </app-validation-message>
+      </div>
+      <div class="col-span-12">
+        <label class="block" for="name" class="block">Name<span class="required">*</span></label>
+        <input id="name" type="text" pInputText formControlName="name" class="w-full" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="name"
+          [validationMessages]="validationMessages"
+        >
+        </app-validation-message>
+      </div>
+      <div class="col-span-12">
+        <label class="block" for="phoneNumber">Phone<span class="required">*</span></label>
+        <input
+          id="phoneNumber"
+          type="text"
+          pInputText
+          formControlName="phoneNumber"
+          class="w-full"
+        />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="phoneNumber"
+          [validationMessages]="validationMessages"
+        >
+        </app-validation-message>
+      </div>
+      <div class="col-span-12">
+        <label class="block" for="surname">First name<span class="required">*</span></label>
+        <input id="surname" type="text" pInputText formControlName="surname" class="w-full" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="surname"
+          [validationMessages]="validationMessages"
+        >
+        </app-validation-message>
+      </div>
+      <div class="col-span-12">
+        <label class="block" for="email">Email<span class="required">*</span></label>
+        <input id="email" type="text" pInputText formControlName="email" class="w-full" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="email"
+          [validationMessages]="validationMessages"
+        >
+        </app-validation-message>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <div class="flex justify-end">
+        <button
+          [disabled]="!form.valid || btnDisabled"
+          type="submit"
+          pButton
+          icon="fa fa-save"
+          iconPos="left"
+          label="Save"
+        ></button>
+      </div>
+    </ng-template>
+
+    <!--Block UI-->
+    <p-blockui [blocked]="blockedPanel" [target]="pnl">
+      <div class="flex justify-center items-center h-full w-full">
+        <p-progress-spinner ariaLabel="loading"></p-progress-spinner>
+      </div>
+    </p-blockui>
+  </p-panel>
+</form>

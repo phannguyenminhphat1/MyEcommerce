@@ -15,15 +15,15 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
 import { EditorModule } from 'primeng/editor';
 import { TextareaModule } from 'primeng/textarea';
-import { ValidationMessageComponent } from '../shared/components/validation-message/validation-message.component';
+import { ValidationMessageComponent } from '../../shared/components/validation-message/validation-message.component';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ImageModule } from 'primeng/image';
 import { AttributeType } from '@proxy/my-ecommerce/product-attributes/attribute-type.enum';
 import { ProductAttributeValueDto } from '@proxy/products/attributes/models';
-import { NotificationService } from '../shared/services/notification.service';
+import { NotificationService } from '../../shared/services/notification.service';
 import { ProductAttributeInListDto } from '@proxy/product-attributes/models';
 import { ProductAttributesService } from '@proxy/product-attributes';
-import { CancelDialogService } from '../shared/services/cancel-dialog.service';
+import { CancelDialogService } from '../../shared/services/cancel-dialog.service';
 import { TooltipModule } from 'primeng/tooltip';
 import { DatePickerModule } from 'primeng/datepicker';
 
@@ -61,7 +61,7 @@ export class ProductAttributeComponent implements OnInit, OnDestroy {
   private productAttributeService = inject(ProductAttributesService);
   private cancelDialogService = inject(CancelDialogService);
 
-  private ngUnsubcribe = new Subject<void>();
+  private ngUnsubscribe = new Subject<void>();
 
   blockedPanel: boolean = false;
   btnDisabled = false;
@@ -83,8 +83,8 @@ export class ProductAttributeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.ngUnsubcribe.next();
-    this.ngUnsubcribe.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   initFormData() {
@@ -93,7 +93,7 @@ export class ProductAttributeComponent implements OnInit, OnDestroy {
     forkJoin({
       attributes,
     })
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: any) => {
           //Push data to dropdown
@@ -112,7 +112,7 @@ export class ProductAttributeComponent implements OnInit, OnDestroy {
     this.toggleBlockUI(true);
     this.productService
       .getListProductAttributeAll(id)
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: ProductAttributeValueDto[]) => {
           this.productAttributes = response;
@@ -141,7 +141,7 @@ export class ProductAttributeComponent implements OnInit, OnDestroy {
     this.toggleBlockUI(true);
     this.productService
       .addProductAttribute(this.form.value)
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: () => {
           this.toggleBlockUI(false);
@@ -197,7 +197,7 @@ export class ProductAttributeComponent implements OnInit, OnDestroy {
     this.toggleBlockUI(true);
     this.productService
       .removeProductAttribute(attribute.attributeId as string, id)
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: () => {
           this.notificationService.showSuccess('Deleted successfully');

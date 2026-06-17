@@ -1,3 +1,4 @@
+
 export interface GetPermissionListResultDto {
   entityDisplayName?: string;
   groups?: PermissionGroupDto[];

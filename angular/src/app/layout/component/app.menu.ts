@@ -28,21 +28,21 @@ export class AppMenu {
         items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }],
       },
       {
-        label: 'Product',
+        label: 'Catalogs',
         items: [
-          { label: 'Products', icon: 'pi pi-fw pi-circle', routerLink: ['/product'] },
+          { label: 'Products', icon: 'pi pi-fw pi-circle', routerLink: ['/catalog/product'] },
           {
             label: 'Product Attributes',
             icon: 'pi pi-fw pi-circle',
-            routerLink: ['/attribute'],
+            routerLink: ['/catalog/attribute'],
           },
         ],
       },
       {
-        label: 'System',
+        label: 'Systems',
         items: [
-          { label: 'Roles', icon: 'pi pi-fw pi-circle', routerLink: ['/role'] },
-          { label: 'Users', icon: 'pi pi-fw pi-circle', routerLink: ['/user'] },
+          { label: 'Roles', icon: 'pi pi-fw pi-circle', routerLink: ['/system/role'] },
+          { label: 'Users', icon: 'pi pi-fw pi-circle', routerLink: ['/system/user'] },
         ],
       },
     ];

@@ -49,7 +49,7 @@ export class Login implements OnDestroy {
   private router = inject(Router);
   private tokenService = inject(TokenStorageService);
   private notificationService = inject(NotificationService);
-  private ngUnsubcribe = new Subject<void>();
+  private ngUnsubscribe = new Subject<void>();
 
   blockedPanel: boolean = false;
   btnDisabled = false;
@@ -67,7 +67,7 @@ export class Login implements OnDestroy {
     };
     this.authService
       .login(request)
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (res: LoginResponseDto) => {
           this.tokenService.saveToken(res.access_token);
@@ -85,8 +85,8 @@ export class Login implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.ngUnsubcribe.next();
-    this.ngUnsubcribe.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   private toggleBlockUI(enabled: boolean) {

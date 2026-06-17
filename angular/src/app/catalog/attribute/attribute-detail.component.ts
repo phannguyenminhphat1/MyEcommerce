@@ -14,17 +14,17 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
 import { EditorModule } from 'primeng/editor';
 import { TextareaModule } from 'primeng/textarea';
-import { ValidationMessageComponent } from '../shared/components/validation-message/validation-message.component';
-import { UtilityService } from '../shared/services/utility.service';
+import { ValidationMessageComponent } from '../../shared/components/validation-message/validation-message.component';
+import { UtilityService } from '../../shared/services/utility.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ImageModule } from 'primeng/image';
 import { attributeTypeOptions } from '@proxy/my-ecommerce/product-attributes/attribute-type.enum';
-import { RoleDto } from '@proxy/roles/models';
-import { RolesService } from '@proxy/roles/roles.service';
+import { ProductAttributeDto } from '@proxy/product-attributes/models';
+import { ProductAttributesService } from '@proxy/product-attributes/product-attributes.service';
 
 @Component({
-  selector: 'app-role-detail',
-  templateUrl: './role-detail.component.html',
+  selector: 'app-attribute-detail',
+  templateUrl: './attribute-detail.component.html',
   imports: [
     PanelModule,
     TableModule,
@@ -43,27 +43,32 @@ import { RolesService } from '@proxy/roles/roles.service';
     ImageModule,
     ValidationMessageComponent,
   ],
-  providers: [RolesService],
+  providers: [ProductAttributesService],
 })
-export class RoleDetailComponent implements OnInit, OnDestroy {
+export class AttributeDetailComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
-  private rolesService = inject(RolesService);
+  private productAttributeService = inject(ProductAttributesService);
   private utilService = inject(UtilityService);
   private config = inject(DynamicDialogConfig);
   private ref = inject(DynamicDialogRef);
 
-  private ngUnsubcribe = new Subject<void>();
+  private ngUnsubscribe = new Subject<void>();
   blockedPanel: boolean = false;
   btnDisabled = false;
   form!: FormGroup;
   dataTypes: any[] = [];
-  selectedEntity = {} as RoleDto;
+  selectedEntity = {} as ProductAttributeDto;
 
   constructor() {}
 
   validationMessages = {
-    name: [{ type: 'required', message: 'Name is required' }],
-    description: [{ type: 'required', message: 'Description is required' }],
+    code: [{ type: 'required', message: 'Code is required and must be unique' }],
+    label: [
+      { type: 'required', message: 'Label is required' },
+      { type: 'maxlength', message: 'Label cannot exceed 255 characters' },
+    ],
+    dataType: [{ type: 'required', message: 'Data type is required' }],
+    sortOrder: [{ type: 'required', message: 'Please enter the sort order' }],
   };
 
   ngOnInit(): void {
@@ -76,6 +81,7 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
     this.toggleBlockUI(true);
     //Load edit data to form
     if (this.utilService.isEmpty(this.config.data?.id) == true) {
+      this.getNewSuggestionCode();
       this.toggleBlockUI(false);
     } else {
       this.loadFormDetails(this.config.data?.id);
@@ -84,9 +90,9 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
 
   loadFormDetails(id: string) {
     this.toggleBlockUI(true);
-    this.rolesService
+    this.productAttributeService
       .get(id)
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: response => {
           this.selectedEntity = response;
@@ -115,9 +121,9 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
     }
     this.toggleBlockUI(true);
     if (this.utilService.isEmpty(this.config.data?.id) == true) {
-      this.rolesService
+      this.productAttributeService
         .create(this.form.value)
-        .pipe(takeUntil(this.ngUnsubcribe))
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe({
           next: () => {
             this.toggleBlockUI(false);
@@ -128,9 +134,9 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      this.rolesService
+      this.productAttributeService
         .update(this.config.data?.id, this.form.value)
-        .pipe(takeUntil(this.ngUnsubcribe))
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe({
           next: () => {
             this.toggleBlockUI(false);
@@ -145,14 +151,37 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
 
   private buildForm() {
     this.form = this.fb.group({
-      name: new FormControl(this.selectedEntity.name || null, Validators.required),
-      description: new FormControl(this.selectedEntity.description || null, Validators.required),
+      label: new FormControl(
+        this.selectedEntity.label || null,
+        Validators.compose([Validators.required, Validators.maxLength(250)]),
+      ),
+      code: new FormControl(this.selectedEntity.code || null, Validators.required),
+      dataType: new FormControl(this.selectedEntity.dataType || null, Validators.required),
+      sortOrder: new FormControl(this.selectedEntity.sortOrder || null, Validators.required),
+      note: new FormControl(this.selectedEntity.note || null),
+      visibility: new FormControl(this.selectedEntity.visibility ?? true),
+      isActive: new FormControl(this.selectedEntity.isActive ?? true),
+      isRequired: new FormControl(this.selectedEntity.isRequired ?? true),
+      isUnique: new FormControl(this.selectedEntity.isUnique ?? false),
     });
   }
 
   ngOnDestroy(): void {
-    this.ngUnsubcribe.next();
-    this.ngUnsubcribe.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  getNewSuggestionCode() {
+    this.productAttributeService
+      .getSuggestNewCode()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: (response: string) => {
+          this.form.patchValue({
+            code: response,
+          });
+        },
+      });
   }
 
   private toggleBlockUI(enabled: boolean) {

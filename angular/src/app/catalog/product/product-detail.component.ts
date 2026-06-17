@@ -15,11 +15,11 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
 import { EditorModule } from 'primeng/editor';
 import { TextareaModule } from 'primeng/textarea';
-import { ValidationMessageComponent } from '../shared/components/validation-message/validation-message.component';
+import { ValidationMessageComponent } from '../../shared/components/validation-message/validation-message.component';
 import { productTypeOptions } from '@proxy/my-ecommerce/products';
 import { ProductCategoriesService, ProductCategoryInListDto } from '@proxy/product-categories';
 import { ManufacturerInListDto, ManufacturersService } from '@proxy/manufacturers';
-import { UtilityService } from '../shared/services/utility.service';
+import { UtilityService } from '../../shared/services/utility.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ImageModule } from 'primeng/image';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -59,7 +59,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   private cd = inject(ChangeDetectorRef);
   private sanitizer = inject(DomSanitizer);
 
-  private ngUnsubcribe = new Subject<void>();
+  private ngUnsubscribe = new Subject<void>();
 
   blockedPanel: boolean = false;
   form!: FormGroup;
@@ -123,7 +123,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       productCategories,
       manufacturers,
     })
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: response => {
           var productCategories = response.productCategories as ProductCategoryInListDto[];
@@ -155,7 +155,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     this.toggleBlockUI(true);
     this.productService
       .get(id)
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: response => {
           this.selectedEntity = response;
@@ -187,7 +187,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     if (this.utilService.isEmpty(this.config.data?.id) == true) {
       this.productService
         .create(this.form.value)
-        .pipe(takeUntil(this.ngUnsubcribe))
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe({
           next: () => {
             this.toggleBlockUI(false);
@@ -200,7 +200,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     } else {
       this.productService
         .update(this.config.data?.id, this.form.value)
-        .pipe(takeUntil(this.ngUnsubcribe))
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe({
           next: () => {
             this.toggleBlockUI(false);
@@ -240,8 +240,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.ngUnsubcribe.next();
-    this.ngUnsubcribe.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   private toggleBlockUI(enabled: boolean) {
@@ -277,7 +277,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   loadThumbnail(fileName: string) {
     this.productService
       .getThumbnailImage(fileName)
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: string) => {
           var fileExt = this.selectedEntity.thumbnailPicture?.split('.').pop();
@@ -294,7 +294,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   getNewSuggestionCode() {
     this.productService
       .getSuggestNewCode()
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: string) => {
           this.form.patchValue({

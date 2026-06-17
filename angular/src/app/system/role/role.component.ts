@@ -1,6 +1,5 @@
 import { PagedResultDto } from '@abp/ng.core';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { ProductDto, ProductInListDto, ProductsService } from '@proxy/products';
 import { BlockUIModule } from 'primeng/blockui';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -8,24 +7,24 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { PanelModule } from 'primeng/panel';
 import { TableModule } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
-import { ProductCategoriesService } from '@proxy/product-categories';
 import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ProductDetailComponent } from './product-detail.component';
-import { NotificationService } from '../shared/services/notification.service';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { CommonModule } from '@angular/common';
-import { ProductType } from '@proxy/my-ecommerce/products';
-import { CancelDialogService } from '../shared/services/cancel-dialog.service';
-import { ProductAttributeComponent } from './product-attribute.component';
+import { RoleDetailComponent } from './role-detail.component';
+import { RoleDto, RoleInListDto, RolesService } from '@proxy/roles';
 import { TooltipModule } from 'primeng/tooltip';
+import { PermissionGrantComponent } from './permission-grant.component';
+import { CancelDialogService } from 'src/app/shared/services/cancel-dialog.service';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+import { MessageConstants } from 'src/app/shared/constants/messages.const';
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss'],
+  selector: 'app-role',
+  templateUrl: './role.component.html',
+  styleUrls: ['./role.component.scss'],
   imports: [
     CommonModule,
     PanelModule,
@@ -42,48 +41,41 @@ import { TooltipModule } from 'primeng/tooltip';
     OverlayBadgeModule,
     TooltipModule,
   ],
-  providers: [ProductsService, CancelDialogService],
+  providers: [RolesService, CancelDialogService, PermissionGrantComponent],
 })
-export class ProductComponent implements OnInit, OnDestroy {
-  private productService = inject(ProductsService);
+export class RoleComponent implements OnInit, OnDestroy {
+  private roleService = inject(RolesService);
   private dialogService = inject(DialogService);
   private notificationService = inject(NotificationService);
   private cancelDialogService = inject(CancelDialogService);
-  private ngUnsubcribe = new Subject<void>();
-  private productCategoryService = inject(ProductCategoriesService);
+  private ngUnsubscribe = new Subject<void>();
 
   blockedPanel: boolean = false;
-  items: ProductInListDto[] = [];
+  items: RoleInListDto[] = [];
+  public selectedItems: RoleInListDto[] = [];
 
   public skipCount: number = 0;
   public maxResultCount: number = 10;
   public totalCount: number = 0;
-
-  public productCategories: any = [];
-  public categoryId?: string;
   public keyword: string = '';
-
-  public selectedItems: ProductInListDto[] = [];
 
   constructor() {}
 
   ngOnInit(): void {
     this.loadData();
-    this.loadProductCategories();
   }
 
-  loadData() {
+  loadData(selectionId: string | null = null) {
     this.toggleBlockUI(true);
-    this.productService
+    this.roleService
       .getListFilter({
         maxResultCount: this.maxResultCount,
         keyword: this.keyword,
-        categoryId: this.categoryId,
         skipCount: this.skipCount,
       })
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
-        next: (response: PagedResultDto<ProductInListDto>) => {
+        next: (response: PagedResultDto<RoleInListDto>) => {
           this.items = response.items ?? [];
           this.totalCount = response.totalCount ?? 0;
           this.toggleBlockUI(false);
@@ -94,18 +86,9 @@ export class ProductComponent implements OnInit, OnDestroy {
       });
   }
 
-  loadProductCategories() {
-    this.productCategoryService.getListAll().subscribe(response => {
-      this.productCategories = response.map(element => ({
-        value: element.id,
-        label: element.name,
-      }));
-    });
-  }
-
   ngOnDestroy(): void {
-    this.ngUnsubcribe.next();
-    this.ngUnsubcribe.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   pageChanged(event: PaginatorState): void {
@@ -114,10 +97,6 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.skipCount = page * rows;
     this.maxResultCount = rows;
     this.loadData();
-  }
-
-  getProductTypeName(value: number) {
-    return ProductType[value];
   }
 
   toggleBlockUI(enabled: boolean) {
@@ -131,16 +110,16 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   showAddModal() {
-    const ref = this.dialogService.open(ProductDetailComponent, {
-      header: 'Add Product',
+    const ref = this.dialogService.open(RoleDetailComponent, {
+      header: 'Add Role',
       width: '50vw',
       closable: true,
       modal: true,
     });
-    ref?.onClose.subscribe((data: ProductDto) => {
+    ref?.onClose.subscribe((data: RoleInListDto) => {
       if (data) {
         this.loadData();
-        this.notificationService.showSuccess('Add product successfully');
+        this.notificationService.showSuccess('Add role successfully');
         this.selectedItems = [];
       }
     });
@@ -148,19 +127,19 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   showEditModal(id?: string) {
     if (!id) return;
-    const ref = this.dialogService.open(ProductDetailComponent, {
+    const ref = this.dialogService.open(RoleDetailComponent, {
       data: {
         id: id,
       },
-      header: 'Edit Product',
+      header: 'Edit Role',
       width: '50vw',
       closable: true,
       modal: true,
     });
-    ref?.onClose.subscribe((data: ProductDto) => {
+    ref?.onClose.subscribe((data: RoleInListDto) => {
       if (data) {
         this.loadData();
-        this.notificationService.showSuccess('Edit product successfully');
+        this.notificationService.showSuccess('Edit role successfully');
         this.selectedItems = [];
       }
     });
@@ -175,12 +154,12 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   deleteItemConfirmed(id: string) {
     this.toggleBlockUI(true);
-    this.productService
+    this.roleService
       .delete(id)
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: () => {
-          this.notificationService.showSuccess('Delete successfully');
+          this.notificationService.showSuccess('Delete role successfully');
           this.loadData();
           this.toggleBlockUI(false);
         },
@@ -203,12 +182,12 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   deleteItemsConfirmed(ids: string[]) {
     this.toggleBlockUI(true);
-    this.productService
+    this.roleService
       .deleteMultiple(ids)
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: () => {
-          this.notificationService.showSuccess('Delete successfully');
+          this.notificationService.showSuccess('Delete role successfully');
           this.loadData();
           this.selectedItems = [];
           this.toggleBlockUI(false);
@@ -219,25 +198,22 @@ export class ProductComponent implements OnInit, OnDestroy {
       });
   }
 
-  manageProductAttribute(id: string) {
-    if (!id) return;
-    const ref = this.dialogService.open(ProductAttributeComponent, {
+  showPermissionModal(id: string, name: string) {
+    const ref = this.dialogService.open(PermissionGrantComponent, {
       data: {
         id: id,
+        name: name,
       },
-      header: 'Manage Product Attributes',
-      width: '50vw',
-      contentStyle: {
-        height: '600px',
-      },
+      header: name,
+      width: '70%',
+      dismissableMask: true,
       closable: true,
-      modal: true,
     });
-    ref?.onClose.subscribe((data: ProductDto) => {
+    ref?.onClose.subscribe((data: RoleDto) => {
       if (data) {
-        this.loadData();
-        this.notificationService.showSuccess('Update product attributes successfully');
+        this.notificationService.showSuccess(MessageConstants.UPDATED_OK_MSG);
         this.selectedItems = [];
+        this.loadData(data.id as string);
       }
     });
   }

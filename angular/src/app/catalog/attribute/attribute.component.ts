@@ -11,20 +11,19 @@ import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
-import { NotificationService } from '../shared/services/notification.service';
+import { NotificationService } from '../../shared/services/notification.service';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { CommonModule } from '@angular/common';
-import { CancelDialogService } from '../shared/services/cancel-dialog.service';
-import { RoleDetailComponent } from './role-detail.component';
-import { RoleDto, RoleInListDto, RolesService } from '@proxy/roles';
-import { TooltipModule } from 'primeng/tooltip';
-import { PermissionGrantComponent } from './permission-grant.component';
-import { MessageConstants } from '../shared/constants/messages.const';
+import { CancelDialogService } from '../../shared/services/cancel-dialog.service';
+import { ProductAttributesService } from '@proxy/product-attributes/product-attributes.service';
+import { ProductAttributeInListDto } from '@proxy/product-attributes';
+import { AttributeType } from '@proxy/my-ecommerce/product-attributes/attribute-type.enum';
+import { AttributeDetailComponent } from './attribute-detail.component';
 @Component({
-  selector: 'app-role',
-  templateUrl: './role.component.html',
-  styleUrls: ['./role.component.scss'],
+  selector: 'app-attribute',
+  templateUrl: './attribute.component.html',
+  styleUrls: ['./attribute.component.scss'],
   imports: [
     CommonModule,
     PanelModule,
@@ -39,24 +38,24 @@ import { MessageConstants } from '../shared/constants/messages.const';
     DynamicDialogModule,
     BadgeModule,
     OverlayBadgeModule,
-    TooltipModule,
   ],
-  providers: [RolesService, CancelDialogService, PermissionGrantComponent],
+  providers: [ProductAttributesService, CancelDialogService],
 })
-export class RoleComponent implements OnInit, OnDestroy {
-  private roleService = inject(RolesService);
+export class AttributeComponent implements OnInit, OnDestroy {
+  private attributeService = inject(ProductAttributesService);
   private dialogService = inject(DialogService);
   private notificationService = inject(NotificationService);
   private cancelDialogService = inject(CancelDialogService);
-  private ngUnsubcribe = new Subject<void>();
+  private ngUnsubscribe = new Subject<void>();
 
   blockedPanel: boolean = false;
-  items: RoleInListDto[] = [];
-  public selectedItems: RoleInListDto[] = [];
+  items: ProductAttributeInListDto[] = [];
+  public selectedItems: ProductAttributeInListDto[] = [];
 
   public skipCount: number = 0;
   public maxResultCount: number = 10;
   public totalCount: number = 0;
+
   public keyword: string = '';
 
   constructor() {}
@@ -65,17 +64,17 @@ export class RoleComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  loadData(selectionId: string | null = null) {
+  loadData() {
     this.toggleBlockUI(true);
-    this.roleService
+    this.attributeService
       .getListFilter({
         maxResultCount: this.maxResultCount,
         keyword: this.keyword,
         skipCount: this.skipCount,
       })
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
-        next: (response: PagedResultDto<RoleInListDto>) => {
+        next: (response: PagedResultDto<ProductAttributeInListDto>) => {
           this.items = response.items ?? [];
           this.totalCount = response.totalCount ?? 0;
           this.toggleBlockUI(false);
@@ -87,8 +86,8 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.ngUnsubcribe.next();
-    this.ngUnsubcribe.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   pageChanged(event: PaginatorState): void {
@@ -97,6 +96,10 @@ export class RoleComponent implements OnInit, OnDestroy {
     this.skipCount = page * rows;
     this.maxResultCount = rows;
     this.loadData();
+  }
+
+  getAttributeTypeName(value: number) {
+    return AttributeType[value];
   }
 
   toggleBlockUI(enabled: boolean) {
@@ -110,16 +113,16 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   showAddModal() {
-    const ref = this.dialogService.open(RoleDetailComponent, {
-      header: 'Add Role',
+    const ref = this.dialogService.open(AttributeDetailComponent, {
+      header: 'Add Attribute',
       width: '50vw',
       closable: true,
       modal: true,
     });
-    ref?.onClose.subscribe((data: RoleInListDto) => {
+    ref?.onClose.subscribe((data: ProductAttributeInListDto) => {
       if (data) {
         this.loadData();
-        this.notificationService.showSuccess('Add role successfully');
+        this.notificationService.showSuccess('Add attribute successfully');
         this.selectedItems = [];
       }
     });
@@ -127,19 +130,19 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   showEditModal(id?: string) {
     if (!id) return;
-    const ref = this.dialogService.open(RoleDetailComponent, {
+    const ref = this.dialogService.open(AttributeDetailComponent, {
       data: {
         id: id,
       },
-      header: 'Edit Role',
+      header: 'Edit Attribute',
       width: '50vw',
       closable: true,
       modal: true,
     });
-    ref?.onClose.subscribe((data: RoleInListDto) => {
+    ref?.onClose.subscribe((data: ProductAttributeInListDto) => {
       if (data) {
         this.loadData();
-        this.notificationService.showSuccess('Edit role successfully');
+        this.notificationService.showSuccess('Edit attribute successfully');
         this.selectedItems = [];
       }
     });
@@ -154,12 +157,12 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   deleteItemConfirmed(id: string) {
     this.toggleBlockUI(true);
-    this.roleService
+    this.attributeService
       .delete(id)
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: () => {
-          this.notificationService.showSuccess('Delete role successfully');
+          this.notificationService.showSuccess('Delete successfully');
           this.loadData();
           this.toggleBlockUI(false);
         },
@@ -182,12 +185,12 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   deleteItemsConfirmed(ids: string[]) {
     this.toggleBlockUI(true);
-    this.roleService
+    this.attributeService
       .deleteMultiple(ids)
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: () => {
-          this.notificationService.showSuccess('Delete role successfully');
+          this.notificationService.showSuccess('Delete successfully');
           this.loadData();
           this.selectedItems = [];
           this.toggleBlockUI(false);
@@ -196,25 +199,5 @@ export class RoleComponent implements OnInit, OnDestroy {
           this.toggleBlockUI(false);
         },
       });
-  }
-
-  showPermissionModal(id: string, name: string) {
-    const ref = this.dialogService.open(PermissionGrantComponent, {
-      data: {
-        id: id,
-        name: name,
-      },
-      header: name,
-      width: '70%',
-      dismissableMask: true,
-      closable: true,
-    });
-    ref?.onClose.subscribe((data: RoleDto) => {
-      if (data) {
-        this.notificationService.showSuccess(MessageConstants.UPDATED_OK_MSG);
-        this.selectedItems = [];
-        this.loadData(data.id as string);
-      }
-    });
   }
 }

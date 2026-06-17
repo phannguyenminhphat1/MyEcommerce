@@ -1,5 +1,6 @@
 import { PagedResultDto } from '@abp/ng.core';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { ProductDto, ProductInListDto, ProductsService } from '@proxy/products';
 import { BlockUIModule } from 'primeng/blockui';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -7,23 +8,24 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { PanelModule } from 'primeng/panel';
 import { TableModule } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
+import { ProductCategoriesService } from '@proxy/product-categories';
 import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
-import { NotificationService } from '../shared/services/notification.service';
+import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ProductDetailComponent } from './product-detail.component';
+import { NotificationService } from '../../shared/services/notification.service';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { CommonModule } from '@angular/common';
-import { CancelDialogService } from '../shared/services/cancel-dialog.service';
-import { ProductAttributesService } from '@proxy/product-attributes/product-attributes.service';
-import { ProductAttributeInListDto } from '@proxy/product-attributes';
-import { AttributeType } from '@proxy/my-ecommerce/product-attributes/attribute-type.enum';
-import { AttributeDetailComponent } from './attribute-detail.component';
+import { ProductType } from '@proxy/my-ecommerce/products';
+import { CancelDialogService } from '../../shared/services/cancel-dialog.service';
+import { ProductAttributeComponent } from './product-attribute.component';
+import { TooltipModule } from 'primeng/tooltip';
 @Component({
-  selector: 'app-attribute',
-  templateUrl: './attribute.component.html',
-  styleUrls: ['./attribute.component.scss'],
+  selector: 'app-product',
+  templateUrl: './product.component.html',
+  styleUrls: ['./product.component.scss'],
   imports: [
     CommonModule,
     PanelModule,
@@ -38,43 +40,50 @@ import { AttributeDetailComponent } from './attribute-detail.component';
     DynamicDialogModule,
     BadgeModule,
     OverlayBadgeModule,
+    TooltipModule,
   ],
-  providers: [ProductAttributesService, CancelDialogService],
+  providers: [ProductsService, CancelDialogService],
 })
-export class AttributeComponent implements OnInit, OnDestroy {
-  private attributeService = inject(ProductAttributesService);
+export class ProductComponent implements OnInit, OnDestroy {
+  private productService = inject(ProductsService);
   private dialogService = inject(DialogService);
   private notificationService = inject(NotificationService);
   private cancelDialogService = inject(CancelDialogService);
-  private ngUnsubcribe = new Subject<void>();
+  private ngUnsubscribe = new Subject<void>();
+  private productCategoryService = inject(ProductCategoriesService);
 
   blockedPanel: boolean = false;
-  items: ProductAttributeInListDto[] = [];
-  public selectedItems: ProductAttributeInListDto[] = [];
+  items: ProductInListDto[] = [];
 
   public skipCount: number = 0;
   public maxResultCount: number = 10;
   public totalCount: number = 0;
 
+  public productCategories: any = [];
+  public categoryId?: string;
   public keyword: string = '';
+
+  public selectedItems: ProductInListDto[] = [];
 
   constructor() {}
 
   ngOnInit(): void {
     this.loadData();
+    this.loadProductCategories();
   }
 
   loadData() {
     this.toggleBlockUI(true);
-    this.attributeService
+    this.productService
       .getListFilter({
         maxResultCount: this.maxResultCount,
         keyword: this.keyword,
+        categoryId: this.categoryId,
         skipCount: this.skipCount,
       })
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
-        next: (response: PagedResultDto<ProductAttributeInListDto>) => {
+        next: (response: PagedResultDto<ProductInListDto>) => {
           this.items = response.items ?? [];
           this.totalCount = response.totalCount ?? 0;
           this.toggleBlockUI(false);
@@ -85,9 +94,18 @@ export class AttributeComponent implements OnInit, OnDestroy {
       });
   }
 
+  loadProductCategories() {
+    this.productCategoryService.getListAll().subscribe(response => {
+      this.productCategories = response.map(element => ({
+        value: element.id,
+        label: element.name,
+      }));
+    });
+  }
+
   ngOnDestroy(): void {
-    this.ngUnsubcribe.next();
-    this.ngUnsubcribe.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   pageChanged(event: PaginatorState): void {
@@ -98,8 +116,8 @@ export class AttributeComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  getAttributeTypeName(value: number) {
-    return AttributeType[value];
+  getProductTypeName(value: number) {
+    return ProductType[value];
   }
 
   toggleBlockUI(enabled: boolean) {
@@ -113,16 +131,16 @@ export class AttributeComponent implements OnInit, OnDestroy {
   }
 
   showAddModal() {
-    const ref = this.dialogService.open(AttributeDetailComponent, {
-      header: 'Add Attribute',
+    const ref = this.dialogService.open(ProductDetailComponent, {
+      header: 'Add Product',
       width: '50vw',
       closable: true,
       modal: true,
     });
-    ref?.onClose.subscribe((data: ProductAttributeInListDto) => {
+    ref?.onClose.subscribe((data: ProductDto) => {
       if (data) {
         this.loadData();
-        this.notificationService.showSuccess('Add attribute successfully');
+        this.notificationService.showSuccess('Add product successfully');
         this.selectedItems = [];
       }
     });
@@ -130,19 +148,19 @@ export class AttributeComponent implements OnInit, OnDestroy {
 
   showEditModal(id?: string) {
     if (!id) return;
-    const ref = this.dialogService.open(AttributeDetailComponent, {
+    const ref = this.dialogService.open(ProductDetailComponent, {
       data: {
         id: id,
       },
-      header: 'Edit Attribute',
+      header: 'Edit Product',
       width: '50vw',
       closable: true,
       modal: true,
     });
-    ref?.onClose.subscribe((data: ProductAttributeInListDto) => {
+    ref?.onClose.subscribe((data: ProductDto) => {
       if (data) {
         this.loadData();
-        this.notificationService.showSuccess('Edit attribute successfully');
+        this.notificationService.showSuccess('Edit product successfully');
         this.selectedItems = [];
       }
     });
@@ -157,9 +175,9 @@ export class AttributeComponent implements OnInit, OnDestroy {
 
   deleteItemConfirmed(id: string) {
     this.toggleBlockUI(true);
-    this.attributeService
+    this.productService
       .delete(id)
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: () => {
           this.notificationService.showSuccess('Delete successfully');
@@ -185,9 +203,9 @@ export class AttributeComponent implements OnInit, OnDestroy {
 
   deleteItemsConfirmed(ids: string[]) {
     this.toggleBlockUI(true);
-    this.attributeService
+    this.productService
       .deleteMultiple(ids)
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: () => {
           this.notificationService.showSuccess('Delete successfully');
@@ -199,5 +217,28 @@ export class AttributeComponent implements OnInit, OnDestroy {
           this.toggleBlockUI(false);
         },
       });
+  }
+
+  manageProductAttribute(id: string) {
+    if (!id) return;
+    const ref = this.dialogService.open(ProductAttributeComponent, {
+      data: {
+        id: id,
+      },
+      header: 'Manage Product Attributes',
+      width: '50vw',
+      contentStyle: {
+        height: '600px',
+      },
+      closable: true,
+      modal: true,
+    });
+    ref?.onClose.subscribe((data: ProductDto) => {
+      if (data) {
+        this.loadData();
+        this.notificationService.showSuccess('Update product attributes successfully');
+        this.selectedItems = [];
+      }
+    });
   }
 }

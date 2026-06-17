@@ -13,18 +13,13 @@ export const appRoutes: Routes = [
     loadChildren: () => import('./auth/auth.routes').then(m => m.default),
   },
   {
-    path: 'product',
+    path: 'catalog',
     component: AppLayout,
-    loadChildren: () => import('./product/product.routes').then(m => m.productRoutes),
+    loadChildren: () => import('./catalog/catalog.routes').then(m => m.catalogRoutes),
   },
   {
-    path: 'attribute',
+    path: 'system',
     component: AppLayout,
-    loadChildren: () => import('./attribute/attribute.routes').then(m => m.attributeRoutes),
-  },
-  {
-    path: 'role',
-    component: AppLayout,
-    loadChildren: () => import('./role/role.routes').then(m => m.roleRoutes),
+    loadChildren: () => import('./system/system.routes').then(m => m.systemRoutes),
   },
 ];

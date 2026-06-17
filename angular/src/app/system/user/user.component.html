@@ -1,0 +1,127 @@
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<p-panel #pnl>
+  <div class="grid grid-cols-12 gap-4 mb-4">
+    <div class="col-span-12 md:col-span-4 flex gap-4 items-end">
+      <button
+        (click)="showAddModal()"
+        pButton
+        type="button"
+        icon="fa fa-plus"
+        iconPos="left"
+        label="Create new"
+      ></button>
+      <button
+        pButton
+        type="button"
+        *ngIf="selectedItems.length > 0"
+        class="ml-1 p-button-help"
+        icon="fa fa-trash"
+        iconPos="left"
+        label="Delete"
+        severity="danger"
+        (click)="deleteItems()"
+      ></button>
+    </div>
+
+    <div class="col-span-12 md:col-span-8">
+      <div class="flex flex-wrap md:justify-end items-end gap-3">
+        <div class="flex flex-col">
+          <label for="txt-keyword" class="mb-2">Keyword</label>
+          <input
+            id="txt-keyword"
+            pInputText
+            type="text"
+            [(ngModel)]="keyword"
+            placeholder="Input keyword"
+            (keyup.enter)="loadData()"
+          />
+        </div>
+        <div class="flex items-end">
+          <button
+            type="button"
+            pButton
+            (click)="loadData()"
+            icon="fa fa-search"
+            iconPos="left"
+            label="Search"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-table [value]="items" [(selection)]="selectedItems">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 10px">
+          <p-tableHeaderCheckbox class="mr-1"></p-tableHeaderCheckbox>
+        </th>
+        <th>Name</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Dated Join</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row>
+      <tr [pSelectableRow]="row">
+        <td style="width: 10px">
+          <span class="ui-column-title"></span>
+          <p-tableCheckbox [value]="row"></p-tableCheckbox>
+        </td>
+        <td>{{ row.name }}</td>
+        <td>{{ row.userName }}</td>
+        <td>{{ row.email }}</td>
+        <td>{{ row.phoneNumber }}</td>
+        <td>{{ row.creationTime | date: 'dd-MM-yyyy hh:mm' }}</td>
+        <td>
+          <p-badge *ngIf="row.isActive" value="Active" severity="success"></p-badge>
+          <p-badge *ngIf="!row.isActive" value="Inactive" severity="danger"></p-badge>
+        </td>
+        <td>
+          <!-- <button
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-key"
+              pTooltip="Đặt mật khẩu"
+              tooltipPosition="top"
+              class="p-button-rounded p-button-text"
+              (click)="setPassword(row.id)"
+            ></button>
+
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-users"
+              pTooltip="Gán vai trò"
+              tooltipPosition="top"
+              (click)="assignRole(row.id)"
+              class="p-button-rounded p-button-text"
+            ></button> -->
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div style="text-align: left">Total Records: {{ totalCount }}</div>
+    </ng-template>
+  </p-table>
+
+  <!--Paginator-->
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
+  ></p-paginator>
+
+  <!--Block UI-->
+  <p-blockui [blocked]="blockedPanel" [target]="pnl">
+    <div class="flex justify-center items-center h-full w-full">
+      <p-progress-spinner ariaLabel="loading"></p-progress-spinner>
+    </div>
+  </p-blockui>
+</p-panel>

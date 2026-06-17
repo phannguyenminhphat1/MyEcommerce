@@ -1,5 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { ProductDto, ProductsService } from '@proxy/products';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { BlockUIModule } from 'primeng/blockui';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -15,17 +14,17 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
 import { EditorModule } from 'primeng/editor';
 import { TextareaModule } from 'primeng/textarea';
-import { ValidationMessageComponent } from '../shared/components/validation-message/validation-message.component';
-import { UtilityService } from '../shared/services/utility.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ImageModule } from 'primeng/image';
 import { attributeTypeOptions } from '@proxy/my-ecommerce/product-attributes/attribute-type.enum';
-import { ProductAttributeDto } from '@proxy/product-attributes/models';
-import { ProductAttributesService } from '@proxy/product-attributes/product-attributes.service';
+import { RoleDto } from '@proxy/roles/models';
+import { RolesService } from '@proxy/roles/roles.service';
+import { ValidationMessageComponent } from 'src/app/shared/components/validation-message/validation-message.component';
+import { UtilityService } from 'src/app/shared/services/utility.service';
 
 @Component({
-  selector: 'app-attribute-detail',
-  templateUrl: './attribute-detail.component.html',
+  selector: 'app-role-detail',
+  templateUrl: './role-detail.component.html',
   imports: [
     PanelModule,
     TableModule,
@@ -44,32 +43,27 @@ import { ProductAttributesService } from '@proxy/product-attributes/product-attr
     ImageModule,
     ValidationMessageComponent,
   ],
-  providers: [ProductAttributesService],
+  providers: [RolesService],
 })
-export class AttributeDetailComponent implements OnInit, OnDestroy {
+export class RoleDetailComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
-  private productAttributeService = inject(ProductAttributesService);
+  private rolesService = inject(RolesService);
   private utilService = inject(UtilityService);
   private config = inject(DynamicDialogConfig);
   private ref = inject(DynamicDialogRef);
 
-  private ngUnsubcribe = new Subject<void>();
+  private ngUnsubscribe = new Subject<void>();
   blockedPanel: boolean = false;
   btnDisabled = false;
   form!: FormGroup;
   dataTypes: any[] = [];
-  selectedEntity = {} as ProductAttributeDto;
+  selectedEntity = {} as RoleDto;
 
   constructor() {}
 
   validationMessages = {
-    code: [{ type: 'required', message: 'Code is required and must be unique' }],
-    label: [
-      { type: 'required', message: 'Label is required' },
-      { type: 'maxlength', message: 'Label cannot exceed 255 characters' },
-    ],
-    dataType: [{ type: 'required', message: 'Data type is required' }],
-    sortOrder: [{ type: 'required', message: 'Please enter the sort order' }],
+    name: [{ type: 'required', message: 'Name is required' }],
+    description: [{ type: 'required', message: 'Description is required' }],
   };
 
   ngOnInit(): void {
@@ -82,7 +76,6 @@ export class AttributeDetailComponent implements OnInit, OnDestroy {
     this.toggleBlockUI(true);
     //Load edit data to form
     if (this.utilService.isEmpty(this.config.data?.id) == true) {
-      this.getNewSuggestionCode();
       this.toggleBlockUI(false);
     } else {
       this.loadFormDetails(this.config.data?.id);
@@ -91,9 +84,9 @@ export class AttributeDetailComponent implements OnInit, OnDestroy {
 
   loadFormDetails(id: string) {
     this.toggleBlockUI(true);
-    this.productAttributeService
+    this.rolesService
       .get(id)
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: response => {
           this.selectedEntity = response;
@@ -122,9 +115,9 @@ export class AttributeDetailComponent implements OnInit, OnDestroy {
     }
     this.toggleBlockUI(true);
     if (this.utilService.isEmpty(this.config.data?.id) == true) {
-      this.productAttributeService
+      this.rolesService
         .create(this.form.value)
-        .pipe(takeUntil(this.ngUnsubcribe))
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe({
           next: () => {
             this.toggleBlockUI(false);
@@ -135,9 +128,9 @@ export class AttributeDetailComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      this.productAttributeService
+      this.rolesService
         .update(this.config.data?.id, this.form.value)
-        .pipe(takeUntil(this.ngUnsubcribe))
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe({
           next: () => {
             this.toggleBlockUI(false);
@@ -152,37 +145,14 @@ export class AttributeDetailComponent implements OnInit, OnDestroy {
 
   private buildForm() {
     this.form = this.fb.group({
-      label: new FormControl(
-        this.selectedEntity.label || null,
-        Validators.compose([Validators.required, Validators.maxLength(250)]),
-      ),
-      code: new FormControl(this.selectedEntity.code || null, Validators.required),
-      dataType: new FormControl(this.selectedEntity.dataType || null, Validators.required),
-      sortOrder: new FormControl(this.selectedEntity.sortOrder || null, Validators.required),
-      note: new FormControl(this.selectedEntity.note || null),
-      visibility: new FormControl(this.selectedEntity.visibility ?? true),
-      isActive: new FormControl(this.selectedEntity.isActive ?? true),
-      isRequired: new FormControl(this.selectedEntity.isRequired ?? true),
-      isUnique: new FormControl(this.selectedEntity.isUnique ?? false),
+      name: new FormControl(this.selectedEntity.name || null, Validators.required),
+      description: new FormControl(this.selectedEntity.description || null, Validators.required),
     });
   }
 
   ngOnDestroy(): void {
-    this.ngUnsubcribe.next();
-    this.ngUnsubcribe.complete();
-  }
-
-  getNewSuggestionCode() {
-    this.productAttributeService
-      .getSuggestNewCode()
-      .pipe(takeUntil(this.ngUnsubcribe))
-      .subscribe({
-        next: (response: string) => {
-          this.form.patchValue({
-            code: response,
-          });
-        },
-      });
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   private toggleBlockUI(enabled: boolean) {

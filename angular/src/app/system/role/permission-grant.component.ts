@@ -14,8 +14,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
 import { EditorModule } from 'primeng/editor';
 import { TextareaModule } from 'primeng/textarea';
-import { ValidationMessageComponent } from '../shared/components/validation-message/validation-message.component';
-import { UtilityService } from '../shared/services/utility.service';
 import { ImageModule } from 'primeng/image';
 import { RolesService } from '@proxy/roles/roles.service';
 import { CommonModule } from '@angular/common';
@@ -27,6 +25,7 @@ import {
   UpdatePermissionsDto,
 } from '@proxy/volo/abp/permission-management';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ValidationMessageComponent } from 'src/app/shared/components/validation-message/validation-message.component';
 
 @Component({
   selector: 'app-permission-grant',
@@ -58,7 +57,7 @@ export class PermissionGrantComponent implements OnInit, OnDestroy {
   private config = inject(DynamicDialogConfig);
   private ref = inject(DynamicDialogRef);
 
-  private ngUnsubcribe = new Subject<void>();
+  private ngUnsubscribe = new Subject<void>();
   blockedPanel: boolean = false;
   btnDisabled = false;
   form!: FormGroup;
@@ -82,7 +81,7 @@ export class PermissionGrantComponent implements OnInit, OnDestroy {
     this.toggleBlockUI(true);
     this.rolesService
       .getPermissions(providerName, providerKey)
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: GetPermissionListResultDto) => {
           this.groups = response.groups as PermissionGroupDto[];
@@ -117,7 +116,7 @@ export class PermissionGrantComponent implements OnInit, OnDestroy {
     };
     this.rolesService
       .updatePermissions('R', this.config.data.name, updateValues)
-      .pipe(takeUntil(this.ngUnsubcribe))
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.toggleBlockUI(false);
         this.ref.close(this.form.value);
@@ -147,8 +146,8 @@ export class PermissionGrantComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.ngUnsubcribe.next();
-    this.ngUnsubcribe.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   private toggleBlockUI(enabled: boolean) {
