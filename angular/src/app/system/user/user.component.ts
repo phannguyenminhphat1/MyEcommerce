@@ -23,6 +23,7 @@ import { ImageModule } from 'primeng/image';
 import { ValidationMessageComponent } from 'src/app/shared/components/validation-message/validation-message.component';
 import { CancelDialogService } from 'src/app/shared/services/cancel-dialog.service';
 import { CommonModule } from '@angular/common';
+import { RoleAssignComponent } from './role-assign.component';
 
 @Component({
   selector: 'app-user',
@@ -48,6 +49,7 @@ import { CommonModule } from '@angular/common';
     ValidationMessageComponent,
     CommonModule,
   ],
+  providers: [RoleAssignComponent],
 })
 export class UserComponent implements OnInit, OnDestroy {
   private dialogService = inject(DialogService);
@@ -77,7 +79,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  loadData(selectionId = null) {
+  loadData(selectionId: string | null = null) {
     this.toggleBlockUI(true);
     this.userService
       .getListWithFilter({
@@ -216,22 +218,23 @@ export class UserComponent implements OnInit, OnDestroy {
   //   });
   // }
 
-  // assignRole(id: string) {
-  //   const ref = this.dialogService.open(RoleAssignComponent, {
-  //     data: {
-  //       id: id,
-  //     },
-  //     header: 'Gán quyền',
-  //     width: '70%',
-  //   });
-
-  //   ref.onClose.subscribe((result: boolean) => {
-  //     if (result) {
-  //       this.notificationService.showSuccess(MessageConstants.ROLE_ASSIGN_SUCCESS_MSG);
-  //       this.loadData();
-  //     }
-  //   });
-  // }
+  assignRole(id: string) {
+    const ref = this.dialogService.open(RoleAssignComponent, {
+      data: {
+        id: id,
+      },
+      header: 'Assign role',
+      width: '50vw',
+      closable: true,
+      modal: true,
+    });
+    ref?.onClose.subscribe((result: boolean) => {
+      if (result) {
+        this.notificationService.showSuccess(MessageConstants.ROLE_ASSIGN_SUCCESS_MSG);
+        this.loadData();
+      }
+    });
+  }
 
   private toggleBlockUI(enabled: boolean) {
     if (enabled == true) {

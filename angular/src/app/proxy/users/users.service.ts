@@ -12,6 +12,15 @@ export class UsersService {
   apiName = 'Default';
   
 
+  assignRoles = (userId: string, roleNames: string[], config?: Partial<Rest.Config>) =>
+    this.restService.request<any, void>({
+      method: 'POST',
+      url: `/api/app/users/assign-roles/${userId}`,
+      body: roleNames,
+    },
+    { apiName: this.apiName,...config });
+  
+
   create = (input: CreateUserDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, UserDto>({
       method: 'POST',

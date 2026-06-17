@@ -1,0 +1,27 @@
+<p-panel #pnl>
+  <p-pickList
+    [source]="availableRoles"
+    [target]="seletedRoles"
+    sourceHeader="Available Roles"
+    targetHeader="Selected Roles"
+    [dragdrop]="true"
+  >
+    <ng-template let-role pTemplate="item">
+      <div>
+        {{ role }}
+      </div>
+    </ng-template>
+  </p-pickList>
+  <ng-template pTemplate="footer">
+    <button type="button" (click)="saveChange()" class="btn btn-primary" [disabled]="btnDisabled">
+      {{ saveBtnName }}
+    </button>
+  </ng-template>
+
+  <!--Block UI-->
+  <p-blockui [blocked]="blockedPanel" [target]="pnl">
+    <div class="flex justify-center items-center h-full w-full">
+      <p-progress-spinner ariaLabel="loading"></p-progress-spinner>
+    </div>
+  </p-blockui>
+</p-panel>

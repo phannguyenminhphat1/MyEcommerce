@@ -91,17 +91,18 @@
               class="p-button-rounded p-button-text"
               (click)="setPassword(row.id)"
             ></button>
-
-            <button
-              pButton
-              pRipple
-              type="button"
-              icon="pi pi-users"
-              pTooltip="Gán vai trò"
-              tooltipPosition="top"
-              (click)="assignRole(row.id)"
-              class="p-button-rounded p-button-text"
-            ></button> -->
+          -->
+          <button
+            pButton
+            pRipple
+            text
+            rounded
+            type="button"
+            icon="pi pi-users"
+            pTooltip="Assign role"
+            tooltipPosition="top"
+            (click)="assignRole(row.id)"
+          ></button>
         </td>
       </tr>
     </ng-template>
