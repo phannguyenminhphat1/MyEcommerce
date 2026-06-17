@@ -25,11 +25,11 @@ namespace MyEcommerce.Products
             string thumbnailPicture, double sellPrice)
         {
             if (await _productRepository.AnyAsync(x => x.Name == name))
-                throw new UserFriendlyException("Product Name Already Exists", MyEcommerceDomainErrorCodes.ProductNameAlreadyExists);
+                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductNameAlreadyExists);
             if (await _productRepository.AnyAsync(x => x.Code == code))
-                throw new UserFriendlyException("Product Code Already Exists", MyEcommerceDomainErrorCodes.ProductCodeAlreadyExists);
+                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductCodeAlreadyExists);
             if (await _productRepository.AnyAsync(x => x.SKU == sku))
-                throw new UserFriendlyException("Product SKU Already Exists", MyEcommerceDomainErrorCodes.ProductSKUAlreadyExists);
+                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductSkuAlreadyExists);
 
             await GetValidCategoryAsync(categoryId);
 
@@ -42,7 +42,7 @@ namespace MyEcommerce.Products
             var category = await _productCategoryRepository.FirstOrDefaultAsync(x => x.Id == categoryId);
 
             if (category == null)
-                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductCategoryNotExists);
+                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductCategoryNotFound);
 
             if (!category.IsActive)
                 throw new BusinessException(MyEcommerceDomainErrorCodes.ProductCategoryInactive);

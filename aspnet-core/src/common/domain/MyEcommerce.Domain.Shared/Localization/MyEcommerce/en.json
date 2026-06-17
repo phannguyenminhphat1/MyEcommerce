@@ -10,6 +10,31 @@
         "Permission:Catalog.Attribute": "Attribute",
         "Permission:Catalog.Attribute.Create": "Create attribute",
         "Permission:Catalog.Attribute.Update": "Update attribute",
-        "Permission:Catalog.Attribute.Delete": "Delete attribute"
+        "Permission:Catalog.Attribute.Delete": "Delete attribute",
+
+        "MyEcommerce:10001": "Product name already exists.",
+        "MyEcommerce:10002": "Product code already exists.",
+        "MyEcommerce:10003": "Product SKU already exists.",
+        "MyEcommerce:10004": "Product not found.",
+
+        "MyEcommerce:10101": "Product category not found.",
+        "MyEcommerce:10102": "Product category is inactive.",
+
+        "MyEcommerce:10201": "Product attribute not found.",
+        "MyEcommerce:10202": "Product attribute value not found.",
+        "MyEcommerce:10203": "Product attribute value is invalid.",
+        "MyEcommerce:10204": "Product attribute datetime not found.",
+        "MyEcommerce:10205": "Product attribute int not found.",
+        "MyEcommerce:10206": "Product attribute decimal not found.",
+        "MyEcommerce:10207": "Product attribute varchar not found.",
+        "MyEcommerce:10208": "Product attribute text not found.",
+
+        "MyEcommerce:20001": "Role name already exists.",
+
+        "MyEcommerce:20101": "User not found.",
+        "MyEcommerce:20102": "Username already exists.",
+        "MyEcommerce:20103": "Email already exists.",
+        "MyEcommerce:20104": "Phone number already exists.",
+        "MyEcommerce:20105": "User is inactive."
     }
 }

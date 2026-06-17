@@ -10,6 +10,31 @@
         "Permission:Catalog.Attribute": "Thuộc tính",
         "Permission:Catalog.Attribute.Create": "Tạo mới thuộc tính",
         "Permission:Catalog.Attribute.Update": "Cập nhật thuộc tính",
-        "Permission:Catalog.Attribute.Delete": "Xóa thuộc tính"
+        "Permission:Catalog.Attribute.Delete": "Xóa thuộc tính",
+
+        "MyEcommerce:10001": "Tên sản phẩm đã tồn tại.",
+        "MyEcommerce:10002": "Mã sản phẩm đã tồn tại.",
+        "MyEcommerce:10003": "SKU sản phẩm đã tồn tại.",
+        "MyEcommerce:10004": "Không tìm thấy sản phẩm.",
+
+        "MyEcommerce:10101": "Không tìm thấy danh mục sản phẩm.",
+        "MyEcommerce:10102": "Danh mục sản phẩm đang ngừng hoạt động.",
+
+        "MyEcommerce:10201": "Không tìm thấy thuộc tính sản phẩm.",
+        "MyEcommerce:10202": "Không tìm thấy giá trị thuộc tính sản phẩm.",
+        "MyEcommerce:10203": "Giá trị thuộc tính sản phẩm không hợp lệ.",
+        "MyEcommerce:10204": "Không tìm thấy dữ liệu kiểu ngày giờ của thuộc tính sản phẩm.",
+        "MyEcommerce:10205": "Không tìm thấy dữ liệu kiểu số nguyên của thuộc tính sản phẩm.",
+        "MyEcommerce:10206": "Không tìm thấy dữ liệu kiểu số thập phân của thuộc tính sản phẩm.",
+        "MyEcommerce:10207": "Không tìm thấy dữ liệu kiểu chuỗi của thuộc tính sản phẩm.",
+        "MyEcommerce:10208": "Không tìm thấy dữ liệu kiểu văn bản của thuộc tính sản phẩm.",
+
+        "MyEcommerce:20001": "Tên vai trò đã tồn tại.",
+
+        "MyEcommerce:20101": "Không tìm thấy người dùng.",
+        "MyEcommerce:20102": "Tên đăng nhập đã tồn tại.",
+        "MyEcommerce:20103": "Email đã tồn tại.",
+        "MyEcommerce:20104": "Số điện thoại đã tồn tại.",
+        "MyEcommerce:20105": "Người dùng đang bị vô hiệu hóa."
     }
 }

@@ -2,26 +2,34 @@
 
 public static class MyEcommerceDomainErrorCodes
 {
-    /* You can add your business exception error codes here, as constants */
-    public const string ProductNameAlreadyExists = "Product Name Already Exists";
-    public const string ProductCodeAlreadyExists = "Product Code Already Exists";
-    public const string ProductSKUAlreadyExists = "Product SKU Already Exists";
-    public const string ProductIsNotExists = "Product Is Not Exists";
-    public const string ProductCategoryNotFound = "Product Category Not Found";
-    public const string ProductCategoryNotExists = "Product Category Not Exists";
-    public const string ProductCategoryInactive = "Product Category Inactive";
-    public const string ProductAttributeNotFound = "Product Attribute Not Found";
-    public const string ProductAttributeIsNotExists = "Product Attribute Is Not Exists";
-    public const string ProductAttributeNotExists = "Product Attribute Not Exists";
-    public const string ProductAttributeValueNotFound = "Product Attribute Value Not Found";
-    public const string ProductAttributeValueNotExists = "Product Attribute Value Not Exists";
-    public const string ProductAttributeValueIsNotValid = "Product Attribute Value Is Not Valid";
-    public const string ProductAttributeDateTimeIsNotExists = "Product Attribute DateTime Is Not Exists";
-    public const string ProductAttributeIntIsNotExists = "Product Attribute Int Is Not Exists";
-    public const string ProductAttributeDecimalIsNotExists = "Product Attribute Decimal Is Not Exists";
-    public const string ProductAttributeVarcharIsNotExists = "Product Attribute Varchar Is Not Exists";
-    public const string ProductAttributeTextIsNotExists = "Product Attribute Text Is Not Exists";
-    public const string RoleNameAlreadyExists = "Role Name Already Exists";
+    // Product (1000x)
+    public const string ProductNameAlreadyExists = "MyEcommerce:10001";
+    public const string ProductCodeAlreadyExists = "MyEcommerce:10002";
+    public const string ProductSkuAlreadyExists = "MyEcommerce:10003";
+    public const string ProductNotFound = "MyEcommerce:10004";
 
+    // Product Category (1010x)
+    public const string ProductCategoryNotFound = "MyEcommerce:10101";
+    public const string ProductCategoryInactive = "MyEcommerce:10102";
 
+    // Product Attribute (1020x)
+    public const string ProductAttributeNotFound = "MyEcommerce:10201";
+    public const string ProductAttributeValueNotFound = "MyEcommerce:10202";
+    public const string ProductAttributeValueInvalid = "MyEcommerce:10203";
+
+    public const string ProductAttributeDateTimeNotFound = "MyEcommerce:10204";
+    public const string ProductAttributeIntNotFound = "MyEcommerce:10205";
+    public const string ProductAttributeDecimalNotFound = "MyEcommerce:10206";
+    public const string ProductAttributeVarcharNotFound = "MyEcommerce:10207";
+    public const string ProductAttributeTextNotFound = "MyEcommerce:10208";
+
+    // Identity Role (2000x)
+    public const string RoleNameAlreadyExists = "MyEcommerce:20001";
+
+    // Identity User (2010x)
+    public const string UserNotFound = "MyEcommerce:20101";
+    public const string UserNameAlreadyExists = "MyEcommerce:20102";
+    public const string UserEmailAlreadyExists = "MyEcommerce:20103";
+    public const string UserPhoneNumberAlreadyExists = "MyEcommerce:20104";
+    public const string UserIsInactive = "MyEcommerce:20105";
 }

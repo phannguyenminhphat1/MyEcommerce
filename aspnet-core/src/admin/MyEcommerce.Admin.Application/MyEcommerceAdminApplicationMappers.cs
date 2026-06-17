@@ -4,6 +4,7 @@ using MyEcommerce.Admin.ProductAttributes;
 using MyEcommerce.Admin.ProductCategories;
 using MyEcommerce.Admin.Products;
 using MyEcommerce.Admin.Roles;
+using MyEcommerce.Admin.Users;
 using MyEcommerce.Manufacturers;
 using MyEcommerce.ProductAttributes;
 using MyEcommerce.ProductCategories;
@@ -158,4 +159,19 @@ public partial class RoleToRoleInListDtoMapper : MapperBase<IdentityRole, RoleIn
 }
 #endregion
 
+#region USER
+[Mapper]
+public partial class IdentityUserToUserDtoMapper : MapperBase<IdentityUser, UserDto>
+{
+    public override partial UserDto Map(IdentityUser source);
+    public override partial void Map(IdentityUser source, UserDto destination);
+}
 
+[Mapper]
+public partial class IdentityUserToUserInListDto : MapperBase<IdentityUser, UserInListDto>
+{
+    public override partial UserInListDto Map(IdentityUser source);
+
+    public override partial void Map(IdentityUser source, UserInListDto destination);
+}
+#endregion

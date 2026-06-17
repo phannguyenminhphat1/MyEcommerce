@@ -108,7 +108,7 @@ namespace MyEcommerce.Admin.Products
         {
             var product = await Repository.GetAsync(id);
             if (product == null)
-                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductIsNotExists);
+                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductNotFound);
             product.ManufacturerId = input.ManufacturerId;
             product.Name = input.Name;
             product.Code = input.Code;
@@ -171,11 +171,11 @@ namespace MyEcommerce.Admin.Products
         {
             var product = await Repository.GetAsync(input.ProductId);
             if (product == null)
-                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductIsNotExists);
+                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductNotFound);
 
             var attribute = await _productAttributeRepository.GetAsync(x => x.Id == input.AttributeId);
             if (attribute == null)
-                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeNotExists);
+                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeNotFound);
 
             var newAttributeId = Guid.NewGuid();
             switch (attribute.DataType)
@@ -183,7 +183,7 @@ namespace MyEcommerce.Admin.Products
                 case AttributeType.Date:
                     if (input.DateTimeValue == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueIsNotValid);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueInvalid);
                     }
                     var productAttributeDateTime = new ProductAttributeDateTime(newAttributeId, input.AttributeId, input.ProductId, input.DateTimeValue);
                     await _productAttributeDateTimeRepository.InsertAsync(productAttributeDateTime);
@@ -192,7 +192,7 @@ namespace MyEcommerce.Admin.Products
                 case AttributeType.Int:
                     if (input.IntValue == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueIsNotValid);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueInvalid);
                     }
                     var productAttributeInt = new ProductAttributeInt(newAttributeId, input.AttributeId, input.ProductId, input.IntValue.Value);
                     await _productAttributeIntRepository.InsertAsync(productAttributeInt);
@@ -201,7 +201,7 @@ namespace MyEcommerce.Admin.Products
                 case AttributeType.Decimal:
                     if (input.DecimalValue == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueIsNotValid);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueInvalid);
                     }
                     var productAttributeDecimal = new ProductAttributeDecimal(newAttributeId, input.AttributeId, input.ProductId, input.DecimalValue.Value);
                     await _productAttributeDecimalRepository.InsertAsync(productAttributeDecimal);
@@ -210,7 +210,7 @@ namespace MyEcommerce.Admin.Products
                 case AttributeType.Varchar:
                     if (input.VarcharValue == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueIsNotValid);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueInvalid);
                     }
                     var productAttributeVarchar = new ProductAttributeVarchar(newAttributeId, input.AttributeId, input.ProductId, input.VarcharValue);
                     await _productAttributeVarcharRepository.InsertAsync(productAttributeVarchar);
@@ -219,7 +219,7 @@ namespace MyEcommerce.Admin.Products
                 case AttributeType.Text:
                     if (input.TextValue == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueIsNotValid);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueInvalid);
                     }
                     var productAttributeText = new ProductAttributeText(newAttributeId, input.AttributeId, input.ProductId, input.TextValue);
                     await _productAttributeTextRepository.InsertAsync(productAttributeText);
@@ -246,23 +246,23 @@ namespace MyEcommerce.Admin.Products
         {
             var product = await Repository.GetAsync(input.ProductId);
             if (product == null)
-                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductIsNotExists);
+                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductNotFound);
 
             var attribute = await _productAttributeRepository.GetAsync(x => x.Id == input.AttributeId);
             if (attribute == null)
-                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeIsNotExists);
+                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeNotFound);
 
             switch (attribute.DataType)
             {
                 case AttributeType.Date:
                     if (input.DateTimeValue == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueIsNotValid);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueInvalid);
                     }
                     var productAttributeDateTime = await _productAttributeDateTimeRepository.GetAsync(x => x.Id == id);
                     if (productAttributeDateTime == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeDateTimeIsNotExists);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeDateTimeNotFound);
                     }
                     productAttributeDateTime.Value = input.DateTimeValue.Value;
                     await _productAttributeDateTimeRepository.UpdateAsync(productAttributeDateTime);
@@ -270,12 +270,12 @@ namespace MyEcommerce.Admin.Products
                 case AttributeType.Int:
                     if (input.IntValue == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueIsNotValid);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueInvalid);
                     }
                     var productAttributeInt = await _productAttributeIntRepository.GetAsync(x => x.Id == id);
                     if (productAttributeInt == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeIntIsNotExists);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeIntNotFound);
                     }
                     productAttributeInt.Value = input.IntValue.Value;
                     await _productAttributeIntRepository.UpdateAsync(productAttributeInt);
@@ -283,12 +283,12 @@ namespace MyEcommerce.Admin.Products
                 case AttributeType.Decimal:
                     if (input.DecimalValue == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueIsNotValid);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueInvalid);
                     }
                     var productAttributeDecimal = await _productAttributeDecimalRepository.GetAsync(x => x.Id == id);
                     if (productAttributeDecimal == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeDecimalIsNotExists);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeDecimalNotFound);
                     }
                     productAttributeDecimal.Value = input.DecimalValue.Value;
                     await _productAttributeDecimalRepository.UpdateAsync(productAttributeDecimal);
@@ -296,12 +296,12 @@ namespace MyEcommerce.Admin.Products
                 case AttributeType.Varchar:
                     if (input.VarcharValue == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueIsNotValid);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueInvalid);
                     }
                     var productAttributeVarchar = await _productAttributeVarcharRepository.GetAsync(x => x.Id == id);
                     if (productAttributeVarchar == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeVarcharIsNotExists);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeVarcharNotFound);
                     }
                     productAttributeVarchar.Value = input.VarcharValue;
                     await _productAttributeVarcharRepository.UpdateAsync(productAttributeVarchar);
@@ -309,12 +309,12 @@ namespace MyEcommerce.Admin.Products
                 case AttributeType.Text:
                     if (input.TextValue == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueIsNotValid);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeValueInvalid);
                     }
                     var productAttributeText = await _productAttributeTextRepository.GetAsync(x => x.Id == id);
                     if (productAttributeText == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeTextIsNotExists);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeTextNotFound);
                     }
                     productAttributeText.Value = input.TextValue;
                     await _productAttributeTextRepository.UpdateAsync(productAttributeText);
@@ -341,14 +341,14 @@ namespace MyEcommerce.Admin.Products
         {
             var attribute = await _productAttributeRepository.GetAsync(x => x.Id == attributeId);
             if (attribute == null)
-                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeIsNotExists);
+                throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeNotFound);
             switch (attribute.DataType)
             {
                 case AttributeType.Date:
                     var productAttributeDateTime = await _productAttributeDateTimeRepository.GetAsync(x => x.Id == id);
                     if (productAttributeDateTime == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeDateTimeIsNotExists);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeDateTimeNotFound);
                     }
                     await _productAttributeDateTimeRepository.DeleteAsync(productAttributeDateTime);
                     break;
@@ -357,7 +357,7 @@ namespace MyEcommerce.Admin.Products
                     var productAttributeInt = await _productAttributeIntRepository.GetAsync(x => x.Id == id);
                     if (productAttributeInt == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeIntIsNotExists);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeIntNotFound);
                     }
                     await _productAttributeIntRepository.DeleteAsync(productAttributeInt);
                     break;
@@ -366,7 +366,7 @@ namespace MyEcommerce.Admin.Products
                     var productAttributeDecimal = await _productAttributeDecimalRepository.GetAsync(x => x.Id == id);
                     if (productAttributeDecimal == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeDecimalIsNotExists);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeDecimalNotFound);
                     }
                     await _productAttributeDecimalRepository.DeleteAsync(productAttributeDecimal);
                     break;
@@ -375,7 +375,7 @@ namespace MyEcommerce.Admin.Products
                     var productAttributeVarchar = await _productAttributeVarcharRepository.GetAsync(x => x.Id == id);
                     if (productAttributeVarchar == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeVarcharIsNotExists);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeVarcharNotFound);
                     }
                     await _productAttributeVarcharRepository.DeleteAsync(productAttributeVarchar);
                     break;
@@ -384,7 +384,7 @@ namespace MyEcommerce.Admin.Products
                     var productAttributeText = await _productAttributeTextRepository.GetAsync(x => x.Id == id);
                     if (productAttributeText == null)
                     {
-                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeTextIsNotExists);
+                        throw new BusinessException(MyEcommerceDomainErrorCodes.ProductAttributeTextNotFound);
                     }
                     await _productAttributeTextRepository.DeleteAsync(productAttributeText);
                     break;
