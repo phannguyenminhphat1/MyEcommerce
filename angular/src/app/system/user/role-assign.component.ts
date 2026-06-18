@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, OnDestroy, inject } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoleDto, RolesService } from '@proxy/roles';
 import { UserDto } from '@proxy/users';
 import { UsersService } from '@proxy/users';
@@ -11,6 +11,8 @@ import { TableModule } from 'primeng/table';
 import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { ValidationMessageComponent } from 'src/app/shared/components/validation-message/validation-message.component';
 import { PickListModule } from 'primeng/picklist';
+import { ButtonModule } from 'primeng/button';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-role-assign',
@@ -24,6 +26,9 @@ import { PickListModule } from 'primeng/picklist';
     ReactiveFormsModule,
     ValidationMessageComponent,
     PickListModule,
+    ButtonModule,
+    CommonModule,
+    FormsModule,
   ],
   providers: [RolesService, UsersService],
 })

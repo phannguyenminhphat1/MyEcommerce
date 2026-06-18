@@ -25,6 +25,7 @@ import { CancelDialogService } from 'src/app/shared/services/cancel-dialog.servi
 import { CommonModule } from '@angular/common';
 import { RoleAssignComponent } from './role-assign.component';
 import { TooltipModule } from 'primeng/tooltip';
+import { SetPasswordComponent } from './set-password.component';
 
 @Component({
   selector: 'app-user',
@@ -51,7 +52,7 @@ import { TooltipModule } from 'primeng/tooltip';
     CommonModule,
     TooltipModule,
   ],
-  providers: [RoleAssignComponent],
+  providers: [RoleAssignComponent, SetPasswordComponent],
 })
 export class UserComponent implements OnInit, OnDestroy {
   private dialogService = inject(DialogService);
@@ -202,23 +203,25 @@ export class UserComponent implements OnInit, OnDestroy {
       });
   }
 
-  // setPassword(id: string) {
-  //   const ref = this.dialogService.open(SetPasswordComponent, {
-  //     data: {
-  //       id: id,
-  //     },
-  //     header: 'Đặt lại mật khẩu',
-  //     width: '70%',
-  //   });
+  setPassword(id: string) {
+    const ref = this.dialogService.open(SetPasswordComponent, {
+      data: {
+        id: id,
+      },
+      header: 'Reset password',
+      width: '50vw',
+      closable: true,
+      modal: true,
+    });
 
-  //   ref.onClose.subscribe((result: boolean) => {
-  //     if (result) {
-  //       this.notificationService.showSuccess(MessageConstants.CHANGE_PASSWORD_SUCCCESS_MSG);
-  //       this.selectedItems = [];
-  //       this.loadData();
-  //     }
-  //   });
-  // }
+    ref?.onClose.subscribe((result: boolean) => {
+      if (result) {
+        this.notificationService.showSuccess(MessageConstants.CHANGE_PASSWORD_SUCCCESS_MSG);
+        this.selectedItems = [];
+        this.loadData();
+      }
+    });
+  }
 
   assignRole(id: string) {
     const ref = this.dialogService.open(RoleAssignComponent, {

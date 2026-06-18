@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  EventEmitter,
-  OnDestroy,
-  ChangeDetectorRef,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, EventEmitter, OnDestroy, inject } from '@angular/core';
 import {
   Validators,
   FormControl,
@@ -21,7 +14,6 @@ import { UtilityService } from 'src/app/shared/services/utility.service';
 import { UserDto } from '@proxy/users';
 import { UsersService } from '@proxy/users';
 import { RoleDto, RolesService } from '@proxy/roles';
-import { DomSanitizer } from '@angular/platform-browser';
 import { PanelModule } from 'primeng/panel';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
@@ -65,12 +57,9 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private roleService = inject(RolesService);
   private userService = inject(UsersService);
-  private authService = inject(AuthService);
   private utilService = inject(UtilityService);
   private config = inject(DynamicDialogConfig);
   private ref = inject(DynamicDialogRef);
-  private cd = inject(ChangeDetectorRef);
-  private sanitizer = inject(DomSanitizer);
   private ngUnsubscribe = new Subject<void>();
 
   blockedPanel: boolean = false;
@@ -184,13 +173,11 @@ export class UserDetailComponent implements OnInit, OnDestroy {
 
   saveChange() {
     this.toggleBlockUI(true);
-
     this.saveData();
   }
 
   private saveData() {
     this.toggleBlockUI(true);
-    console.log(this.form.value);
     if (this.utilService.isEmpty(this.config.data?.id)) {
       this.userService
         .create(this.form.value)
