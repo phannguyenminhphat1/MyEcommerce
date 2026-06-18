@@ -18,6 +18,7 @@ using Volo.Abp.SimpleStateChecking;
 
 namespace MyEcommerce.Admin.Roles
 {
+    [Authorize(IdentityPermissions.Roles.Default, Policy = "AdminOnly")]
     public class RolesAppService : CrudAppService<
         IdentityRole,
         RoleDto,
@@ -43,13 +44,20 @@ namespace MyEcommerce.Admin.Roles
             PermissionManager = permissionManager;
             PermissionDefinitionManager = permissionDefinitionManager;
             SimpleStateCheckerManager = simpleStateCheckerManager;
+            GetPolicyName = IdentityPermissions.Roles.Default;
+            GetListPolicyName = IdentityPermissions.Roles.Default;
+            CreatePolicyName = IdentityPermissions.Roles.Create;
+            UpdatePolicyName = IdentityPermissions.Roles.Update;
+            DeletePolicyName = IdentityPermissions.Roles.Delete;
         }
 
+        [Authorize(IdentityPermissions.Roles.Delete)]
         public async Task DeleteMultipleAsync(IEnumerable<Guid> ids)
         {
             await Repository.DeleteManyAsync(ids);
         }
 
+        [Authorize(IdentityPermissions.Roles.Default)]
         public async Task<List<RoleInListDto>> GetListAllAsync()
         {
             var query = await Repository.GetQueryableAsync();
@@ -57,6 +65,7 @@ namespace MyEcommerce.Admin.Roles
             return ObjectMapper.Map<List<IdentityRole>, List<RoleInListDto>>(data);
         }
 
+        [Authorize(IdentityPermissions.Roles.Default)]
         public async Task<PagedResultDto<RoleInListDto>> GetListFilterAsync(BaseListFilterDto input)
         {
             var query = await Repository.GetQueryableAsync();
@@ -66,6 +75,7 @@ namespace MyEcommerce.Admin.Roles
             return new PagedResultDto<RoleInListDto>(totalCount, ObjectMapper.Map<List<IdentityRole>, List<RoleInListDto>>(data));
         }
 
+        [Authorize(IdentityPermissions.Roles.Create)]
         public async override Task<RoleDto> CreateAsync(CreateUpdateRoleDto input)
         {
             var query = await Repository.GetQueryableAsync();
@@ -80,6 +90,7 @@ namespace MyEcommerce.Admin.Roles
             return ObjectMapper.Map<IdentityRole, RoleDto>(data);
         }
 
+        [Authorize(IdentityPermissions.Roles.Update)]
         public async override Task<RoleDto> UpdateAsync(Guid id, CreateUpdateRoleDto input)
         {
             var role = await Repository.GetAsync(id);

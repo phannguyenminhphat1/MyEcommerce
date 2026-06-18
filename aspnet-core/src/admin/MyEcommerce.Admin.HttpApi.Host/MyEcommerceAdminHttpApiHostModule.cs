@@ -123,8 +123,12 @@ public class MyEcommerceAdminHttpApiHostModule : AbpModule
                     ValidateAudience = false,
                     ValidateIssuer = false,
                 };
-
             });
+
+        context.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+        });
 
         context.Services.Configure<AbpClaimsPrincipalFactoryOptions>(options =>
         {

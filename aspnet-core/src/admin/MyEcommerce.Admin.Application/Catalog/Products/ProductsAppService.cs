@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using MyEcommerce.Admin.Permissions;
 using MyEcommerce.Admin.Products.Attributes;
 using MyEcommerce.ProductAttributes;
 using MyEcommerce.Products;
@@ -15,7 +16,7 @@ using Volo.Abp.BlobStoring;
 using Volo.Abp.Domain.Repositories;
 namespace MyEcommerce.Admin.Products
 {
-    [Authorize]
+    [Authorize(MyEcommercePermissions.Product.Default, Policy = "AdminOnly")]
     public class ProductsAppService : CrudAppService<
         Product,
         ProductDto,
@@ -57,9 +58,15 @@ namespace MyEcommerce.Admin.Products
             _productAttributeDecimalRepository = productAttributeDecimalRepository;
             _productAttributeVarcharRepository = productAttributeVarcharRepository;
             _productAttributeTextRepository = productAttributeTextRepository;
+            GetPolicyName = MyEcommercePermissions.Product.Default;
+            GetListPolicyName = MyEcommercePermissions.Product.Default;
+            CreatePolicyName = MyEcommercePermissions.Product.Create;
+            UpdatePolicyName = MyEcommercePermissions.Product.Update;
+            DeletePolicyName = MyEcommercePermissions.Product.Delete;
         }
 
         #region DELETE MULTIPLE PRODUCTS
+        [Authorize(MyEcommercePermissions.Product.Delete)]
         public async Task DeleteMultipleAsync(IEnumerable<Guid> ids)
         {
             await _productRepository.DeleteManyAsync(ids);
@@ -67,6 +74,7 @@ namespace MyEcommerce.Admin.Products
         #endregion
 
         #region GET LIST PRODUCTS
+        [Authorize(MyEcommercePermissions.Product.Default)]
         public async Task<List<ProductInListDto>> GetListAllAsync()
         {
             var query = await _productRepository.GetQueryableAsync();
@@ -77,6 +85,7 @@ namespace MyEcommerce.Admin.Products
         #endregion
 
         #region GET LIST PRODUCTS WITH FILTER
+        [Authorize(MyEcommercePermissions.Product.Default)]
         public async Task<PagedResultDto<ProductInListDto>> GetListFilterAsync(ProductListFilterDto input)
         {
             var totalCount = await _productRepository.GetCountAsync(input.Keyword, input.CategoryId);
@@ -90,6 +99,7 @@ namespace MyEcommerce.Admin.Products
         #endregion
 
         #region CREATE PRODUCT
+        [Authorize(MyEcommercePermissions.Product.Create)]
         public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
             var product = await _productManager.CreateAsync(input.ManufacturerId, input.Name, input.Code, input.Slug, input.ProductType, input.SKU, input.SortOrder, input.Visibility, input.IsActive, input.CategoryId, input.SeoMetaDescription, input.Description, "", input.SellPrice);
@@ -104,6 +114,7 @@ namespace MyEcommerce.Admin.Products
         #endregion
 
         #region UPDATE PRODUCT
+        [Authorize(MyEcommercePermissions.Product.Update)]
         public override async Task<ProductDto> UpdateAsync(Guid id, CreateUpdateProductDto input)
         {
             var product = await Repository.GetAsync(id);
@@ -133,6 +144,7 @@ namespace MyEcommerce.Admin.Products
         #endregion
 
         #region SAVE THUMBNAIL IMAGE
+        [Authorize(MyEcommercePermissions.Product.Default)]
         private async Task SaveThumbnailImageAsync(string fileName, string base64)
         {
             Regex regex = new Regex(@"^[\w/\:.-]+;base64,");
@@ -143,6 +155,7 @@ namespace MyEcommerce.Admin.Products
         #endregion
 
         #region GET THUMBNAIL IMAGE
+        [Authorize(MyEcommercePermissions.Product.Default)]
         public async Task<string?> GetThumbnailImageAsync(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
@@ -160,6 +173,7 @@ namespace MyEcommerce.Admin.Products
         #endregion
 
         #region GET SUGGEST NEW CODE
+        [Authorize(MyEcommercePermissions.Product.Default)]
         public async Task<string> GetSuggestNewCodeAsync()
         {
             return await _productCodeGenerator.GenerateAsync();
@@ -167,6 +181,7 @@ namespace MyEcommerce.Admin.Products
         #endregion
 
         #region ADD PRODUCT ATTRIBUTE
+        [Authorize(MyEcommercePermissions.Product.Update)]
         public async Task<ProductAttributeValueDto> AddProductAttributeAsync(AddUpdateProductAttributeDto input)
         {
             var product = await Repository.GetAsync(input.ProductId);
@@ -242,6 +257,7 @@ namespace MyEcommerce.Admin.Products
         #endregion
 
         #region UPDATE PRODUCT ATTRIBUTE
+        [Authorize(MyEcommercePermissions.Product.Update)]
         public async Task<ProductAttributeValueDto> UpdateProductAttributeAsync(Guid id, AddUpdateProductAttributeDto input)
         {
             var product = await Repository.GetAsync(input.ProductId);
@@ -337,6 +353,7 @@ namespace MyEcommerce.Admin.Products
         #endregion
 
         #region REMOVE PRODUCT ATTRIBUTE
+        [Authorize(MyEcommercePermissions.Product.Delete)]
         public async Task RemoveProductAttributeAsync(Guid attributeId, Guid id)
         {
             var attribute = await _productAttributeRepository.GetAsync(x => x.Id == attributeId);
@@ -393,6 +410,7 @@ namespace MyEcommerce.Admin.Products
         #endregion
 
         #region GET LIST PRODUCT ATTRIBUTE
+        [Authorize(MyEcommercePermissions.Product.Default)]
         public async Task<List<ProductAttributeValueDto>> GetListProductAttributeAllAsync(Guid productId)
         {
             var attributeQuery = await _productAttributeRepository.GetQueryableAsync();
@@ -452,6 +470,7 @@ namespace MyEcommerce.Admin.Products
         #endregion
 
         #region GET LIST PRODUCT ATTRIBUTE WITH PAGING
+        [Authorize(MyEcommercePermissions.Product.Default)]
         public async Task<PagedResultDto<ProductAttributeValueDto>> GetListProductAttributesAsync(ProductAttributeListFilterDto input)
         {
             var attributeQuery = await _productAttributeRepository.GetQueryableAsync();

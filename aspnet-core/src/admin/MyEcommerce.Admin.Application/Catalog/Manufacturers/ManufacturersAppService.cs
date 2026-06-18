@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using MyEcommerce.Admin.Permissions;
 using MyEcommerce.Manufacturers;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -10,7 +11,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace MyEcommerce.Admin.Manufacturers
 {
-    [Authorize]
+    [Authorize(MyEcommercePermissions.Manufacturer.Default, Policy = "AdminOnly")]
     public class ManufacturersAppService : CrudAppService<
         Manufacturer,
         ManufacturerDto,
@@ -22,13 +23,20 @@ namespace MyEcommerce.Admin.Manufacturers
         public ManufacturersAppService(IRepository<Manufacturer, Guid> repository)
             : base(repository)
         {
+            GetPolicyName = MyEcommercePermissions.Manufacturer.Default;
+            GetListPolicyName = MyEcommercePermissions.Manufacturer.Default;
+            CreatePolicyName = MyEcommercePermissions.Manufacturer.Create;
+            UpdatePolicyName = MyEcommercePermissions.Manufacturer.Update;
+            DeletePolicyName = MyEcommercePermissions.Manufacturer.Delete;
         }
 
+        [Authorize(MyEcommercePermissions.Manufacturer.Delete)]
         public async Task DeleteMultipleAsync(IEnumerable<Guid> ids)
         {
             await Repository.DeleteManyAsync(ids);
         }
 
+        [Authorize(MyEcommercePermissions.Manufacturer.Default)]
         public async Task<List<ManufacturerInListDto>> GetListAllAsync()
         {
             var query = await Repository.GetQueryableAsync();
@@ -37,6 +45,7 @@ namespace MyEcommerce.Admin.Manufacturers
             return ObjectMapper.Map<List<Manufacturer>, List<ManufacturerInListDto>>(data);
         }
 
+        [Authorize(MyEcommercePermissions.Manufacturer.Default)]
         public async Task<PagedResultDto<ManufacturerInListDto>> GetListFilterAsync(BaseListFilterDto input)
         {
             var query = await Repository.GetQueryableAsync();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using MyEcommerce.Admin.Permissions;
 using MyEcommerce.ProductCategories;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -10,7 +11,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace MyEcommerce.Admin.ProductCategories
 {
-    [Authorize]
+    [Authorize(MyEcommercePermissions.ProductCategory.Default, Policy = "AdminOnly")]
     public class ProductCategoriesAppService : CrudAppService<
         ProductCategory,
         ProductCategoryDto,
@@ -22,7 +23,14 @@ namespace MyEcommerce.Admin.ProductCategories
         public ProductCategoriesAppService(IRepository<ProductCategory, Guid> repository)
             : base(repository)
         {
+            GetPolicyName = MyEcommercePermissions.ProductCategory.Default;
+            GetListPolicyName = MyEcommercePermissions.ProductCategory.Default;
+            CreatePolicyName = MyEcommercePermissions.ProductCategory.Create;
+            UpdatePolicyName = MyEcommercePermissions.ProductCategory.Update;
+            DeletePolicyName = MyEcommercePermissions.ProductCategory.Delete;
         }
+
+        [Authorize(MyEcommercePermissions.ProductCategory.Default)]
         public async Task<PagedResultDto<ProductCategoryInListDto>> GetListFilterAsync(BaseListFilterDto input)
         {
             var query = await Repository.GetQueryableAsync();
@@ -31,11 +39,14 @@ namespace MyEcommerce.Admin.ProductCategories
             var data = await AsyncExecuter.ToListAsync(query.Skip(input.SkipCount).Take(input.MaxResultCount));
             return new PagedResultDto<ProductCategoryInListDto>(totalCount, ObjectMapper.Map<List<ProductCategory>, List<ProductCategoryInListDto>>(data));
         }
+
+        [Authorize(MyEcommercePermissions.ProductCategory.Delete)]
         public async Task DeleteMultipleAsync(IEnumerable<Guid> ids)
         {
             await Repository.DeleteManyAsync(ids);
         }
 
+        [Authorize(MyEcommercePermissions.ProductCategory.Default)]
         public async Task<List<ProductCategoryInListDto>> GetListAllAsync()
         {
             var query = await Repository.GetQueryableAsync();
