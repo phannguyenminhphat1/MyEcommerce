@@ -89,19 +89,53 @@ export class UserDetailComponent implements OnInit, OnDestroy {
 
   // Validate
   validationMessages = {
-    name: [{ type: 'required', message: 'Name is required' }],
-    surname: [{ type: 'required', message: 'Surname is required' }],
-    email: [{ type: 'required', message: 'Email is required' }],
-    userName: [{ type: 'required', message: 'Username is required' }],
+    name: [
+      { type: 'required', message: 'Name is required' },
+      { type: 'minlength', message: 'Name must be at least 2 characters' },
+      { type: 'maxlength', message: 'Name cannot exceed 50 characters' },
+    ],
+
+    surname: [
+      { type: 'required', message: 'Surname is required' },
+      { type: 'minlength', message: 'Surname must be at least 2 characters' },
+      { type: 'maxlength', message: 'Surname cannot exceed 50 characters' },
+    ],
+
+    userName: [
+      { type: 'required', message: 'Username is required' },
+      { type: 'minlength', message: 'Username must be at least 4 characters' },
+      { type: 'maxlength', message: 'Username cannot exceed 32 characters' },
+      { type: 'pattern', message: 'Username cannot contain spaces' },
+    ],
+
+    email: [
+      { type: 'required', message: 'Email is required' },
+      { type: 'email', message: 'Please enter a valid email address' },
+      { type: 'pattern', message: 'Email cannot contain spaces' },
+    ],
+
     password: [
       { type: 'required', message: 'Password is required' },
       {
+        type: 'minlength',
+        message: 'Password must be at least 8 characters long',
+      },
+      {
         type: 'pattern',
         message:
-          'Password must be at least 8 characters long and contain at least one number, one special character, and one uppercase letter',
+          'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character',
       },
     ],
-    phoneNumber: [{ type: 'required', message: 'Phone number is required' }],
+
+    phoneNumber: [
+      { type: 'required', message: 'Phone number is required' },
+      { type: 'minlength', message: 'Phone number must be at least 10 digits' },
+      { type: 'maxlength', message: 'Phone number cannot exceed 15 digits' },
+      {
+        type: 'pattern',
+        message: 'Phone number must contain digits only and cannot contain spaces',
+      },
+    ],
   };
 
   ngOnInit() {
@@ -217,11 +251,31 @@ export class UserDetailComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this.form = this.fb.group({
-      name: new FormControl(this.selectedEntity.name || null, Validators.required),
-      surname: new FormControl(this.selectedEntity.surname || null, Validators.required),
-      userName: new FormControl(this.selectedEntity.userName || null, Validators.required),
-      email: new FormControl(this.selectedEntity.email || null, Validators.required),
-      phoneNumber: new FormControl(this.selectedEntity.phoneNumber || null, Validators.required),
+      name: new FormControl(this.selectedEntity.name || null, [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50),
+      ]),
+      surname: new FormControl(this.selectedEntity.surname || null, [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50),
+      ]),
+      userName: new FormControl(this.selectedEntity.userName || null, [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(32),
+        Validators.pattern(/^\S+$/),
+      ]),
+      email: new FormControl(this.selectedEntity.email || null, [
+        Validators.required,
+        Validators.email,
+        Validators.pattern(/^\S+$/),
+      ]),
+      phoneNumber: new FormControl(this.selectedEntity.phoneNumber || null, [
+        Validators.required,
+        Validators.pattern(/^[0-9]{10,15}$/),
+      ]),
       password: new FormControl(
         null,
         Validators.compose([

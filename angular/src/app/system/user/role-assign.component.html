@@ -13,9 +13,11 @@
     </ng-template>
   </p-pickList>
   <ng-template pTemplate="footer">
-    <button type="button" (click)="saveChange()" class="btn btn-primary" [disabled]="btnDisabled">
-      {{ saveBtnName }}
-    </button>
+    <div class="flex justify-end">
+      <button type="button" (click)="saveChange()" [disabled]="btnDisabled">
+        {{ saveBtnName }}
+      </button>
+    </div>
   </ng-template>
 
   <!--Block UI-->

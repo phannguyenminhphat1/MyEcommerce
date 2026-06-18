@@ -86,7 +86,7 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-row>
-      <tr>
+      <tr [pSelectableRow]="row">
         <td>{{ row.code }}</td>
         <td>
           {{ row.label }}

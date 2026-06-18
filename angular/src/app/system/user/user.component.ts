@@ -24,6 +24,7 @@ import { ValidationMessageComponent } from 'src/app/shared/components/validation
 import { CancelDialogService } from 'src/app/shared/services/cancel-dialog.service';
 import { CommonModule } from '@angular/common';
 import { RoleAssignComponent } from './role-assign.component';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-user',
@@ -48,6 +49,7 @@ import { RoleAssignComponent } from './role-assign.component';
     ImageModule,
     ValidationMessageComponent,
     CommonModule,
+    TooltipModule,
   ],
   providers: [RoleAssignComponent],
 })
@@ -223,7 +225,7 @@ export class UserComponent implements OnInit, OnDestroy {
       data: {
         id: id,
       },
-      header: 'Assign role',
+      header: 'Assign roles',
       width: '50vw',
       closable: true,
       modal: true,
