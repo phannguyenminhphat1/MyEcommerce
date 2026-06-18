@@ -1,14 +1,21 @@
+import { permissionGuard } from '@abp/ng.core';
 import { Routes } from '@angular/router';
 
 export const catalogRoutes: Routes = [
   {
     path: 'product',
-    pathMatch: 'full',
+    canActivate: [permissionGuard],
+    data: {
+      requiredPolicy: 'MyEcomAdminCatalog.Product',
+    },
     loadComponent: () => import('./product/product.component').then(m => m.ProductComponent),
   },
   {
     path: 'attribute',
-    pathMatch: 'full',
+    canActivate: [permissionGuard],
+    data: {
+      requiredPolicy: 'MyEcomAdminCatalog.Attribute',
+    },
     loadComponent: () => import('./attribute/attribute.component').then(m => m.AttributeComponent),
   },
 ];
