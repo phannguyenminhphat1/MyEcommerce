@@ -4,6 +4,7 @@
   <div class="grid grid-cols-12 gap-4 mb-4">
     <div class="col-span-12 md:col-span-4 flex gap-4 items-end">
       <button
+        *ngIf="canCreate"
         (click)="showAddModal()"
         pButton
         type="button"
@@ -14,7 +15,7 @@
       <button
         pButton
         type="button"
-        *ngIf="selectedItems.length > 0"
+        *ngIf="canDelete && selectedItems.length > 0"
         class="ml-1 p-button-help"
         icon="fa fa-trash"
         iconPos="left"
@@ -116,6 +117,7 @@
               (click)="showEditModal(row.id)"
               pTooltip="Edit"
               tooltipPosition="top"
+              *ngIf="canUpdate"
             ></button>
             <button
               pButton
@@ -128,6 +130,7 @@
               (click)="deleteItem(row.id)"
               pTooltip="Delete"
               tooltipPosition="top"
+              *ngIf="canDelete"
             ></button>
             <button
               pButton
@@ -140,6 +143,7 @@
               pTooltip="Manage Attributes"
               tooltipPosition="top"
               severity="secondary"
+              *ngIf="canManageAttribute"
             ></button>
           </div>
         </td>

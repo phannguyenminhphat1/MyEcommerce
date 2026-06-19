@@ -23,6 +23,7 @@ import { TokenStorageService } from '../shared/services/token.service';
 import { LoginResponseDto } from '../shared/models/login-response.dto';
 import { NotificationService } from '../shared/services/notification.service';
 import { PanelModule } from 'primeng/panel';
+import { ConfigStateService } from '@abp/ng.core';
 
 @Component({
   selector: 'app-login',
@@ -49,6 +50,7 @@ export class Login implements OnDestroy {
   private router = inject(Router);
   private tokenService = inject(TokenStorageService);
   private notificationService = inject(NotificationService);
+  private configState = inject(ConfigStateService);
   private ngUnsubscribe = new Subject<void>();
 
   blockedPanel: boolean = false;
@@ -73,7 +75,9 @@ export class Login implements OnDestroy {
           this.tokenService.saveToken(res.access_token);
           this.tokenService.saveRefreshToken(res.refresh_token);
           this.toggleBlockUI(false);
-          this.router.navigate(['']);
+          this.configState.refreshAppState().subscribe(() => {
+            this.router.navigate(['/']);
+          });
         },
         error: ex => {
           this.notificationService.showError(

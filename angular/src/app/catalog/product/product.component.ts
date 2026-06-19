@@ -1,4 +1,4 @@
-import { PagedResultDto } from '@abp/ng.core';
+import { PagedResultDto, PermissionService } from '@abp/ng.core';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ProductDto, ProductInListDto, ProductsService } from '@proxy/products';
 import { BlockUIModule } from 'primeng/blockui';
@@ -51,6 +51,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   private cancelDialogService = inject(CancelDialogService);
   private ngUnsubscribe = new Subject<void>();
   private productCategoryService = inject(ProductCategoriesService);
+  private permissionService = inject(PermissionService);
 
   blockedPanel: boolean = false;
   items: ProductInListDto[] = [];
@@ -65,11 +66,27 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   public selectedItems: ProductInListDto[] = [];
 
+  // Permissions
+  canCreate = false;
+  canUpdate = false;
+  canDelete = false;
+  canManageAttribute = false;
+
   constructor() {}
 
   ngOnInit(): void {
+    this.getPermissions();
     this.loadData();
     this.loadProductCategories();
+  }
+
+  getPermissions() {
+    this.canCreate = this.permissionService.getGrantedPolicy('MyEcomAdminCatalog.Product.Create');
+    this.canUpdate = this.permissionService.getGrantedPolicy('MyEcomAdminCatalog.Product.Update');
+    this.canDelete = this.permissionService.getGrantedPolicy('MyEcomAdminCatalog.Product.Delete');
+    this.canManageAttribute = this.permissionService.getGrantedPolicy(
+      'MyEcomAdminCatalog.Product.Attribute',
+    );
   }
 
   loadData() {
