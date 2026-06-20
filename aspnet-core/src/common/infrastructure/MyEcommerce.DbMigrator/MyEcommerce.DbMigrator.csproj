@@ -32,7 +32,7 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Autofac" Version="10.3.0" />
     <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="10.3.0" />
-    <ProjectReference Include="..\..\..\public\MyEcommerce.Application.Contracts\MyEcommerce.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\public\MyEcommerce.Public.Application.Contracts\MyEcommerce.Public.Application.Contracts.csproj" />
     <ProjectReference Include="..\..\infrastructure\MyEcommerce.EntityFrameworkCore\MyEcommerce.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\..\admin\MyEcommerce.Admin.Application.Contracts\MyEcommerce.Admin.Application.Contracts.csproj" />
   </ItemGroup>

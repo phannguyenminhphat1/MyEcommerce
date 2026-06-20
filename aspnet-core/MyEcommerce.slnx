@@ -6,11 +6,11 @@
     <Project Path="src/admin/MyEcommerce.Admin.HttpApi.Client/MyEcommerce.Admin.HttpApi.Client.csproj" />
     <Project Path="src/admin/MyEcommerce.Admin.HttpApi.Host/MyEcommerce.Admin.HttpApi.Host.csproj" />
 
-    <Project Path="src/public/MyEcommerce.Application.Contracts/MyEcommerce.Application.Contracts.csproj" />
-    <Project Path="src/public/MyEcommerce.Application/MyEcommerce.Application.csproj" />
-    <Project Path="src/public/MyEcommerce.HttpApi/MyEcommerce.HttpApi.csproj" />
-    <Project Path="src/public/MyEcommerce.HttpApi.Client/MyEcommerce.HttpApi.Client.csproj" />
-    <Project Path="src/public/MyEcommerce.HttpApi.Host/MyEcommerce.HttpApi.Host.csproj" />
+    <Project Path="src/public/MyEcommerce.Public.Application.Contracts/MyEcommerce.Public.Application.Contracts.csproj" />
+    <Project Path="src/public/MyEcommerce.Public.Application/MyEcommerce.Public.Application.csproj" />
+    <Project Path="src/public/MyEcommerce.Public.HttpApi/MyEcommerce.Public.HttpApi.csproj" />
+    <Project Path="src/public/MyEcommerce.Public.HttpApi.Client/MyEcommerce.Public.HttpApi.Client.csproj" />
+    <Project Path="src/public/MyEcommerce.Public.Web/MyEcommerce.Public.Web.csproj" />
 
 
     <Project Path="src/common/domain/MyEcommerce.Domain.Shared/MyEcommerce.Domain.Shared.csproj" />
@@ -24,7 +24,7 @@
     <Project Path="src/auth/MyEcommerce.AuthServer/MyEcommerce.AuthServer.csproj" />
   </Folder>
   
-  <Folder Name="/test/">
+  <!-- <Folder Name="/test/">
     <Project Path="test/admin/MyEcommerce.Admin.Application.ConsoleTestApp/MyEcommerce.Admin.HttpApi.Client.ConsoleTestApp.csproj" />
     <Project Path="test/admin/MyEcommerce.Admin.Application.Tests/MyEcommerce.Admin.Application.Tests.csproj" />
 
@@ -36,5 +36,5 @@
     <Project Path="test/shared/MyEcommerce.HttpApi.Client.ConsoleTestApp/MyEcommerce.HttpApi.Client.ConsoleTestApp.csproj" />
     <Project Path="test/shared/MyEcommerce.TestBase/MyEcommerce.TestBase.csproj" />
     
-  </Folder>
+  </Folder> -->
 </Solution>

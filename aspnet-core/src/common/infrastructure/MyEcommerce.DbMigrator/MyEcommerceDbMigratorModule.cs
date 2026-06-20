@@ -1,4 +1,5 @@
 ﻿using MyEcommerce.EntityFrameworkCore;
+using MyEcommerce.Public;
 using Volo.Abp.Autofac;
 using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
@@ -10,7 +11,7 @@ namespace MyEcommerce.DbMigrator;
     typeof(AbpAutofacModule),
     typeof(AbpCachingStackExchangeRedisModule),
     typeof(MyEcommerceEntityFrameworkCoreModule),
-    typeof(MyEcommerceApplicationContractsModule)
+    typeof(MyEcommercePublicApplicationContractsModule)
     )]
 public class MyEcommerceDbMigratorModule : AbpModule
 {
