@@ -18,4 +18,12 @@ export const catalogRoutes: Routes = [
     },
     loadComponent: () => import('./attribute/attribute.component').then(m => m.AttributeComponent),
   },
+  {
+    path: 'category',
+    canActivate: [permissionGuard],
+    data: {
+      requiredPolicy: 'MyEcomAdminCatalog.ProductCategory',
+    },
+    loadComponent: () => import('./category/category.component').then(m => m.CategoryComponent),
+  },
 ];

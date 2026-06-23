@@ -6,6 +6,9 @@ namespace MyEcommerce.Products
 {
     public class Product : AuditedAggregateRoot<Guid>
     {
+        public Product()
+        {
+        }
         public Product(Guid id, Guid manufacturerId,
             string name, string code, string slug,
             ProductType productType, string sKU,

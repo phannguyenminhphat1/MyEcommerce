@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MyEcommerce.Manufacturers;
+using MyEcommerce.Orders;
 using MyEcommerce.ProductAttributes;
 using MyEcommerce.ProductCategories;
 using MyEcommerce.Products;
@@ -29,7 +31,9 @@ namespace MyEcommerce.Public.Products
         private readonly IRepository<ProductAttributeDecimal> _productAttributeDecimalRepository;
         private readonly IRepository<ProductAttributeVarchar> _productAttributeVarcharRepository;
         private readonly IRepository<ProductAttributeText> _productAttributeTextRepository;
-
+        private readonly IRepository<Order> _orderRepository;
+        private readonly IRepository<OrderItem> _orderItemRepository;
+        private readonly IRepository<Manufacturer> _manufacturerRepository;
 
         public ProductsAppService(
             IProductRepository productRepository,
@@ -40,9 +44,10 @@ namespace MyEcommerce.Public.Products
             IRepository<ProductAttributeInt> productAttributeIntRepository,
             IRepository<ProductAttributeDecimal> productAttributeDecimalRepository,
             IRepository<ProductAttributeVarchar> productAttributeVarcharRepository,
-            IRepository<ProductAttributeText> productAttributeTextRepository
-              )
-            : base(productRepository)
+            IRepository<ProductAttributeText> productAttributeTextRepository,
+            IRepository<Order> orderRepository,
+            IRepository<OrderItem> orderItemRepository,
+            IRepository<Manufacturer> manufacturerRepository) : base(productRepository)
         {
             _productRepository = productRepository;
             _productManager = productManager;
@@ -53,6 +58,9 @@ namespace MyEcommerce.Public.Products
             _productAttributeDecimalRepository = productAttributeDecimalRepository;
             _productAttributeVarcharRepository = productAttributeVarcharRepository;
             _productAttributeTextRepository = productAttributeTextRepository;
+            _orderRepository = orderRepository;
+            _orderItemRepository = orderItemRepository;
+            _manufacturerRepository = manufacturerRepository;
         }
 
         #region GET LIST PRODUCTS
@@ -216,6 +224,76 @@ namespace MyEcommerce.Public.Products
                 .Take(input.MaxResultCount)
                 );
             return new PagedResultDto<ProductAttributeValueDto>(totalCount, data);
+        }
+        #endregion
+
+        #region GET LIST TOP SELLER
+        public async Task<List<ProductInListDto>> GetListTopSellerAsync(int numberOfRecords)
+        {
+            var productQuery = await Repository.GetQueryableAsync();
+            var orderQuery = await _orderRepository.GetQueryableAsync();
+            var orderItemQuery = await _orderItemRepository.GetQueryableAsync();
+            var manufacturerQuery = await _manufacturerRepository.GetQueryableAsync();
+
+            var query =
+                from oi in orderItemQuery
+                join o in orderQuery on oi.OrderId equals o.Id
+                join p in productQuery on oi.ProductId equals p.Id
+                join m in manufacturerQuery on p.ManufacturerId equals m.Id
+                where p.IsActive && o.Status == OrderStatus.Finished
+                group new { oi, p, m } by p into g
+                orderby g.Sum(x => x.oi.Quantity) descending
+                select new ProductInListDto
+                {
+                    Id = g.Key.Id,
+                    ManufacturerId = g.Key.ManufacturerId,
+                    ManufacturerName = g.Select(x => x.m.Name).FirstOrDefault() ?? string.Empty,
+                    Name = g.Key.Name,
+                    Code = g.Key.Code,
+                    Slug = g.Key.Slug,
+                    ProductType = g.Key.ProductType,
+                    SKU = g.Key.SKU,
+                    SortOrder = g.Key.SortOrder,
+                    Visibility = g.Key.Visibility,
+                    IsActive = g.Key.IsActive,
+                    CategoryId = g.Key.CategoryId,
+                    ThumbnailPicture = g.Key.ThumbnailPicture,
+                    SellPrice = g.Key.SellPrice
+                };
+
+            var products = await AsyncExecuter.ToListAsync(
+                query.Take(numberOfRecords)
+            );
+            if (products.Count < numberOfRecords)
+            {
+                var remaining = numberOfRecords - products.Count;
+                var excludeIds = products.Select(p => p.Id).ToList();
+                var additionalQuery =
+                    from p in productQuery
+                    join m in manufacturerQuery on p.ManufacturerId equals m.Id
+                    where p.IsActive && !excludeIds.Contains(p.Id)
+                    orderby p.CreationTime descending
+                    select new ProductInListDto
+                    {
+                        Id = p.Id,
+                        ManufacturerId = p.ManufacturerId,
+                        ManufacturerName = m.Name,
+                        Name = p.Name,
+                        Code = p.Code,
+                        Slug = p.Slug,
+                        ProductType = p.ProductType,
+                        SKU = p.SKU,
+                        SortOrder = p.SortOrder,
+                        Visibility = p.Visibility,
+                        IsActive = p.IsActive,
+                        CategoryId = p.CategoryId,
+                        ThumbnailPicture = p.ThumbnailPicture,
+                        SellPrice = p.SellPrice
+                    };
+                var additionalProducts = await AsyncExecuter.ToListAsync(additionalQuery.Take(remaining));
+                products.AddRange(additionalProducts);
+            }
+            return products;
         }
         #endregion
     }

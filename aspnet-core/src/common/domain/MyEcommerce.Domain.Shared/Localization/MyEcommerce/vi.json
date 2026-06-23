@@ -27,6 +27,8 @@
 
         "MyEcommerce:10101": "Không tìm thấy danh mục sản phẩm.",
         "MyEcommerce:10102": "Danh mục sản phẩm đang ngừng hoạt động.",
+        "MyEcommerce:10103": "Tên danh mục sản phẩm đã tồn tại",
+        "MyEcommerce:10104": "Mã danh mục đã tồn tại.",
 
         "MyEcommerce:10201": "Không tìm thấy thuộc tính sản phẩm.",
         "MyEcommerce:10202": "Không tìm thấy giá trị thuộc tính sản phẩm.",

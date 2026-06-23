@@ -27,6 +27,8 @@
 
         "MyEcommerce:10101": "Product category not found.",
         "MyEcommerce:10102": "Product category is inactive.",
+        "MyEcommerce:10103": "Product category name already exist.",
+        "MyEcommerce:10104": "Product category code already exist.",
 
         "MyEcommerce:10201": "Product attribute not found.",
         "MyEcommerce:10202": "Product attribute value not found.",

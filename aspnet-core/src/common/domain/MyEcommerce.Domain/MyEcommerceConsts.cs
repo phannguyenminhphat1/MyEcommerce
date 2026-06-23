@@ -8,4 +8,6 @@ public static class MyEcommerceConsts
     public const string ProductIdentitySettingPrefix = "P";
     public const string ProductAttributeIdentitySettingId = "ProductAttribute";
     public const string ProductAttributeIdentitySettingPrefix = "PA";
+    public const string ProductCategoryIdentitySettingId = "ProductCategory";
+    public const string ProductCategoryIdentitySettingPrefix = "PC";
 }

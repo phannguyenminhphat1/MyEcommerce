@@ -1,20 +1,36 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MyEcommerce.Public.ProductCategories;
+using MyEcommerce.Public.Web.Models;
+using Volo.Abp.Caching;
 
 namespace MyEcommerce.Public.Web.ViewComponents
 {
     public class HeaderViewComponent : ViewComponent
     {
         private readonly IProductCategoriesAppService _productCategoriesAppService;
-        public HeaderViewComponent(IProductCategoriesAppService productCategoriesAppService)
+        private readonly IDistributedCache<HeaderCacheItem> _distributedCache;
+        public HeaderViewComponent(IProductCategoriesAppService productCategoriesAppService, IDistributedCache<HeaderCacheItem> distributedCache)
         {
             _productCategoriesAppService = productCategoriesAppService;
+            _distributedCache = distributedCache;
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var model = await _productCategoriesAppService.GetListAllAsync();
-            return View(model);
+            var cacheItem = await _distributedCache.GetOrAddAsync(MyEcommercePublicConsts.CacheKeys.HeaderData, async () =>
+            {
+                var model = await _productCategoriesAppService.GetListAllAsync();
+                return new HeaderCacheItem()
+                {
+                    Categories = model
+                };
+            },
+            () => new Microsoft.Extensions.Caching.Distributed.DistributedCacheEntryOptions
+            {
+                AbsoluteExpiration = DateTimeOffset.Now.AddHours(12)
+            });
+            return View(cacheItem?.Categories);
         }
     }
 }

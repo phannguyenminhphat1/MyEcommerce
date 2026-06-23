@@ -1236,7 +1236,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Manufacturer.Delete",
                   "roles": null
                 }
               ],
@@ -1262,7 +1266,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Manufacturer",
                   "roles": null
                 }
               ],
@@ -1346,7 +1354,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Manufacturer",
                   "roles": null
                 }
               ],
@@ -1400,7 +1412,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -1480,7 +1492,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -1534,7 +1546,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -1588,7 +1600,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -1657,7 +1669,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -1900,7 +1912,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Attribute.Delete",
                   "roles": null
                 }
               ],
@@ -1926,7 +1942,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Attribute",
                   "roles": null
                 }
               ],
@@ -2010,7 +2030,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Attribute",
                   "roles": null
                 }
               ],
@@ -2036,7 +2060,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Attribute",
                   "roles": null
                 }
               ],
@@ -2090,7 +2118,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -2170,7 +2198,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -2224,7 +2252,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -2278,7 +2306,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -2347,7 +2375,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -2620,7 +2648,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.ProductCategory",
                   "roles": null
                 }
               ],
@@ -2674,7 +2706,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.ProductCategory.Delete",
                   "roles": null
                 }
               ],
@@ -2700,11 +2736,103 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.ProductCategory",
                   "roles": null
                 }
               ],
               "implementFrom": "MyEcommerce.Admin.ProductCategories.IProductCategoriesAppService",
+              "summary": null,
+              "remarks": null,
+              "description": null,
+              "displayName": null
+            },
+            "GetSuggestNewCodeAsync": {
+              "uniqueName": "GetSuggestNewCodeAsync",
+              "name": "GetSuggestNewCodeAsync",
+              "httpMethod": "GET",
+              "url": "api/app/product-categories/suggest-new-code",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "System.String",
+                "typeSimple": "string",
+                "summary": null
+              },
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.ProductCategory",
+                  "roles": null
+                }
+              ],
+              "implementFrom": "MyEcommerce.Admin.ProductCategories.ProductCategoriesAppService",
+              "summary": null,
+              "remarks": null,
+              "description": null,
+              "displayName": null
+            },
+            "GetCoverPictureAsyncByFileName": {
+              "uniqueName": "GetCoverPictureAsyncByFileName",
+              "name": "GetCoverPictureAsync",
+              "httpMethod": "GET",
+              "url": "api/app/product-categories/cover-picture",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "fileName",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "fileName",
+                  "name": "fileName",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "",
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                }
+              ],
+              "returnValue": {
+                "type": "System.String",
+                "typeSimple": "string",
+                "summary": null
+              },
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.ProductCategory",
+                  "roles": null
+                }
+              ],
+              "implementFrom": "MyEcommerce.Admin.ProductCategories.ProductCategoriesAppService",
               "summary": null,
               "remarks": null,
               "description": null,
@@ -2754,7 +2882,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.ProductCategory.Create",
                   "roles": null
                 }
               ],
@@ -2834,7 +2966,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -2888,7 +3020,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -2942,7 +3074,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -3011,7 +3143,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -3411,7 +3543,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Product.Delete",
                   "roles": null
                 }
               ],
@@ -3437,7 +3573,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Product",
                   "roles": null
                 }
               ],
@@ -3536,7 +3676,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Product",
                   "roles": null
                 }
               ],
@@ -3590,7 +3734,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Product.Create",
                   "roles": null
                 }
               ],
@@ -3670,7 +3818,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Product.Update",
                   "roles": null
                 }
               ],
@@ -3724,7 +3876,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Product",
                   "roles": null
                 }
               ],
@@ -3750,7 +3906,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Product",
                   "roles": null
                 }
               ],
@@ -3804,7 +3964,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Product.Update",
                   "roles": null
                 }
               ],
@@ -3884,7 +4048,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Product.Update",
                   "roles": null
                 }
               ],
@@ -3964,7 +4132,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Product.Delete",
                   "roles": null
                 }
               ],
@@ -4018,7 +4190,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Product",
                   "roles": null
                 }
               ],
@@ -4117,7 +4293,11 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "MyEcomAdminCatalog.Product",
                   "roles": null
                 }
               ],
@@ -4171,7 +4351,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -4225,7 +4405,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -4294,7 +4474,7 @@
               "allowAnonymous": false,
               "authorizeDatas": [
                 {
-                  "policy": null,
+                  "policy": "AdminOnly",
                   "roles": null
                 }
               ],
@@ -4609,8 +4789,17 @@
                 "typeSimple": "System.Void",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "AbpIdentity.Roles.Delete",
+                  "roles": null
+                }
+              ],
               "implementFrom": "MyEcommerce.Admin.Roles.IRolesAppService",
               "summary": null,
               "remarks": null,
@@ -4630,8 +4819,17 @@
                 "typeSimple": "[MyEcommerce.Admin.Roles.RoleInListDto]",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "AbpIdentity.Roles",
+                  "roles": null
+                }
+              ],
               "implementFrom": "MyEcommerce.Admin.Roles.IRolesAppService",
               "summary": null,
               "remarks": null,
@@ -4709,8 +4907,17 @@
                 "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<MyEcommerce.Admin.Roles.RoleInListDto>",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "AbpIdentity.Roles",
+                  "roles": null
+                }
+              ],
               "implementFrom": "MyEcommerce.Admin.Roles.IRolesAppService",
               "summary": null,
               "remarks": null,
@@ -4758,8 +4965,17 @@
                 "typeSimple": "MyEcommerce.Admin.Roles.RoleDto",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "AbpIdentity.Roles.Create",
+                  "roles": null
+                }
+              ],
               "implementFrom": "Volo.Abp.Application.Services.ICreateAppService<MyEcommerce.Admin.Roles.RoleDto,MyEcommerce.Admin.Roles.CreateUpdateRoleDto>",
               "summary": null,
               "remarks": null,
@@ -4833,8 +5049,17 @@
                 "typeSimple": "MyEcommerce.Admin.Roles.RoleDto",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "AbpIdentity.Roles.Update",
+                  "roles": null
+                }
+              ],
               "implementFrom": "Volo.Abp.Application.Services.IUpdateAppService<MyEcommerce.Admin.Roles.RoleDto,System.Guid,MyEcommerce.Admin.Roles.CreateUpdateRoleDto>",
               "summary": null,
               "remarks": null,
@@ -4908,8 +5133,13 @@
                 "typeSimple": "Volo.Abp.PermissionManagement.GetPermissionListResultDto",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                }
+              ],
               "implementFrom": "MyEcommerce.Admin.Roles.IRolesAppService",
               "summary": null,
               "remarks": null,
@@ -5009,8 +5239,13 @@
                 "typeSimple": "System.Void",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                }
+              ],
               "implementFrom": "MyEcommerce.Admin.Roles.IRolesAppService",
               "summary": null,
               "remarks": null,
@@ -5058,8 +5293,13 @@
                 "typeSimple": "System.Void",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                }
+              ],
               "implementFrom": "Volo.Abp.Application.Services.IDeleteAppService<System.Guid>",
               "summary": null,
               "remarks": null,
@@ -5107,8 +5347,13 @@
                 "typeSimple": "MyEcommerce.Admin.Roles.RoleDto",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                }
+              ],
               "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<MyEcommerce.Admin.Roles.RoleDto,MyEcommerce.Admin.Roles.RoleDto,System.Guid,Volo.Abp.Application.Dtos.PagedResultRequestDto>",
               "summary": null,
               "remarks": null,
@@ -5171,8 +5416,13 @@
                 "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<MyEcommerce.Admin.Roles.RoleDto>",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                }
+              ],
               "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<MyEcommerce.Admin.Roles.RoleDto,MyEcommerce.Admin.Roles.RoleDto,System.Guid,Volo.Abp.Application.Dtos.PagedResultRequestDto>",
               "summary": null,
               "remarks": null,
@@ -5485,8 +5735,17 @@
                 "typeSimple": "System.Void",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "AbpIdentity.Users.Delete",
+                  "roles": null
+                }
+              ],
               "implementFrom": "MyEcommerce.Admin.Users.IUsersAppService",
               "summary": null,
               "remarks": null,
@@ -5534,8 +5793,17 @@
                 "typeSimple": "[MyEcommerce.Admin.Users.UserInListDto]",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "AbpIdentity.Users",
+                  "roles": null
+                }
+              ],
               "implementFrom": "MyEcommerce.Admin.Users.IUsersAppService",
               "summary": null,
               "remarks": null,
@@ -5613,8 +5881,17 @@
                 "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<MyEcommerce.Admin.Users.UserInListDto>",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "AbpIdentity.Users",
+                  "roles": null
+                }
+              ],
               "implementFrom": "MyEcommerce.Admin.Users.IUsersAppService",
               "summary": null,
               "remarks": null,
@@ -5662,8 +5939,17 @@
                 "typeSimple": "MyEcommerce.Admin.Users.UserDto",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "AbpIdentity.Users.Create",
+                  "roles": null
+                }
+              ],
               "implementFrom": "Volo.Abp.Application.Services.ICreateAppService<MyEcommerce.Admin.Users.UserDto,MyEcommerce.Admin.Users.CreateUserDto>",
               "summary": null,
               "remarks": null,
@@ -5737,8 +6023,17 @@
                 "typeSimple": "MyEcommerce.Admin.Users.UserDto",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "AbpIdentity.Users.Update",
+                  "roles": null
+                }
+              ],
               "implementFrom": "Volo.Abp.Application.Services.IUpdateAppService<MyEcommerce.Admin.Users.UserDto,System.Guid,MyEcommerce.Admin.Users.UpdateUserDto>",
               "summary": null,
               "remarks": null,
@@ -5786,8 +6081,17 @@
                 "typeSimple": "MyEcommerce.Admin.Users.UserDto",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "AbpIdentity.Users",
+                  "roles": null
+                }
+              ],
               "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<MyEcommerce.Admin.Users.UserDto,MyEcommerce.Admin.Users.UserDto,System.Guid,Volo.Abp.Application.Dtos.PagedResultRequestDto>",
               "summary": null,
               "remarks": null,
@@ -5861,8 +6165,17 @@
                 "typeSimple": "System.Void",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "AbpIdentity.Users",
+                  "roles": null
+                }
+              ],
               "implementFrom": "MyEcommerce.Admin.Users.IUsersAppService",
               "summary": null,
               "remarks": null,
@@ -5936,8 +6249,17 @@
                 "typeSimple": "System.Void",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                },
+                {
+                  "policy": "AbpIdentity.Users",
+                  "roles": null
+                }
+              ],
               "implementFrom": "MyEcommerce.Admin.Users.IUsersAppService",
               "summary": null,
               "remarks": null,
@@ -5985,8 +6307,13 @@
                 "typeSimple": "System.Void",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                }
+              ],
               "implementFrom": "Volo.Abp.Application.Services.IDeleteAppService<System.Guid>",
               "summary": null,
               "remarks": null,
@@ -6049,8 +6376,13 @@
                 "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<MyEcommerce.Admin.Users.UserDto>",
                 "summary": null
               },
-              "allowAnonymous": null,
-              "authorizeDatas": [],
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "AdminOnly",
+                  "roles": null
+                }
+              ],
               "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<MyEcommerce.Admin.Users.UserDto,MyEcommerce.Admin.Users.UserDto,System.Guid,Volo.Abp.Application.Dtos.PagedResultRequestDto>",
               "summary": null,
               "remarks": null,
@@ -11525,22 +11857,6 @@
           "displayName": null
         },
         {
-          "name": "CoverPicture",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null,
-          "isNullable": false,
-          "summary": null,
-          "description": null,
-          "displayName": null
-        },
-        {
           "name": "Visibility",
           "jsonName": null,
           "type": "System.Boolean",
@@ -11590,6 +11906,38 @@
         },
         {
           "name": "SeoMetaDescription",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": false,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        },
+        {
+          "name": "CoverPictureName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": false,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        },
+        {
+          "name": "CoverPictureContent",
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",

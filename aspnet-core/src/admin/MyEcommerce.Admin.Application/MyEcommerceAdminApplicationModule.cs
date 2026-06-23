@@ -36,7 +36,7 @@ public class MyEcommerceAdminApplicationModule : AbpModule
             {
                 container.UseFileSystem(fileSystem =>
                 {
-                    fileSystem.BasePath = "D:\\MyEcommerce";
+                    fileSystem.BasePath = "D:\\MyEcommerceFiles";
                 });
             });
         });

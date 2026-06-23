@@ -1,0 +1,132 @@
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
+<p-panel #pnl header="Product Categories">
+  <!--Filter (search panel)-->
+  <div class="grid grid-cols-12 gap-4 mb-4">
+    <div class="col-span-12 md:col-span-4 flex gap-4 items-end">
+      <button
+        (click)="showAddModal()"
+        pButton
+        type="button"
+        icon="fa fa-plus"
+        iconPos="left"
+        label="Create new"
+      ></button>
+      <button
+        pButton
+        type="button"
+        *ngIf="selectedItems.length > 0"
+        class="ml-1 p-button-help"
+        icon="fa fa-trash"
+        iconPos="left"
+        label="Delete"
+        severity="danger"
+        (click)="deleteItems()"
+      ></button>
+    </div>
+
+    <div class="col-span-12 md:col-span-8">
+      <div class="flex flex-wrap md:justify-end items-end gap-3">
+        <div class="flex flex-col">
+          <label for="txt-keyword" class="mb-2">Keyword</label>
+          <input
+            id="txt-keyword"
+            pInputText
+            type="text"
+            [(ngModel)]="keyword"
+            placeholder="Input keyword"
+          />
+        </div>
+
+        <div class="flex items-end">
+          <button
+            type="button"
+            pButton
+            (click)="loadData()"
+            icon="fa fa-search"
+            iconPos="left"
+            label="Search"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Table-->
+  <p-table [value]="items" [(selection)]="selectedItems">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 10px">
+          <p-tableHeaderCheckbox class="mr-1"></p-tableHeaderCheckbox>
+        </th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Sort Order</th>
+        <th>Cover Picture</th>
+        <th>Visibility</th>
+        <th>Is Active</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row>
+      <tr [pSelectableRow]="row">
+        <td style="width: 10px">
+          <span class="ui-column-title"></span>
+          <p-tableCheckbox [value]="row"></p-tableCheckbox>
+        </td>
+        <td>{{ row.code }}</td>
+        <td>{{ row.name }}</td>
+        <td>{{ row.sortOrder }}</td>
+        <td>{{ row.coverPicture }}</td>
+        <td>
+          <p-badge *ngIf="row.visibility" severity="success" value="Visibility"></p-badge>
+          <p-badge *ngIf="!row.visibility" severity="danger" value="Hide"></p-badge>
+        </td>
+        <td>
+          <p-badge *ngIf="row.isActive" value="Active" severity="success"></p-badge>
+          <p-badge *ngIf="!row.isActive" value="Inactive" severity="danger"></p-badge>
+        </td>
+
+        <td>
+          <div class="flex items-center gap-1">
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-pencil"
+              text
+              rounded
+              severity="info"
+              (click)="showEditModal(row.id)"
+            ></button>
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-trash"
+              text
+              rounded
+              severity="danger"
+              (click)="deleteItem(row.id)"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div style="text-align: left">Total Records: {{ totalCount }}</div>
+    </ng-template>
+  </p-table>
+  <!--Paginator-->
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
+  ></p-paginator>
+  <!--Block UI-->
+  <p-blockui [blocked]="blockedPanel" [target]="pnl">
+    <div class="flex justify-center items-center h-full w-full">
+      <p-progress-spinner ariaLabel="loading"></p-progress-spinner>
+    </div>
+  </p-blockui>
+</p-panel>

@@ -21,5 +21,7 @@ namespace MyEcommerce.Public.Products
         public string ThumbnailPicture { get; set; }
         public string CategoryName { get; set; }
         public string CategorySlug { get; set; }
+        public double SellPrice { get; set; }
+        public string ManufacturerName { get; set; }
     }
 }

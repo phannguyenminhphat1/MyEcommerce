@@ -11,6 +11,9 @@ public static class MyEcommerceDomainErrorCodes
     // Product Category (1010x)
     public const string ProductCategoryNotFound = "MyEcommerce:10101";
     public const string ProductCategoryInactive = "MyEcommerce:10102";
+    public const string ProductCategoryNameAlreadyExists = "MyEcommerce:10103";
+    public const string ProductCategoryCodeAlreadyExists = "MyEcommerce:10104";
+
 
     // Product Attribute (1020x)
     public const string ProductAttributeNotFound = "MyEcommerce:10201";

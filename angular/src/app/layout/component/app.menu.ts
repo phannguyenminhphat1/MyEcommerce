@@ -33,6 +33,12 @@ export class AppMenu {
         label: 'Catalogs',
         items: [
           {
+            label: 'Categories',
+            icon: 'pi pi-fw pi-circle',
+            routerLink: ['/catalog/category'],
+            permission: 'MyEcomAdminCatalog.ProductCategory',
+          },
+          {
             label: 'Products',
             icon: 'pi pi-fw pi-circle',
             routerLink: ['/catalog/product'],
