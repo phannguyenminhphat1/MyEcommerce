@@ -1,8 +1,6 @@
-using Volo.Abp.Application.Dtos;
-
 namespace MyEcommerce.Public
 {
-    public class BaseListFilterDto : PagedResultRequestDto
+    public class BaseListFilterDto : PagedResultRequestBase
     {
         public string? Keyword { get; set; }
     }

@@ -29,13 +29,26 @@ namespace MyEcommerce.Public.ProductCategories
             var data = await AsyncExecuter.ToListAsync(query);
             return ObjectMapper.Map<List<ProductCategory>, List<ProductCategoryInListDto>>(data);
         }
-        public async Task<PagedResultDto<ProductCategoryInListDto>> GetListFilterAsync(BaseListFilterDto input)
+        public async Task<PagedResult<ProductCategoryInListDto>> GetListFilterAsync(BaseListFilterDto input)
         {
             var query = await Repository.GetQueryableAsync();
             query = query.WhereIf(!string.IsNullOrWhiteSpace(input.Keyword), x => x.Name.Contains(input.Keyword!));
             var totalCount = await AsyncExecuter.LongCountAsync(query);
-            var data = await AsyncExecuter.ToListAsync(query.Skip(input.SkipCount).Take(input.MaxResultCount));
-            return new PagedResultDto<ProductCategoryInListDto>(totalCount, ObjectMapper.Map<List<ProductCategory>, List<ProductCategoryInListDto>>(data));
+            var data = await AsyncExecuter
+                .ToListAsync(query.Skip((input.CurrentPage - 1) * input.PageSize)
+                .Take(input.PageSize));
+            return new PagedResult<ProductCategoryInListDto>(
+                ObjectMapper.Map<List<ProductCategory>, List<ProductCategoryInListDto>>(data),
+                totalCount,
+                input.CurrentPage,
+                input.PageSize
+            );
+        }
+
+        public async Task<ProductCategoryDto> GetByCodeAsync(string code)
+        {
+            var category = await Repository.GetAsync(x => x.Code == code);
+            return ObjectMapper.Map<ProductCategory, ProductCategoryDto>(category);
         }
     }
 }

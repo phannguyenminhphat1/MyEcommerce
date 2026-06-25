@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
+using MyEcommerce.Public.Manufacturers;
 using MyEcommerce.Public.ProductCategories;
 using MyEcommerce.Public.Products;
 using MyEcommerce.Public.Web.Models;
@@ -15,13 +16,19 @@ public class IndexModel : MyEcommercePublicPageModel
     private readonly IDistributedCache<HomeCacheItem> _distributedCache;
     private readonly IProductCategoriesAppService _productCategoriesAppService;
     private readonly IProductsAppService _productsAppService;
+    private readonly IManufacturersAppService _manufacturerAppService;
     public List<ProductCategoryInListDto>? Categories { get; set; }
     public List<ProductInListDto>? TopSellerProducts { get; set; }
-    public IndexModel(IProductCategoriesAppService productCategoriesAppService,
-       IProductsAppService productsAppService, IDistributedCache<HomeCacheItem> distributedCache)
+    public List<ManufacturerInListDto>? Manufacturers { get; set; }
+    public IndexModel(
+        IProductCategoriesAppService productCategoriesAppService,
+        IProductsAppService productsAppService,
+        IManufacturersAppService manufacturersAppService,
+        IDistributedCache<HomeCacheItem> distributedCache)
     {
         _productCategoriesAppService = productCategoriesAppService;
         _productsAppService = productsAppService;
+        _manufacturerAppService = manufacturersAppService;
         _distributedCache = distributedCache;
     }
     public async Task OnGet()
@@ -35,10 +42,12 @@ public class IndexModel : MyEcommercePublicPageModel
                 category.Children = rootCategories.Where(x => x.ParentId == category.Id).ToList();
             }
             var topSellerProducts = await _productsAppService.GetListTopSellerAsync(10);
+            var manufacturers = await _manufacturerAppService.GetListAllAsync();
             return new HomeCacheItem()
             {
                 TopSellerProducts = topSellerProducts,
-                Categories = rootCategories
+                Categories = rootCategories,
+                Manufacturers = manufacturers
             };
         }, () => new DistributedCacheEntryOptions
         {
@@ -47,5 +56,6 @@ public class IndexModel : MyEcommercePublicPageModel
 
         TopSellerProducts = cacheItem?.TopSellerProducts;
         Categories = cacheItem?.Categories;
+        Manufacturers = cacheItem?.Manufacturers;
     }
 }

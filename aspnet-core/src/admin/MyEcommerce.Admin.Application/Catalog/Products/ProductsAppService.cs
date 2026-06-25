@@ -13,6 +13,7 @@ using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.BlobStoring;
+using Volo.Abp.Caching;
 using Volo.Abp.Domain.Repositories;
 namespace MyEcommerce.Admin.Products
 {
@@ -35,6 +36,7 @@ namespace MyEcommerce.Admin.Products
         private readonly IRepository<ProductAttributeDecimal> _productAttributeDecimalRepository;
         private readonly IRepository<ProductAttributeVarchar> _productAttributeVarcharRepository;
         private readonly IRepository<ProductAttributeText> _productAttributeTextRepository;
+        private readonly IDistributedCache<HomeCacheItem> _distributedCache;
 
         public ProductsAppService(
             IProductRepository productRepository,
@@ -46,7 +48,8 @@ namespace MyEcommerce.Admin.Products
             IRepository<ProductAttributeInt> productAttributeIntRepository,
             IRepository<ProductAttributeDecimal> productAttributeDecimalRepository,
             IRepository<ProductAttributeVarchar> productAttributeVarcharRepository,
-            IRepository<ProductAttributeText> productAttributeTextRepository) : base(productRepository)
+            IRepository<ProductAttributeText> productAttributeTextRepository,
+            IDistributedCache<HomeCacheItem> distributedCache) : base(productRepository)
         {
             _productRepository = productRepository;
             _productManager = productManager;
@@ -63,12 +66,14 @@ namespace MyEcommerce.Admin.Products
             CreatePolicyName = MyEcommercePermissions.Product.Create;
             UpdatePolicyName = MyEcommercePermissions.Product.Update;
             DeletePolicyName = MyEcommercePermissions.Product.Delete;
+            _distributedCache = distributedCache;
         }
 
         #region DELETE MULTIPLE PRODUCTS
         [Authorize(MyEcommercePermissions.Product.Delete)]
         public async Task DeleteMultipleAsync(IEnumerable<Guid> ids)
         {
+            await ClearHomeCacheAsync();
             await _productRepository.DeleteManyAsync(ids);
         }
         #endregion
@@ -109,6 +114,7 @@ namespace MyEcommerce.Admin.Products
                 product.ThumbnailPicture = input.ThumbnailPictureName;
             }
             await _productRepository.InsertAsync(product);
+            await ClearHomeCacheAsync();
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
         #endregion
@@ -139,6 +145,7 @@ namespace MyEcommerce.Admin.Products
             }
             product.SellPrice = input.SellPrice;
             await Repository.UpdateAsync(product);
+            await ClearHomeCacheAsync();
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
         #endregion
@@ -534,5 +541,13 @@ namespace MyEcommerce.Admin.Products
             return new PagedResultDto<ProductAttributeValueDto>(totalCount, data);
         }
         #endregion
+
+        #region CLEAR CACHE
+        private async Task ClearHomeCacheAsync()
+        {
+            await _distributedCache.RemoveAsync(MyEcommerceAdminConsts.CacheKeys.HomeData);
+        }
+        #endregion
+
     }
 }

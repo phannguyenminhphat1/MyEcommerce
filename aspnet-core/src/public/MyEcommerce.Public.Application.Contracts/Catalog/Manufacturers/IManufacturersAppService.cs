@@ -12,7 +12,7 @@ namespace MyEcommerce.Public.Manufacturers
         Guid,
         PagedResultRequestDto>
     {
-        Task<PagedResultDto<ManufacturerInListDto>> GetListFilterAsync(BaseListFilterDto input);
+        Task<PagedResult<ManufacturerInListDto>> GetListFilterAsync(BaseListFilterDto input);
         Task<List<ManufacturerInListDto>> GetListAllAsync();
     }
 }

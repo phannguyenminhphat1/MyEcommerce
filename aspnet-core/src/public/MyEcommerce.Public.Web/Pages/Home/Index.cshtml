@@ -98,13 +98,9 @@
                     <div class="box-swiper">
                         <div class="swiper-container swiper-group-7">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide"><a href="shop-grid.html"><img src="/assets/imgs/slider/logo/acer.svg" alt="Ecom"></a></div>
-                                <div class="swiper-slide"><a href="shop-grid.html"><img src="/assets/imgs/slider/logo/nokia.svg" alt="Ecom"></a></div>
-                                <div class="swiper-slide"><a href="shop-grid.html"><img src="/assets/imgs/slider/logo/assus.svg" alt="Ecom"></a></div>
-                                <div class="swiper-slide"><a href="shop-grid.html"><img src="/assets/imgs/slider/logo/casio.svg" alt="Ecom"></a></div>
-                                <div class="swiper-slide"><a href="shop-grid.html"><img src="/assets/imgs/slider/logo/dell.svg" alt="Ecom"></a></div>
-                                <div class="swiper-slide"><a href="shop-grid.html"><img src="/assets/imgs/slider/logo/panasonic.svg" alt="Ecom"></a></div>
-                                <div class="swiper-slide"><a href="shop-grid.html"><img src="/assets/imgs/slider/logo/vaio.svg" alt="Ecom"></a></div>
+                                @foreach(var item in Model.Manufacturers ?? new List<MyEcommerce.Public.Manufacturers.ManufacturerInListDto>()){
+                                    <div class="swiper-slide"><a href="shop-grid.html"><img src="/assets/imgs/slider/logo/@item.CoverPicture" alt="Ecom"></a></div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -113,7 +109,7 @@
         </div>
         <div class="mt-50">
             <div class="row">
-                @foreach (var item in Model.Categories)
+                @foreach (var item in Model.Categories ?? new List<MyEcommerce.Public.ProductCategories.ProductCategoryInListDto>())
             {
                 var url = $"/products/{item.Code}.html";
                 <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -191,7 +187,7 @@
         <div class="tab-content">
             <div class="tab-pane fade active show" id="tab-all" role="tabpanel" aria-labelledby="tab-all">
                 <div class="list-products-5">
-                    @foreach(var item in Model.TopSellerProducts)
+                    @foreach(var item in Model.TopSellerProducts ?? new List<MyEcommerce.Public.Products.ProductInListDto>())
                     {
                          <partial name="_ProductItem1" model="item"/>
                     }

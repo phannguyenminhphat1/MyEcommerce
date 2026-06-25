@@ -74,15 +74,20 @@ namespace MyEcommerce.Public.Products
         #endregion
 
         #region GET LIST PRODUCTS WITH FILTER
-        public async Task<PagedResultDto<ProductInListDto>> GetListFilterAsync(ProductListFilterDto input)
+        public async Task<PagedResult<ProductInListDto>> GetListFilterAsync(ProductListFilterDto input)
         {
             var totalCount = await _productRepository.GetCountAsync(input.Keyword, input.CategoryId);
             var data = await _productRepository.GetListFilterAsync(
                 input.Keyword,
                 input.CategoryId,
-                input.SkipCount,
-                input.MaxResultCount);
-            return new PagedResultDto<ProductInListDto>(totalCount, ObjectMapper.Map<List<Product>, List<ProductInListDto>>(data));
+                (input.CurrentPage - 1) * input.PageSize,
+                input.PageSize);
+            return new PagedResult<ProductInListDto>(
+                ObjectMapper.Map<List<Product>, List<ProductInListDto>>(data),
+                totalCount,
+                input.CurrentPage,
+                input.PageSize
+            );
         }
         #endregion
 
@@ -163,7 +168,7 @@ namespace MyEcommerce.Public.Products
         #endregion
 
         #region GET LIST PRODUCT ATTRIBUTE WITH PAGING
-        public async Task<PagedResultDto<ProductAttributeValueDto>> GetListProductAttributesAsync(ProductAttributeListFilterDto input)
+        public async Task<PagedResult<ProductAttributeValueDto>> GetListProductAttributesAsync(ProductAttributeListFilterDto input)
         {
             var attributeQuery = await _productAttributeRepository.GetQueryableAsync();
             var attributeDateTimeQuery = await _productAttributeDateTimeRepository.GetQueryableAsync();
@@ -218,12 +223,14 @@ namespace MyEcommerce.Public.Products
 
             query = query.Where(x => x.DateTimeId != null || x.DecimalId != null || x.IntValue != null || x.TextId != null || x.VarcharId != null);
             var totalCount = await AsyncExecuter.LongCountAsync(query);
-            var data = await AsyncExecuter.ToListAsync(
-                query.OrderByDescending(x => x.Label)
-                .Skip(input.SkipCount)
-                .Take(input.MaxResultCount)
-                );
-            return new PagedResultDto<ProductAttributeValueDto>(totalCount, data);
+            var data = await AsyncExecuter
+                .ToListAsync(query.OrderByDescending(x => x.Label).Skip((input.CurrentPage - 1) * input.PageSize)
+                .Take(input.PageSize));
+            return new PagedResult<ProductAttributeValueDto>(data,
+                totalCount,
+                input.CurrentPage,
+                input.PageSize
+            );
         }
         #endregion
 
