@@ -303,5 +303,13 @@ namespace MyEcommerce.Public.Products
             return products;
         }
         #endregion
+
+        #region GET PRODUCT BY SLUG
+        public async Task<ProductDto> GetBySlugAsync(string slug)
+        {
+            var product = await _productRepository.GetAsync(x => x.Slug == slug);
+            return ObjectMapper.Map<Product, ProductDto>(product);
+        }
+        #endregion
     }
 }

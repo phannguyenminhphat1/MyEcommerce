@@ -50,5 +50,11 @@ namespace MyEcommerce.Public.ProductCategories
             var category = await Repository.GetAsync(x => x.Code == code);
             return ObjectMapper.Map<ProductCategory, ProductCategoryDto>(category);
         }
+
+        public async Task<ProductCategoryDto> GetBySlugAsync(string slug)
+        {
+            var productCategory = await Repository.GetAsync(x => x.Slug == slug);
+            return ObjectMapper.Map<ProductCategory, ProductCategoryDto>(productCategory);
+        }
     }
 }
