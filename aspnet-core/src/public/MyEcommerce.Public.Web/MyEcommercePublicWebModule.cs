@@ -1,11 +1,14 @@
 using System;
 using System.IO;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.OpenApi;
 using MyEcommerce.EntityFrameworkCore;
 using MyEcommerce.Localization;
@@ -13,7 +16,10 @@ using MyEcommerce.MultiTenancy;
 using MyEcommerce.Public.Web.Menus;
 using OpenIddict.Validation.AspNetCore;
 using Volo.Abp;
+using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
+using Volo.Abp.AspNetCore.Authentication.OAuth;
+using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI;
@@ -27,6 +33,8 @@ using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.FeatureManagement;
+using Volo.Abp.Http.Client.IdentityModel.Web;
+using Volo.Abp.Identity.AspNetCore;
 using Volo.Abp.Identity.Web;
 using Volo.Abp.Localization;
 using Volo.Abp.Mapperly;
@@ -42,6 +50,7 @@ using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
 
+
 namespace MyEcommerce.Public.Web;
 
 [DependsOn(
@@ -56,7 +65,12 @@ namespace MyEcommerce.Public.Web;
     typeof(AbpTenantManagementWebModule),
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpSwashbuckleModule),
-    typeof(AbpCachingStackExchangeRedisModule)
+    typeof(AbpCachingStackExchangeRedisModule),
+    typeof(AbpAspNetCoreAuthenticationOAuthModule),
+    typeof(AbpAspNetCoreAuthenticationOpenIdConnectModule),
+    typeof(AbpHttpClientIdentityModelWebModule),
+    typeof(AbpIdentityAspNetCoreModule),
+    typeof(AbpAccountHttpApiClientModule)
     )]
 public class PublicWebModule : AbpModule
 {
@@ -106,7 +120,7 @@ public class PublicWebModule : AbpModule
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
 
-        ConfigureAuthentication(context);
+        ConfigureAuthentication(context, configuration);
         ConfigureUrls(configuration);
         ConfigureBundles();
         ConfigureVirtualFileSystem(hostingEnvironment);
@@ -117,12 +131,45 @@ public class PublicWebModule : AbpModule
         context.Services.AddMapperlyObjectMapper<PublicWebModule>();
     }
 
-    private void ConfigureAuthentication(ServiceConfigurationContext context)
+    private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
     {
         context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
         context.Services.Configure<AbpClaimsPrincipalFactoryOptions>(options =>
         {
             options.IsDynamicClaimsEnabled = true;
+        });
+
+        context.Services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+        })
+        .AddCookie(options =>
+        {
+            options.ExpireTimeSpan = TimeSpan.FromDays(7);
+        })
+        .AddAbpOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+        {
+            options.Authority = configuration["AuthServer:Authority"];
+            options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
+            options.ResponseType = OpenIdConnectResponseType.Code;
+
+            options.ClientId = configuration["AuthServer:ClientId"];
+            options.ClientSecret = configuration["AuthServer:ClientSecret"];
+            options.GetClaimsFromUserInfoEndpoint = true;
+
+            options.UsePkce = true;
+            options.SaveTokens = true;
+            options.Scope.Add("roles");
+            options.Scope.Add("email");
+            options.Scope.Add("phone");
+            options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
+            options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+            {
+                ValidateAudience = false,
+                ValidateIssuer = false,
+            };
         });
     }
 

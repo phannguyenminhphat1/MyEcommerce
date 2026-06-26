@@ -63,9 +63,7 @@ export class TokenInterceptor implements HttpInterceptor {
             return next.handle(this.addTokenHeader(request, res.access_token));
           }),
           catchError(err => {
-            console.log(err);
             this.isRefreshing = false;
-
             this.tokenService.signOut();
             return throwError(err);
           }),

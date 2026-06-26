@@ -52,7 +52,7 @@ export const appConfig: ApplicationConfig = {
     provideLogo(withEnvironmentOptions(environment)),
     provideAbpThemeShared(
       withValidationBluePrint({
-        wrongPassword: 'Please choose 1q2w3E*',
+        wrongPassword: 'Please choose 1q2w3e',
       }),
     ),
     providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } }),
