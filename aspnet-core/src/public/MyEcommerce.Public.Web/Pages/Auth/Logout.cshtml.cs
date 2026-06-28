@@ -10,6 +10,7 @@ namespace MyEcommerce.Public.Web.Pages.Auth
     {
         public IActionResult OnGet()
         {
+            HttpContext.Session.Remove(MyEcommerceConsts.Cart);
             return SignOut(CookieAuthenticationDefaults.AuthenticationScheme,
                 OpenIdConnectDefaults.AuthenticationScheme);
         }

@@ -144,7 +144,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="button-buy mt-15"><a class="btn btn-cart mb-15" href="shop-cart.html">Add to cart</a><a class="btn btn-buy" href="shop-checkout.html">Buy now</a></div>
+                            <div class="button-buy mt-15"><a class="btn btn-cart mb-15" href="/shop-cart.html?action=add&id=@Model.Product.Id">Add to cart</a><a class="btn btn-buy" href="shop-checkout.html">Buy now</a></div>
                         </div>
                     </div>
                 </div>
@@ -195,38 +195,29 @@
                     <h5 class="mb-25">Specification</h5>
                     <div class="table-responsive">
                         <table class="table table-striped">
-                            <tr>
-                                <td>Mode</td>
-                                <td>#SK10923</td>
-                            </tr>
-                            <tr>
-                                <td>Brand</td>
-                                <td>SamSung</td>
-                            </tr>
-                            <tr>
-                                <td>Size</td>
-                                <td>6.7"</td>
-                            </tr>
-                            <tr>
-                                <td>Finish</td>
-                                <td>Pacific Blue</td>
-                            </tr>
-                            <tr>
-                                <td>Origin of Country</td>
-                                <td>United States</td>
-                            </tr>
-                            <tr>
-                                <td>Manufacturer</td>
-                                <td>USA</td>
-                            </tr>
-                            <tr>
-                                <td>Released Year</td>
-                                <td>2022</td>
-                            </tr>
-                            <tr>
-                                <td>Warranty</td>
-                                <td>International</td>
-                            </tr>
+                            @if (Model.ProductAttributes != null && Model.ProductAttributes.Count > 0)
+                            {
+                                foreach (var productAttribute in Model.ProductAttributes)
+                                {
+                                    var attributeValue = productAttribute.VarcharValue
+                                        ?? productAttribute.TextValue
+                                        ?? productAttribute.IntValue?.ToString()
+                                        ?? productAttribute.DecimalValue?.ToString()
+                                        ?? productAttribute.DateTimeValue?.ToString("yyyy-MM-dd")
+                                        ?? string.Empty;
+
+                                    <tr>
+                                        <td>@productAttribute.Label</td>
+                                        <td>@attributeValue</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="2">No specification attributes found for this product.</td>
+                                </tr>
+                            }
                         </table>
                     </div>
                 </div>
@@ -753,24 +744,6 @@
                 </div>
             </li>
         </ul>
-    </div>
-</section>
-<section class="section-box box-newsletter">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-md-7 col-sm-12">
-                <h3 class="color-white">Subscrible &amp; Get <span class="color-warning">10%</span> Discount</h3>
-                <p class="font-lg color-white">Get E-mail updates about our latest shop and <span class="font-lg-bold">special offers.</span></p>
-            </div>
-            <div class="col-lg-4 col-md-5 col-sm-12">
-                <div class="box-form-newsletter mt-15">
-                    <form class="form-newsletter">
-                        <input class="input-newsletter font-xs" value="" placeholder="Your email Address">
-                        <button class="btn btn-brand-2">Sign Up</button>
-                    </form>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 <div class="modal fade" id="ModalFiltersForm" tabindex="-1" aria-hidden="true" style="display: none;">

@@ -10,4 +10,5 @@ public static class MyEcommerceConsts
     public const string ProductAttributeIdentitySettingPrefix = "PA";
     public const string ProductCategoryIdentitySettingId = "ProductCategory";
     public const string ProductCategoryIdentitySettingPrefix = "PC";
+    public const string Cart = "Cart";
 }

@@ -127,6 +127,10 @@ public class PublicWebModule : AbpModule
         ConfigureNavigationServices();
         ConfigureAutoApiControllers();
         ConfigureSwaggerServices(context.Services);
+        context.Services.AddSession(options =>
+        {
+            options.IdleTimeout = TimeSpan.FromMinutes(20);
+        });
 
         context.Services.AddMapperlyObjectMapper<PublicWebModule>();
     }
@@ -258,7 +262,7 @@ public class PublicWebModule : AbpModule
         {
             app.UseErrorPage();
         }
-
+        app.UseSession();
         app.UseCorrelationId();
         app.MapAbpStaticAssets();
         app.UseRouting();
