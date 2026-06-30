@@ -1,8 +1,10 @@
 using MyEcommerce.Manufacturers;
+using MyEcommerce.Orders;
 using MyEcommerce.ProductAttributes;
 using MyEcommerce.ProductCategories;
 using MyEcommerce.Products;
 using MyEcommerce.Public.Manufacturers;
+using MyEcommerce.Public.Orders;
 using MyEcommerce.Public.ProductAttributes;
 using MyEcommerce.Public.ProductCategories;
 using MyEcommerce.Public.Products;
@@ -94,6 +96,14 @@ public partial class MyEcommercePublicApplicationMappers
             ProductAttributeInListDto destination
         );
     }
+    #endregion
 
+    #region ORDER
+    [Mapper]
+    public partial class OrderToOrderDtoMapper : MapperBase<Order, OrderDto>
+    {
+        public override partial OrderDto Map(Order source);
+        public override partial void Map(Order source, OrderDto destination);
+    }
     #endregion
 }
