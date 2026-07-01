@@ -7,5 +7,6 @@ namespace MyEcommerce.Public.Web.Models
     public class HeaderCacheItem
     {
         public List<ProductCategoryInListDto>? Categories { set; get; }
+        public List<CartItem>? CartItems { get; set; }
     }
 }

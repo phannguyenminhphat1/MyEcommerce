@@ -1,5 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyEcommerce.Public.ProductCategories;
 using MyEcommerce.Public.Web.Models;
@@ -11,11 +15,18 @@ namespace MyEcommerce.Public.Web.ViewComponents
     {
         private readonly IProductCategoriesAppService _productCategoriesAppService;
         private readonly IDistributedCache<HeaderCacheItem> _distributedCache;
-        public HeaderViewComponent(IProductCategoriesAppService productCategoriesAppService, IDistributedCache<HeaderCacheItem> distributedCache)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public HeaderViewComponent(
+            IProductCategoriesAppService productCategoriesAppService,
+            IDistributedCache<HeaderCacheItem> distributedCache,
+            IHttpContextAccessor httpContextAccessor)
         {
             _productCategoriesAppService = productCategoriesAppService;
             _distributedCache = distributedCache;
+            _httpContextAccessor = httpContextAccessor;
         }
+
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var cacheItem = await _distributedCache.GetOrAddAsync(MyEcommercePublicConsts.CacheKeys.HeaderData, async () =>
@@ -30,7 +41,21 @@ namespace MyEcommerce.Public.Web.ViewComponents
             {
                 AbsoluteExpiration = DateTimeOffset.Now.AddHours(12)
             });
-            return View(cacheItem?.Categories);
+
+            var cartItems = new List<CartItem>();
+            var session = _httpContextAccessor.HttpContext?.Session;
+            var cart = session?.GetString(MyEcommerceConsts.Cart);
+            if (!string.IsNullOrWhiteSpace(cart))
+            {
+                var productCarts = JsonSerializer.Deserialize<Dictionary<string, CartItem>>(cart);
+                cartItems = productCarts?.Values.ToList() ?? new List<CartItem>();
+            }
+
+            return View(new HeaderCacheItem
+            {
+                Categories = cacheItem?.Categories,
+                CartItems = cartItems
+            });
         }
     }
 }

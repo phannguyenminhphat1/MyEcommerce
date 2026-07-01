@@ -5,7 +5,7 @@ namespace MyEcommerce.Public.Web.Models
 {
     public class CartItem
     {
-        public ProductInListDto Product { get; set; } = new ProductInListDto();
+        public ProductDto Product { get; set; } = new ProductDto();
         public int Quantity { get; set; }
     }
 }

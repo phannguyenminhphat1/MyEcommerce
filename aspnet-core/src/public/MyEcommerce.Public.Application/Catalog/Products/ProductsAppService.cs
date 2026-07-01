@@ -12,6 +12,7 @@ using MyEcommerce.Repositories;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.BlobStoring;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 
 namespace MyEcommerce.Public.Products
@@ -307,7 +308,23 @@ namespace MyEcommerce.Public.Products
         #region GET PRODUCT BY SLUG
         public async Task<ProductDto> GetBySlugAsync(string slug)
         {
-            var product = await _productRepository.GetAsync(x => x.Slug == slug);
+            var product = await _productRepository.GetBySlugWithCategoryAsync(slug);
+            if (product == null)
+            {
+                throw new EntityNotFoundException(typeof(Product), slug);
+            }
+
+            return ObjectMapper.Map<Product, ProductDto>(product);
+        }
+
+        public override async Task<ProductDto> GetAsync(Guid id)
+        {
+            var product = await _productRepository.GetByIdWithCategoryAsync(id);
+            if (product == null)
+            {
+                throw new EntityNotFoundException(typeof(Product), id);
+            }
+
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
         #endregion

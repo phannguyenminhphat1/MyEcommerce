@@ -41,6 +41,8 @@ public partial class MyEcommercePublicApplicationMappers
     [Mapper]
     public partial class ProductToProductDtoMapper : MapperBase<Product, ProductDto>
     {
+        [MapProperty("Category.Name", "CategoryName")]
+        [MapProperty("Category.Slug", "CategorySlug")]
         public override partial ProductDto Map(Product source);
         public override partial void Map(Product source, ProductDto destination);
     }

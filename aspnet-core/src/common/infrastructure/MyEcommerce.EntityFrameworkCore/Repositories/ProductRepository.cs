@@ -31,5 +31,19 @@ namespace MyEcommerce.EntityFrameworkCore.Repositories
           .OrderByDescending(x => x.CreationTime)
           .ToListAsync();
     }
+
+    public async Task<Product?> GetBySlugWithCategoryAsync(string slug)
+    {
+      var dbSet = await GetDbSetAsync();
+      return await dbSet.Include(x => x.Category)
+          .FirstOrDefaultAsync(x => x.Slug == slug);
+    }
+
+    public async Task<Product?> GetByIdWithCategoryAsync(Guid id)
+    {
+      var dbSet = await GetDbSetAsync();
+      return await dbSet.Include(x => x.Category)
+          .FirstOrDefaultAsync(x => x.Id == id);
+    }
   }
 }

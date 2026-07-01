@@ -127,6 +127,7 @@ public class PublicWebModule : AbpModule
         ConfigureNavigationServices();
         ConfigureAutoApiControllers();
         ConfigureSwaggerServices(context.Services);
+        context.Services.AddHttpContextAccessor();
         context.Services.AddSession(options =>
         {
             options.IdleTimeout = TimeSpan.FromMinutes(20);

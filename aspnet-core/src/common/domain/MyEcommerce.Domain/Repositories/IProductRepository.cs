@@ -18,5 +18,9 @@ namespace MyEcommerce.Repositories
             string? keyword,
             Guid? categoryId
         );
+
+        Task<Product?> GetBySlugWithCategoryAsync(string slug);
+
+        Task<Product?> GetByIdWithCategoryAsync(Guid id);
     }
 }
