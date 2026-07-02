@@ -77,15 +77,55 @@ namespace MyEcommerce.Public.Web.Pages.Cart
         public async Task<IActionResult> OnPostAsync()
         {
             var cart = HttpContext.Session.GetString(MyEcommerceConsts.Cart);
-            var productCarts = JsonSerializer.Deserialize<Dictionary<string, CartItem>>(cart);
-            foreach (var item in productCarts)
+            var productCarts = JsonSerializer.Deserialize<Dictionary<string, CartItem>>(cart) ?? new Dictionary<string, CartItem>();
+
+            if (CartItems != null)
             {
-                var cartItem = CartItems.FirstOrDefault(x => x.Product.Id == item.Value.Product.Id);
-                cartItem.Product = await _productsAppService.GetAsync(cartItem.Product.Id);
-                item.Value.Quantity = cartItem != null ? cartItem.Quantity : 0;
+                foreach (var item in productCarts.Values)
+                {
+                    var cartItem = CartItems.FirstOrDefault(x => x.Product.Id == item.Product.Id);
+                    if (cartItem != null)
+                    {
+                        item.Quantity = cartItem.Quantity;
+                        item.Selected = cartItem.Selected;
+                        item.Product = await _productsAppService.GetAsync(cartItem.Product.Id);
+                    }
+                }
             }
+
             HttpContext.Session.SetString(MyEcommerceConsts.Cart, JsonSerializer.Serialize(productCarts));
             return Redirect("/shop-cart.html");
+        }
+
+        public async Task<IActionResult> OnPostCheckoutAsync()
+        {
+            var cart = HttpContext.Session.GetString(MyEcommerceConsts.Cart);
+            var productCarts = JsonSerializer.Deserialize<Dictionary<string, CartItem>>(cart) ?? new Dictionary<string, CartItem>();
+
+            if (CartItems != null)
+            {
+                foreach (var item in productCarts.Values)
+                {
+                    var cartItem = CartItems.FirstOrDefault(x => x.Product.Id == item.Product.Id);
+                    if (cartItem != null)
+                    {
+                        item.Quantity = cartItem.Quantity;
+                        item.Selected = cartItem.Selected;
+                        item.Product = await _productsAppService.GetAsync(cartItem.Product.Id);
+                    }
+                }
+            }
+
+            HttpContext.Session.SetString(MyEcommerceConsts.Cart, JsonSerializer.Serialize(productCarts));
+
+            if (!productCarts.Values.Any(x => x.Selected))
+            {
+                ModelState.AddModelError(string.Empty, "Please select at least one item to checkout.");
+                CartItems = productCarts.Values.ToList();
+                return Page();
+            }
+
+            return Redirect("/checkout.html");
         }
     }
 }
