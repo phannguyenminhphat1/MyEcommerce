@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyEcommerce.Emailing;
+using MyEcommerce.Orders.Events;
 using MyEcommerce.Public.Orders;
 using MyEcommerce.Public.Web.Extensions;
 using MyEcommerce.Public.Web.Models;
 using Volo.Abp.Emailing;
+using Volo.Abp.EventBus.Local;
 using Volo.Abp.TextTemplating;
 
 namespace MyEcommerce.Public.Web.Pages.Cart
@@ -19,13 +21,11 @@ namespace MyEcommerce.Public.Web.Pages.Cart
     public class CheckoutModel : PageModel
     {
         private readonly IOrdersAppService _ordersAppService;
-        private readonly IEmailSender _emailSender;
-        private readonly ITemplateRenderer _templateRenderer;
-        public CheckoutModel(IOrdersAppService ordersAppService, IEmailSender emailSender, ITemplateRenderer templateRenderer)
+        private readonly ILocalEventBus _localEventBus;
+        public CheckoutModel(IOrdersAppService ordersAppService, ILocalEventBus localEventBus)
         {
             _ordersAppService = ordersAppService;
-            _emailSender = emailSender;
-            _templateRenderer = templateRenderer;
+            _localEventBus = localEventBus;
         }
         public List<CartItem> CartItems { get; set; }
         public bool? CreateStatus { set; get; }
@@ -83,14 +83,16 @@ namespace MyEcommerce.Public.Web.Pages.Cart
 
             if (order != null)
             {
-                var email = User.GetSpecificClaim(ClaimTypes.Email);
-                var emailBody = await _templateRenderer.RenderAsync(
-                    EmailTemplates.CreateOrderEmail,
-                    new
+                if (User.Identity.IsAuthenticated)
+                {
+                    var email = User.GetSpecificClaim(ClaimTypes.Email);
+                    var newOrderCreatedEvent = new NewOrderCreatedEvent
                     {
-                        message = "Create order successfully"
-                    });
-                await _emailSender.SendAsync(email, "Created order successfully", emailBody);
+                        CustomerEmail = email,
+                        Message = "Create order successfully"
+                    };
+                    await _localEventBus.PublishAsync(newOrderCreatedEvent);
+                }
                 CreateStatus = true;
             }
             else
