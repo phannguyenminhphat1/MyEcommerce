@@ -8,7 +8,7 @@ MyEcommerce is a personal learning project built to explore modern ASP.NET Core 
 - Explore OpenIddict and OpenID Connect authentication flows.
 - Implement cookie-based Razor Pages authentication and JWT bearer API access.
 - Configure Entity Framework Core with SQL Server migrations.
-- Use Redis for distributed cache, data protection, and distributed locking.
+- Use Redis for distributed cache
 - Build a session-backed shopping cart in ASP.NET Core Razor Pages.
 - Publish local events with ABP `ILocalEventBus` and handle them with event handlers.
 - Consume APIs and manage tokens from an Angular admin application.
@@ -20,7 +20,7 @@ MyEcommerce is a personal learning project built to explore modern ASP.NET Core 
 - Angular admin UI that obtains tokens from the auth server using the Resource Owner Password Credentials (password) grant, stores tokens in browser session storage, and supports refresh token handling via an HTTP interceptor.
 - Admin HTTP API host protected by JWT bearer authentication.
 - SQL Server-backed domain model using EF Core with migrations.
-- Redis-based distributed cache prefixing and distributed locking.
+- Redis-based distributed caching.
 - ASP.NET Core session-backed shopping cart stored in session state.
 - Local event bus publishing of `NewOrderCreatedEvent` during checkout.
 - Email event handler that renders templates and sends order confirmation emails.
@@ -32,28 +32,29 @@ The repository is organized as a layered ABP solution.
 
 ```mermaid
 flowchart LR
-  Auth[Auth Server<br/>OpenIddict + ABP Account]
-  Public[Public Razor Web<br/>OIDC + Cookie Auth]
-  Admin[Admin API Host<br/>JWT Bearer Auth]
-  Angular[Angular Admin UI<br/>Password Grant]
-  EF[EF Core SQL Server]
-  Redis[Redis Cache + Locking + DataProtection]
-  DbMigrator[DbMigrator Console App]
-  EventBus[Local Event Bus]
 
-  Auth -->|issues tokens & validation| Public
-  Auth -->|issues tokens| Admin
-  Angular -->|requests tokens (password grant)| Auth
-  Angular -->|API calls| Admin
-  Public -->|data access| EF
-  Admin -->|data access| EF
-  Auth -->|shared persistence| EF
-  Public -->|checkout events| EventBus
-  EventBus -->|email handling| Email[Email Sender]
-  EF --> DbMigrator
-  Redis --> Auth
-  Redis --> Public
-  Redis --> Admin
+    Angular["Angular Admin"]
+    Public["Razor Pages"]
+    Auth["Auth Server\n(OpenIddict)"]
+    Api["Admin API"]
+    Db["SQL Server"]
+    Redis["Redis"]
+    Event["Local Event Bus"]
+
+    Angular --> Auth
+    Angular --> Api
+
+    Public --> Auth
+    Public --> Api
+
+    Api --> Db
+    Auth --> Db
+
+    Public --> Event
+
+    Api --> Redis
+    Public --> Redis
+    Auth --> Redis
 ```
 
 ### Applications in the solution
@@ -68,16 +69,16 @@ flowchart LR
 
 ## Technology Stack
 
-| Technology                  | Purpose                                       | Version                                                     |
-| --------------------------- | --------------------------------------------- | ----------------------------------------------------------- |
-| .NET                        | Application runtime                           | `net10.0`                                                   |
-| ABP Framework               | Modular app foundation                        | `10.3.0`                                                    |
-| Angular                     | Admin SPA                                     | `21.2.0`                                                    |
-| TypeScript                  | Frontend language                             | `5.9.3`                                                     |
-| SQL Server                  | Database provider                             | `Microsoft.EntityFrameworkCore.SqlServer 10.3.0`            |
-| Redis                       | Distributed cache + data protection + locking | configured via application settings (`Redis:Configuration`) |
-| Serilog                     | Application logging                           | `9.0.0`                                                     |
-| OpenIddict / OpenID Connect | Authentication & token validation             | ABP OpenIddict modules                                      |
+| Technology                  | Purpose                           | Version                                                     |
+| --------------------------- | --------------------------------- | ----------------------------------------------------------- |
+| .NET                        | Application runtime               | `net10.0`                                                   |
+| ABP Framework               | Modular app foundation            | `10.3.0`                                                    |
+| Angular                     | Admin SPA                         | `21.2.0`                                                    |
+| TypeScript                  | Frontend language                 | `5.9.3`                                                     |
+| SQL Server                  | Database provider                 | `Microsoft.EntityFrameworkCore.SqlServer 10.3.0`            |
+| Redis                       | Distributed cache                 | configured via application settings (`Redis:Configuration`) |
+| Serilog                     | Application logging               | `9.0.0`                                                     |
+| OpenIddict / OpenID Connect | Authentication & token validation | ABP OpenIddict modules                                      |
 
 ## Authentication & Authorization
 
@@ -110,7 +111,6 @@ flowchart LR
 
 - Redis is integrated through the ABP `AbpCachingStackExchangeRedisModule`.
 - Distributed cache keys are prefixed with `MyEcommerce:`.
-- Data protection keys are persisted to Redis in non-development environments.
 - Redis is also used for distributed locking via `RedisDistributedSynchronizationProvider`.
 
 ## Event Bus
