@@ -76,7 +76,7 @@ export class Login implements OnDestroy {
           this.tokenService.saveRefreshToken(res.refresh_token);
           this.toggleBlockUI(false);
           this.configState.refreshAppState().subscribe(() => {
-            this.router.navigate(['/']);
+            this.router.navigate(['/catalog/category']);
           });
         },
         error: ex => {
